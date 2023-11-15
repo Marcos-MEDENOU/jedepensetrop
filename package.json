@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@inertiajs/vue3": "^1.0.0",
+        "@mdi/js": "^7.0.96",
+        "@tailwindcss/forms": "^0.5.3",
+        "@vitejs/plugin-vue": "^4.0.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.1.2",
+        "chart.js": "^3.9.1",
+        "laravel-vite-plugin": "^0.7.5",
+        "pinia": "^2.0.17",
+        "postcss": "^8.4.18",
+        "sass": "^1.62.1",
+        "tailwindcss": "^3.2.1",
+        "vite": "^4.0.0",
+        "vue": "^3.2.41"
+    },
+    "dependencies": {
+        "@inertiajs/vue3": "^1.0.7",
+        "@tinymce/tinymce-vue": "^5.1.0",
+        "@vuepic/vue-datepicker": "^5.2.0",
+        "filepond": "^4.30.4",
+        "filepond-plugin-file-validate-type": "^1.2.8",
+        "filepond-plugin-image-preview": "^4.6.11",
+        "numeral": "^2.0.6",
+        "openai": "^3.3.0",
+        "tinymce": "^6.4.2",
+        "vue-filepond": "^7.0.3",
+        "vue-router": "^4.2.4"
+    }
+}
