@@ -43,9 +43,9 @@ const setDate = (value) => {
   date.value = value;
 }
 
- const handleFileChange=(event)=> {
-      form.image = event.target.files[0];
-    }
+const handleFileChange = (event) => {
+  form.image = event.target.files[0];
+}
 
 const form = useForm({
   title: '',
@@ -56,7 +56,7 @@ const form = useForm({
   seo_description: '',
   image: '',
   is_visible: [],
-  category: '',
+  category: [],
 })
 
 
@@ -67,6 +67,7 @@ const form = useForm({
 
 <template>
   <LayoutAuthenticated>
+
     <Head title="Ajouter un article" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Ajouter un article" main>
@@ -101,6 +102,7 @@ const form = useForm({
           <VueDatePicker v-model="form.published_at" utc position="left" :model-value="form.published_at"
             @update:model-value="setDate" />
         </FormField>
+        
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
           <fileUploads @change="handleFileChange"></fileUploads>
         </FormField>
@@ -113,6 +115,7 @@ const form = useForm({
             </div>
           </FormControl>
         </FormField>
+        
         <FormField label="Seo description" :class="{ 'text-red-400': form.errors.seo_description }">
           <FormControl v-model="form.seo_description" type="text" placeholder="" :error="form.errors.seo_description">
             <div class="text-sm text-red-400" v-if="form.errors.seo_description">
@@ -122,8 +125,7 @@ const form = useForm({
         </FormField>
 
         <FormField label="Categories" wrap-body>
-          <FormCheckRadioGroup v-model="form.category" name="category" type="checkbox" is-column
-            :options="props.category" />
+          <FormCheckRadioGroup v-model="form.category" name="category" type="checkbox" isRow :options="props.category" />
         </FormField>
 
         <FormField label="Visibilité" wrap-body>
