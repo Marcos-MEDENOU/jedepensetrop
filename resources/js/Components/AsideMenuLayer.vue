@@ -52,9 +52,9 @@ const menuClick = (event, item) => {
         class="flex flex-row items-center justify-between bg-white h-14 dark:bg-slate-900 "
       >
         <div class="flex-1 w-20 text-center lg:text-left lg:pl-6 xl:text-center xl:pl-0 ">
-          <div class="flex flex-row items-center justify-start h-10 gap-2 mx-auto mt-2 w-44">
+          <div class="flex flex-row items-center justify-center h-10 gap-2 mx-auto mt-2">
             <ApplicationLogo/>
-            <div class="text-xs font-bold text-gray-500 text-bold-800 dark:text-white">DASHBOARD</div>
+            <!-- <div class="text-xs font-bold text-gray-500 text-bold-800 dark:text-white">DASHBOARD</div> -->
           </div>
           
           

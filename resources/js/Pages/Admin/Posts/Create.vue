@@ -22,6 +22,8 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import fileUploads from '@/Components/FormFilePicker.vue'
 import Tiny from '@/components/TinyImplements.vue';
 import 'tinymce/models/dom';
+import FileUpload from 'primevue/fileupload';
+import 'primevue/resources/themes/lara-light-teal/theme.css'
 
 const props = defineProps({
   visibility: {
@@ -44,7 +46,7 @@ const setDate = (value) => {
 }
 
 const handleFileChange = (event) => {
-  form.image = event.target.files[0];
+  form.image = event.target.files[0]['name'];
 }
 
 const form = useForm({
@@ -102,9 +104,10 @@ const form = useForm({
           <VueDatePicker v-model="form.published_at" utc position="left" :model-value="form.published_at"
             @update:model-value="setDate" />
         </FormField>
-        
+
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads @change="handleFileChange"></fileUploads>
+          <fileUploads  @change="handleFileChange"></fileUploads>
+         
         </FormField>
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">
@@ -115,7 +118,7 @@ const form = useForm({
             </div>
           </FormControl>
         </FormField>
-        
+
         <FormField label="Seo description" :class="{ 'text-red-400': form.errors.seo_description }">
           <FormControl v-model="form.seo_description" type="text" placeholder="" :error="form.errors.seo_description">
             <div class="text-sm text-red-400" v-if="form.errors.seo_description">
@@ -125,11 +128,11 @@ const form = useForm({
         </FormField>
 
         <FormField label="Categories" wrap-body>
-          <FormCheckRadioGroup v-model="form.category" name="category" type="checkbox" isRow :options="props.category" />
+          <FormCheckRadioGroup v-model="form.category" name="category" type="radio" isRow :options="props.category" />
         </FormField>
 
         <FormField label="Visibilité" wrap-body>
-          <FormCheckRadioGroup v-model="form.is_visible" name="is_visible" type="radio" is-column
+          <FormCheckRadioGroup v-model="form.is_visible" name="is_visible" type="radio" isRow
             :options="props.visibility" />
         </FormField>
 

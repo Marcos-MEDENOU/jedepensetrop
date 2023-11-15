@@ -19,15 +19,15 @@ class Post extends Model
     protected $table = 'blog_post';
 
     protected $fillable = [
+        'blog_category_id',
         'title',
-        'data',
         'slug',
         'content',
         'published_at',
         'seo_title',
         'seo_description',
         'image',
-        'is_visible',
+        'post_visible',
         'category',
     ];
     /**
@@ -44,6 +44,6 @@ class Post extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'blog_category_id');
+        return $this->belongsToMany(Category::class, 'article_category', 'post_id', 'category_id');
     }
 }

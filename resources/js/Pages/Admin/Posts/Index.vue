@@ -21,12 +21,18 @@ import NotificationBar from "@/Components/NotificationBar.vue"
 import NavBarItemLabel from '@/Components/NavBarItemLabel.vue'
 import UserAvatarCurrentUser from '@/Components/UserAvatarCurrentUser.vue'
 import Sort from "@/Components/Admin/Sort.vue"
-
+import Pagination from "@/Components/Admin/Pagination.vue"
 const props = defineProps({
   posts: {
     type: Object,
     default: () => ({}),
   },
+
+  category: {
+    type: String,
+    default: () => ({}),
+  },
+
   filters: {
     type: Object,
     default: () => ({}),
@@ -45,24 +51,38 @@ const formDelete = useForm({})
 
 function destroy(id) {
   if (confirm("Are you sure you want to delete?")) {
-    formDelete.delete(route("post.destroy", id))
+    formDelete.delete(route("posts.destroy", id))
   }
 }
+
+function postSlicing(string) {
+  return string.split(' ').slice(0, 3).join(' ').concat('...')
+}
+
+function formatDateTimeISO(dateISO) {
+  const date = new Date(dateISO);
+  const jour = date.getDate().toString().padStart(2, '0');
+  const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont indexés de 0 à 11
+  const annee = date.getFullYear().toString();
+  const heures = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const secondes = date.getSeconds().toString().padStart(2, '0');
+
+  return `${jour}-${mois}-${annee} ${heures}:${minutes}:${secondes}`;
+}
+
+
 </script>
 
 <template>
   <LayoutAuthenticated>
 
-    <Head title="Auteurs" />
+    <Head title="Articles" />
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Auteurs" main>
+      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>
         <BaseButton v-if="can.delete" :route-name="route('posts.create')" :icon="mdiPlus" label="Add" color="info"
           rounded-full small />
       </SectionTitleLineWithButton>
-
-
-
-
 
       <CardBox class="mb-6" has-table>
         <form @submit.prevent="form.get(route('posts.index'))">
@@ -76,53 +96,59 @@ function destroy(id) {
           </div>
         </form>
       </CardBox>
+
       <CardBox class="mb-6" has-table>
         <table>
           <thead>
             <tr>
-             
               <th>
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
-                <Sort label="Post" attribute="email" />
+                <Sort label="Image" attribute="name" />
               </th>
               <th>
-                <Sort label="Bio" attribute="bio" />
+                <Sort label="Date de publication" attribute="email" />
+              </th>
+              <th>
+                <Sort label="Categorie" attribute="bio" />
               </th>
               <th v-if="can.edit || can.delete">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-
-
             <tr v-for="post in posts.data" :key="post.id">
-            <td data-label="Name">
-              <Link :href="route('author.show', post.id)"
-                class="pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
-              {{ posts.name }}
-              </Link>
-            </td>
-            <td data-label="Email">
-              {{ posts.email }}
-            </td>
-            <td data-label="Bio">
-              {{ posts.bio }}
-            </td>
-            <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
-              <!-- <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                <BaseButton v-if="can.edit" :route-name="route('posts.edit', author.id)" color="info"
-                  :icon="mdiSquareEditOutline" small />
-                <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small @click="destroy(author.id)" />
-              </BaseButtons> -->
-            </td>
+   
+              <td data-label="Name">
+                <Link :href="route('author.show', post.id)"
+                  class="pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
+                {{ postSlicing(post.title) }}
+                </Link>
+              </td>
+              <td data-label="Image">
+                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" alt=""
+                  class="items-center justify-center w-12 h-auto rounded-lg">
+              </td>
+              <td data-label="Published_at">
+                {{ formatDateTimeISO(post.published_at) }}
+              </td>
+              <td data-label="categorie">
+                {{ post.category_name }}
+              </td>
+              <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
+                <BaseButtons type="justify-start lg:justify-end" no-wrap>
+                  <BaseButton v-if="can.edit" :route-name="route('posts.edit', post.id)" color="info"
+                    :icon="mdiSquareEditOutline" small />
+                  <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small @click="destroy(post.id)" />
+                </BaseButtons>
+              </td>
             </tr>
           </tbody>
         </table>
-        <!-- <div class="py-4">
-          <Pagination :data="authors" />
-        </div> -->
+        <div class="py-4">
+          <Pagination :data="posts" />
+        </div>
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>

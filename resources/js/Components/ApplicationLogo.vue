@@ -1,3 +1,3 @@
 <template>
-    <img src="/images/jdtbureau.png" alt="" class="w-12">
+    <img src="/images/logo_jdt.png" alt="" class="w-32 h-auto">
 </template>
