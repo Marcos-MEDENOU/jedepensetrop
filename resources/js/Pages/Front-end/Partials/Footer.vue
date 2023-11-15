@@ -30,7 +30,7 @@ onMounted(() => {
     <Head title="Accueil" />
 
 
-    <footer class="bg-white dark:bg-gray-900">
+    <footer class=" dark:bg-gray-900">
         <div class="   mx-auto ">
 
 

@@ -10,6 +10,7 @@ use App\Models\User;
 use Exception;
 use FFI;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = (new Post)->newQuery();;
+        $posts = (new Post)->newQuery();
+        ;
 
         if (request()->has('search')) {
             $posts->where('name', 'Like', '%' . request()->input('search') . '%');
@@ -64,6 +66,31 @@ class PostController extends Controller
         ]);
     }
 
+    // Fonction permettant de récupérer les 4 derniers posts recentes du blog
+    public function getRecentPosts()
+    {
+        $recentPosts = Post::where('post_visible', 1)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        $response = $recentPosts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'content' => $post->content,
+                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
+                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
+                'image' => $post->image,
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
+            ];
+        });
+
+        return response()->json($response);
+    }
+
 
     public function create()
     {
@@ -77,14 +104,35 @@ class PostController extends Controller
         ]);
     }
 
+    // Fonction permettant d'afficher les posts par leur slug
+    public function showArticle($slug)
+    {
+        $selectedPost = Post::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('Post', [
+            'post' => [
+                'id' => $selectedPost->id,
+                'title' => $selectedPost->title,
+                'slug' => $selectedPost->slug,
+                'content' => $selectedPost->content,
+                'author' => User::find($selectedPost->blog_author_id),
+                'category' => Category::find($selectedPost->blog_category_id),
+                'image' => $selectedPost->image,
+                'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
+            ],
+        ]);
+    }
+
+
     public function upload(Request $request)
     {
-  
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-        
+
             $path = $image->store('images', 'public');
-        
+
             return response()->json([
                 'path' => $path,
             ]);
@@ -106,9 +154,9 @@ class PostController extends Controller
     {
 
         dd($request);
-        if ($request->hasFile('test')){
+        if ($request->hasFile('test')) {
             dd(true);
-        }else{
+        } else {
             dd(false);
         }
         return redirect()->route('posts.index')

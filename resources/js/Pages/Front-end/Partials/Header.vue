@@ -36,7 +36,7 @@ onMounted(() => {
         <!-- Logo Container -->
         <div class="flex items-center">
             <!-- Logo -->
-            <a class="cursor-pointer">
+            <a  href="/" class="cursor-pointer">
                 <h3 class="text-2xl font-medium text-blue-500">
                     <img class="object-cover h-14" src="/images/logo.png" alt="BlogLogo">
                 </h3>
@@ -84,8 +84,11 @@ onMounted(() => {
     </nav>
 
     <ul class="justify-center flex items-center bg-[#000] h-20">
-    <li v-for="(categorie, index) in categories" :key="index">
-        <a href="/" class="px-3 py-2 font-medium text-white hover:text-gray-300">{{ categorie.name }}</a>
-    </li>
-</ul>
+        <li v-for="(categorie, index) in categories" :key="index">
+            <a href="/" class="px-3 py-2 font-medium text-white hover:text-gray-300">{{ categorie.name }}</a>
+        </li>
+
+
+
+    </ul>
 </template>
