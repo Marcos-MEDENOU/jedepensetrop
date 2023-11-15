@@ -6,7 +6,7 @@ import {
   mdiShapePlusOutline,
   mdiSquareEditOutline,
   mdiTrashCan,
-  mdiAlertBoxOutline,
+  mdiAlertBoxOutline,mdiEyeCheck,
 } from "@mdi/js"
 import { computed, ref } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
@@ -113,18 +113,21 @@ function formatDateTimeISO(dateISO) {
               <th>
                 <Sort label="Categorie" attribute="bio" />
               </th>
+              <th>
+                <Sort label="Prévisualiser" attribute="bio" />
+              </th>
               <th v-if="can.edit || can.delete">Actions</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody>     
             <tr v-for="post in posts.data" :key="post.id">
-   
+
               <td data-label="Name">
-                <Link :href="route('author.show', post.id)"
-                  class="pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
+                <span
+                  class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                 {{ postSlicing(post.title) }}
-                </Link>
+              </span>
               </td>
               <td data-label="Image">
                 <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" alt=""
@@ -135,6 +138,14 @@ function formatDateTimeISO(dateISO) {
               </td>
               <td data-label="categorie">
                 {{ post.category_name }}
+              </td>
+              <td data-label="prévisualiser">
+                <Link :href="route('posts.show', post.id)"
+                  class="items-center justify-center pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
+                <BaseButtons type="justify-start lg:justify-start lg:ml-6" no-wrap>
+                  <BaseButton color="" class="items-center justify-center" :icon="mdiEyeCheck" small />
+                </BaseButtons>
+                </Link>
               </td>
               <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
                 <BaseButtons type="justify-start lg:justify-end" no-wrap>

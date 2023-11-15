@@ -30,6 +30,16 @@ const props = defineProps({
     default: () => ({}),
   },
 
+  visibility: {
+    type: Object,
+    default: () => ({}),
+  },
+
+  category: {
+    type: Object,
+    default: () => ({}),
+  },
+
   roles: {
     type: Object,
     default: () => ({}),
@@ -55,7 +65,7 @@ const form = useForm({
 
 <template>
   <LayoutAuthenticated>
-  
+
     <Head title="Modifier article" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiAccountKey" title="Mise a jour article" main>
@@ -63,7 +73,7 @@ const form = useForm({
           rounded-full small />
       </SectionTitleLineWithButton>
 
-      <CardBox form @submit.prevent="form.post(route('posts.update', props.authors.id))">
+      <CardBox form @submit.prevent="form.post(route('posts.update', props.posts.id))">
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
           <FormControl v-model="form.title" type="text" required="required"
             placeholder="Entrer un titre pour votre article" :error="form.errors.title">
@@ -114,63 +124,15 @@ const form = useForm({
         </FormField>
 
         <FormField label="Categories" wrap-body>
-          
-          <FormCheckRadioGroup v-model="form.category" name="category" type="radio" isRow :options="form.category" />
+
+          <FormCheckRadioGroup v-model="form.category" aria-checked="true" name="category" type="radio" isRow :options="props.category" />
         </FormField>
 
         <FormField label="Visibilité" wrap-body>
           <FormCheckRadioGroup v-model="form.is_visible" name="is_visible" type="radio" isRow
-            :options="form.is_visible" />
+            :options="props.visibility" />
         </FormField>
-        <!-- <FormField
-          label="Nom de l'auteur'"
-          :class="{ 'text-red-400': form.errors.name }"
-        >
-          <FormControl
-            v-model="form.name"
-            type="text"
-            placeholder="Name"
-            :error="form.errors.name"
-          >
-            <div class="text-sm text-red-400" v-if="form.errors.name">
-              {{ form.name}}
-            </div>
-          </FormControl>
-        </FormField>
-
-        <FormField
-          label="bio"
-          :class="{ 'text-red-400': form.errors.description }"
-        >
-          <FormControl
-            v-model="form.bio"
-            type="text"
-            placeholder="biographie"
-            :error="form.errors.bio"
-          >
-            <div class="text-sm text-red-400" v-if="form.errors.bio">
-              {{ form.bio }}
-            </div>
-          </FormControl>
-        </FormField>
-
-        <FormField
-          label="email"
-          :class="{ 'text-red-400': form.errors.email }"
-        >
-          <FormControl
-            v-model="form.email"
-            type="text"
-            placeholder="Adresse électronique"
-            :error="form.errors.email"
-          >
-            <div class="text-sm text-red-400" v-if="form.errors.email">
-              {{ form.errors.email }}
-            </div>
-          </FormControl>
-        </FormField>
-
-        -->
+      
         <template #footer>
           <BaseButtons>
             <BaseButton type="submit" color="info" label="Submit" :class="{ 'opacity-25': form.processing }"

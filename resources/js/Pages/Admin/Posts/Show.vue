@@ -11,7 +11,7 @@ import CardBox from "@/Components/CardBox.vue"
 import BaseButton from "@/Components/BaseButton.vue"
 
 const props = defineProps({
-  authors: {
+  posts: {
     type: Object,
     default: () => ({}),
   },
@@ -31,8 +31,8 @@ const props = defineProps({
     <Head title="Donnée peronnelle de l'utilisateur" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiShapePlusOutline"
-        title="Voir user"
+        :icon="mdiTrashCan"
+        title="Prévisualiser le contenu"
         main
       >
         <BaseButton
@@ -45,7 +45,7 @@ const props = defineProps({
         />
       </SectionTitleLineWithButton>
       <CardBox class="mb-6">
-        <table>
+        <!-- <table>
           <tbody>
             <tr>
               <td
@@ -79,7 +79,9 @@ const props = defineProps({
             </tr>
           
           </tbody>
-        </table>
+        </table> -->
+        <div v-html="posts.content"></div>
+  
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>
