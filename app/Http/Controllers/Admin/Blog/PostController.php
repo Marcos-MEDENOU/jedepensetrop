@@ -51,7 +51,13 @@ class PostController extends Controller
             $posts->latest();
         }
 
+        foreach ($posts as $key => $value) {
+            $posts->blog_category_id = Category::where('id',$posts->blog_category_id)->value('name');
+        }
+
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
+
+       
 
         return Inertia::render('Admin/Posts/Index', [
             'posts' => $posts,
@@ -105,12 +111,18 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        dd($request);
-        if ($request->hasFile('test')){
-            dd(true);
-        }else{
-            dd(false);
-        }
+        Post::create([
+            'blog_category_id'=> Category::where('name',$request->category)->value('id'),
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'content' => $request->content,
+            'published_at' => $request->published_at,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'image' => $request->image,
+            'post_visible' => ($request->is_visible=="oui") ? true:false,
+        ]);
+        
         return redirect()->route('posts.index')
             ->with('message', 'post créer avec succes.');
     }

@@ -117,7 +117,7 @@ class CategoryController extends Controller
             'description' => $request->description,
             'seo_title' => $request->slug,
             'seo_description' => $request->seo_description,
-            'is_visible' => $request->is_visible
+            'is_visible' => ($request->is_visible=="oui") ? true:false
         ]);
 
         return redirect()->route('category.index')

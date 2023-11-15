@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/vue3';
             <Link href="/">
                 <ApplicationLogo class="w-auto h-10 text-gray-500 fill-current" />
             </Link>
-            <div class="text-xs font-bold text-gray-500  text-bold-800">DASHBOARD</div>
+            <!-- <div class="text-xs font-bold text-gray-500 text-bold-800">DASHBOARD</div> -->
         </div>
             <slot />
         </div>
