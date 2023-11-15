@@ -11,9 +11,9 @@
         <!-- Contenu au centre -->
         <div class="absolute top-28 text-center flex items-center text-white">
             <!-- Mascotte avec punchlines -->
-            <img src="/images/mascotte.png" alt="Mascotte" class="  " />
+            <img src="/images/mascotte.png" alt="Mascotte" class="floating-image" />
             <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="mb-4 w-96 ">
+                <div :key="currentPunchline" class="mb-4 w-96 transition-opacity">
                     <p class="text-4xl">{{ currentPunchline }}</p>
                 </div>
             </transition>
@@ -87,8 +87,39 @@ const submitForm = () => {
 onMounted(() => {
 
     // Change la punchline toutes les 5 secondes
-    setInterval(changePunchline, 5000);
+    setInterval(changePunchline, 8000);
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Ajout d'une transition en douceur */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity  ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+    transition: 0.5s ease-in-out
+}
+
+.floating-image {
+    /* Ajustez la taille de votre image selon vos besoins */
+    height: auto;
+    animation: floatUpDown 4s ease-in-out infinite;
+    /* Ajustez la durée selon vos besoins */
+}
+
+@keyframes floatUpDown {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(5px);
+        /* Ajustez la distance de déplacement selon vos besoins */
+    }
+}</style>
