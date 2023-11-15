@@ -40,10 +40,10 @@ const showArticle = (slug) => {
         <div class="grid grid-cols-2 gap-6 ml-10 cursor-pointer lg:mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
             <div v-for="(article, index) in data.recentPosts" :key="index"
-                class="transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
+                class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                 <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                     <div class="relative flex justify-center overflow-hidden rounded-lg ">
-                        <div class="w-full transition-transform duration-500 ease-in-out transform hover:scale-110">
+                        <div class="max-w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
 
                             <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="">
 
@@ -64,9 +64,9 @@ const showArticle = (slug) => {
                             <p class="italic">
                                 Créer le : {{ article.created_at }}
                             </p>
-                            <p class="italic ">
-                                <!-- par : {{ article.author.name }} -->
-                            </p>
+                            <!-- <p class="italic ">
+                                par : {{ article.author.name }}
+                            </p> -->
                         </div>
 
                     </div>
