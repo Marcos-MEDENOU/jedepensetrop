@@ -3,18 +3,12 @@
 namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\Admin\Blog\Category;
 use App\Models\Admin\Blog\Post;
 use App\Models\User;
-use Exception;
-use FFI;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use League\Flysystem\Visibility;
 
 class PostController extends Controller
 {
@@ -33,10 +27,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = (new Post)->newQuery();;
+        $posts = (new Post)->newQuery()->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')->select('blog_post.*', 'blog_category.name as category_name');
 
         if (request()->has('search')) {
-            $posts->where('name', 'Like', '%' . request()->input('search') . '%');
+            $posts->where('title', 'Like', '%' . request()->input('search') . '%');
         }
 
         if (request()->query('sort')) {
@@ -51,13 +45,7 @@ class PostController extends Controller
             $posts->latest();
         }
 
-        foreach ($posts as $key => $value) {
-            $posts->blog_category_id = Category::where('id',$posts->blog_category_id)->value('name');
-        }
-
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
-
-       
 
         return Inertia::render('Admin/Posts/Index', [
             'posts' => $posts,
@@ -66,10 +54,9 @@ class PostController extends Controller
                 'create' => Auth::user()->can('category create'),
                 'edit' => Auth::user()->can('category edit'),
                 'delete' => Auth::user()->can('category delete'),
-            ]
+            ],
         ]);
     }
-
 
     public function create()
     {
@@ -79,18 +66,31 @@ class PostController extends Controller
 
         return Inertia::render('Admin/Posts/Create', [
             'category' => $categorie,
-            'visibility' => $visibility
+            'visibility' => $visibility,
         ]);
+    }
+
+    public function edit(Post $post)
+    {
+        return Inertia::render('Admin/Posts/Edit',[
+            'posts'=> $post
+        ] );
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()->route('posts.index')->with('message', __('Post deleted successfully'));
     }
 
     public function upload(Request $request)
     {
-  
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-        
+
             $path = $image->store('images', 'public');
-        
+
             return response()->json([
                 'path' => $path,
             ]);
@@ -112,7 +112,7 @@ class PostController extends Controller
     {
 
         Post::create([
-            'blog_category_id'=> Category::where('name',$request->category)->value('id'),
+            'blog_category_id' => Category::where('name', $request->category)->value('id'),
             'title' => $request->title,
             'slug' => $request->slug,
             'content' => $request->content,
@@ -120,9 +120,9 @@ class PostController extends Controller
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
             'image' => $request->image,
-            'post_visible' => ($request->is_visible=="oui") ? true:false,
+            'post_visible' => ($request->is_visible == "oui") ? true : false,
         ]);
-        
+
         return redirect()->route('posts.index')
             ->with('message', 'post créer avec succes.');
     }

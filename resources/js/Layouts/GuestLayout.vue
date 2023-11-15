@@ -13,7 +13,7 @@ import { Link } from '@inertiajs/vue3';
         >
         <div class="flex flex-col items-center justify-center my-3 ">
             <Link href="/">
-                <ApplicationLogo class="w-auto h-10 text-gray-500 fill-current" />
+                <ApplicationLogo class="h-16 text-gray-500 fill-current " />
             </Link>
             <!-- <div class="text-xs font-bold text-gray-500 text-bold-800">DASHBOARD</div> -->
         </div>

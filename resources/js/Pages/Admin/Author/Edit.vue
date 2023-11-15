@@ -40,6 +40,7 @@ const form = useForm({
 <template>
   <LayoutAuthenticated>
     <Head title="Modifier auteur" />
+    <!-- {{ authors }} -->
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountKey"

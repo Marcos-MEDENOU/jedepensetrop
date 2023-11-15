@@ -30,7 +30,7 @@ const props = defineProps({
 
   category: {
     type: String,
-    default: () => (''),
+    default: () => ({}),
   },
 
   filters: {
@@ -51,12 +51,12 @@ const formDelete = useForm({})
 
 function destroy(id) {
   if (confirm("Are you sure you want to delete?")) {
-    formDelete.delete(route("post.destroy", id))
+    formDelete.delete(route("posts.destroy", id))
   }
 }
 
 function postSlicing(string) {
-  return string.split(' ').slice(0, 6).join(' ').concat('...')
+  return string.split(' ').slice(0, 3).join(' ').concat('...')
 }
 
 function formatDateTimeISO(dateISO) {
@@ -105,6 +105,9 @@ function formatDateTimeISO(dateISO) {
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
+                <Sort label="Image" attribute="name" />
+              </th>
+              <th>
                 <Sort label="Date de publication" attribute="email" />
               </th>
               <th>
@@ -116,17 +119,22 @@ function formatDateTimeISO(dateISO) {
 
           <tbody>
             <tr v-for="post in posts.data" :key="post.id">
+   
               <td data-label="Name">
                 <Link :href="route('author.show', post.id)"
                   class="pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
                 {{ postSlicing(post.title) }}
                 </Link>
               </td>
+              <td data-label="Image">
+                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" alt=""
+                  class="items-center justify-center w-12 h-auto rounded-lg">
+              </td>
               <td data-label="Published_at">
                 {{ formatDateTimeISO(post.published_at) }}
               </td>
               <td data-label="categorie">
-                {{ post.blog_category_id }}
+                {{ post.category_name }}
               </td>
               <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
                 <BaseButtons type="justify-start lg:justify-end" no-wrap>
