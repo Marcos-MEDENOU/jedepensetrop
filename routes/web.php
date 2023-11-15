@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Blog\CategoryController;
 use App\Http\Controllers\Admin\Blog\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -29,7 +30,7 @@ Route::get('/', function () {
 });
 Route::get('/contentAi', function () {
     return Inertia::render('Solutions/ContentAi', [
-       
+
     ]);
 });
 Route::get('/contentAi', [ContentAiController::class, 'index'] )->name('contentAi.index');
@@ -40,10 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'] )->name('dashboard');
     Route::post('/upload', [PostController::class, 'upload']);
     Route::post('/editorUpload', [PostController::class, 'editorUpload']);
 });
+
+
+Route::get('/getcategories', [CategoryController::class, 'getCategories'])->name('getcategories');
 
 require __DIR__.'/auth.php';
