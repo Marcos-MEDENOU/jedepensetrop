@@ -7,6 +7,9 @@ use App\Models\Admin\Blog\Category;
 use App\Models\Admin\Blog\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -58,6 +61,32 @@ class PostController extends Controller
         ]);
     }
 
+    // Fonction permettant de récupérer les 4 derniers posts recentes du blog
+    public function getRecentPosts()
+    {
+        $recentPosts = Post::where('post_visible', 1)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        $response = $recentPosts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'content' => $post->content,
+                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
+                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
+                'image' => $post->image,
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
+            ];
+        });
+
+        return response()->json($response);
+    }
+
+
     public function create()
     {
         $visibility = ['non', 'oui'];
@@ -69,6 +98,27 @@ class PostController extends Controller
             'visibility' => $visibility,
         ]);
     }
+
+    // Fonction permettant d'afficher les posts par leur slug
+    public function showArticle($slug)
+    {
+        $selectedPost = Post::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('Post', [
+            'post' => [
+                'id' => $selectedPost->id,
+                'title' => $selectedPost->title,
+                'slug' => $selectedPost->slug,
+                'content' => $selectedPost->content,
+                'author' => User::find($selectedPost->blog_author_id),
+                'category' => Category::find($selectedPost->blog_category_id),
+                'image' => $selectedPost->image,
+                'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
+            ],
+        ]);
+    }
+
 
     public function edit(Post $post)
     {

@@ -7,7 +7,14 @@ import Footer from '../Partials/Footer.vue';
 </script>
 
 <template>
-    <Header></Header>
-      <slot />
-   <Footer></Footer>
+    <main>
+        <Header></Header>
+        <slot />
+        <Footer></Footer>
+    </main>
 </template>
+<style>
+main{
+background-color: whitesmoke;
+}
+</style>

@@ -46,5 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('/upload', [ImageUploadController::class, 'store']);
 Route::get('/getcategories', [CategoryController::class, 'getCategories'])->name('getcategories');
+Route::get('/recent-posts', [PostController::class, 'getRecentPosts'])->name('recent-posts');
+Route::get('/post/{slug}', [PostController::class, 'showArticle'])->name('post.show');
 
 require __DIR__.'/auth.php';
