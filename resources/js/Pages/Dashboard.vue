@@ -35,7 +35,7 @@ const props = defineProps({
         <Head title="Dashboard" />
         <SectionMain>
 
-            <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="Overview" main>
+            <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="Dashboard" main>
                
             </SectionTitleLineWithButton>
 

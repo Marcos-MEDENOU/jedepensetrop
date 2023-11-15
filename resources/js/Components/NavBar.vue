@@ -53,6 +53,7 @@ const menuOpenLg = () => {
 
 const logout = () => {
   router.post(route('logout'))
+  console.log("logout");
 }
 </script>
 
@@ -159,6 +160,7 @@ const logout = () => {
                 <NavBarItemLabel
                   :icon="mdiLogout"
                   label="Log Out"
+                  @click.prevent="logout"
                 />
               </NavBarItem>
             </template>
