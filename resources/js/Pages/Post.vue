@@ -20,8 +20,8 @@ const props = defineProps({
         <div class="relative h-[700px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'/images/' + props.post.image" :alt="props.post.title"
-                    class="absolute inset-0 w-full h-full object-cover transition-opacity transition-filter"
+                <img :src="'http://127.0.0.1:8000/storage/uploads/' + props.post.image" :alt="props.post.title"
+                    class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>
             <span
@@ -31,19 +31,19 @@ const props = defineProps({
         </div>
 
         <div class="container mx-auto my-8">
-    <div class="flex justify-between items-center border-b pb-4">
+    <div class="flex items-center justify-between pb-4 border-b">
         <div class="text-gray-700">
-            <p class="font-semibold text-lg">Auteur : {{ props.post['author'].name }}</p>
-            <p class="font-semibold text-lg">Catégorie : {{ props.post['category'].name }}</p>
+            <!-- <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p> -->
+            <p class="text-lg font-semibold">Catégorie : {{ props.post['category'].name }}</p>
         </div>
         <div class="text-gray-700">
-            <p class="font-semibold text-lg">Publié le {{ props.post['created_at'] }}</p>
-            <p class="font-semibold text-lg">Dernière mise à jour le {{ props.post['updated_at'] }}</p>
+            <p class="text-lg font-semibold">Publié le {{ props.post['created_at'] }}</p>
+            <p class="text-lg font-semibold">Dernière mise à jour le {{ props.post['updated_at'] }}</p>
         </div>
     </div>
 
     <div class="mt-6 mb-12">
-        <h1 class="text-4xl font-bold mb-4">{{ props.post.title }}</h1>
+        <h1 class="mb-4 text-4xl font-bold">{{ props.post.title }}</h1>
         <div class="prose">
             <div v-html="props.post['content']"></div>
         </div>

@@ -90,7 +90,7 @@ const activeInactiveStyle = computed(
     <AsideMenuList 
       v-if="hasDropdown"
       :menu="item.children"
-      :class="[ styleStore.asideMenuDropdownStyle, isDropdownActive ? 'block dark:bg-slate-800/50' : 'hidden' ]"
+      :class="[ styleStore.asideMenuDropdownStyle, isDropdownActive ? 'block dark:bg-slate-800/50 ' : 'hidden' ]"
       is-dropdown-list
     />
   </li>

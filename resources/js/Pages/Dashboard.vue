@@ -17,6 +17,10 @@ const props = defineProps({
     type: Number,
     default: () => (null),
   },
+  posts: {
+    type: Number,
+    default: () => (null),
+  },
   listusers: {
     type: Array,
     default: () => ([]),
@@ -38,10 +42,10 @@ const props = defineProps({
             <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                 <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple" :number="users"
                     label="Total Adminis" />
-                <CardBoxWidget trend="12%" trend-type="down" color="text-red-500" :icon="mdiNoteSearch" :number="7770"
-                    prefix="$" label="Total Articles" />
+                <CardBoxWidget trend="12%" trend-type="down" color="text-red-500" :icon="mdiNoteSearch" :number="posts"
+                    prefix="" label="Total Articles" />
                 <CardBoxWidget trend="Overflow" trend-type="alert" color="text-yellow-600" :icon="mdiEyeSettings"
-                    :number="256" suffix="%" label="Total vues" />
+                    :number="256" suffix="" label="Total vues" />
             </div>
             <CardBox :icon="mdiMonitorCellphone" title="Liste des Admins du site" has-table>
                 <TableSampleClients :list="listusers"/>
