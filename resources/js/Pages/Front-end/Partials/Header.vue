@@ -1,152 +1,91 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import axios from "axios";
+
+
+// Fonction me permettant de récupérer les catégorie dans la base de données
+let categories = ref(null)
+
+const getCategories = () => {
+    axios.get('/getcategories')
+        .then(response => {
+            // Gérer la réponse ici
+            console.log(response.data.categories);
+            categories.value = response.data.categories;
+        })
+        .catch(error => {
+            // Gérer les erreurs ici
+            console.error('Erreur lors de la récupération des catégories:', error);
+        });
+};
+
+onMounted(() => {
+    getCategories();
+});
+
 
 </script>
 
 <template>
-  <Head title="Accueil" />
-  <!-- <header
-      class="px-6 py-4 text-center text-white bg-black md:flex md:justify-around md:items-center"
-    >
-      <div class="md:flex md:items-center">
-        <a href="/"
-          ><img
-            src="/images/Logo_eclat.png"
-            alt="logo"
-            class="h-10"
-        /></a>
-      </div>
-      <div></div>
-      <nav class="navbar">
-        <ul class="md:flex md:items-center">
-          <li>
-            <a href="/LeGroupe" class="px-3 py-2 font-medium hover:text-gray-300"
-              >Le Groupe</a
-            >
-          </li>
-          <li>
-            <a href="#" class="px-3 py-2 font-medium hover:text-gray-300"
-              >Prestations</a
-            >
-          </li>
-          <li>
-            <a href="#" class="px-3 py-2 font-medium hover:text-gray-300"
-              >Vous accompagner</a
-            >
-          </li>
-          <li>
-            <a href="#" class="px-3 py-2 font-medium hover:text-gray-300"
-              >RSE</a
-            >
-          </li>
-          <li>
-            <a href="#" class="px-3 py-2 font-medium hover:text-gray-300"
-              >Contacts</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="px-3 py-2 font-medium hover:text-gray-300 md:bg-[#E69803] rounded-lg"
-              >Recrutements</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header> -->
-  <nav
-    class="fixed top-0 left-0 right-0 z-10 flex lg:justify-around px-4 justify-between w-full py-3 lg:py-5 shadow-md bg-[#121212] backdrop-blur-md">
+    <Head title="Accueil" />
+
+    <nav class="stycky  flex justify-between items-center mx-auto container py-2">
 
 
-    <!-- Logo Container -->
-    <div class="flex items-center">
-      <!-- Logo -->
-      <a class="cursor-pointer">
-        <h3 class="text-2xl font-medium text-blue-500">
-          <img class="object-cover h-10" src="/images/Logo_eclat.png" alt="Store Logo">
-        </h3>
-      </a>
-    </div>
-
-    <!-- Links Section -->
-    <div class="items-center hidden space-x-8 lg:flex">
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        Le groupe
-      </a>
-
-      <a class="flex font-semibold text-white text-blue-600 transition-colors duration-300 cursor-pointer">
-        Prestations
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        Vous accompagner
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        RSE
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        Contacts
-      </a>
+        <!-- Logo Container -->
+        <div class="flex items-center">
+            <!-- Logo -->
+            <a class="cursor-pointer">
+                <h3 class="text-2xl font-medium text-blue-500">
+                    <img class="object-cover h-14" src="/images/logo.png" alt="BlogLogo">
+                </h3>
+            </a>
+        </div>
 
 
-    </div>
 
-    <!-- Icon Menu Section -->
-    <div class="flex items-center space-x-5 bg-[#E69803] rounded-lg hidden lg:block">
-      <!-- Register -->
-      <a class="flex px-2 py-2 text-white transition-colors duration-300 rounded-lg cursor-pointer hover:text-blue-500">
+        <!-- Icon Menu Section -->
+        <div class="flex -mx-2">
+
+            <a class="text-gray-500 cursor-pointer hover:scale-105">
+                <svg fill="#E69803" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    class="w-10 h-10 rounded-full border-2 border-[#E69803] px-2" viewBox="0 0 24 24">
+                    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                </svg>
+            </a>
+            <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+                <svg fill="#E69803" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    class="w-10 h-10 rounded-full border border-2 border-[#E69803] px-2 " viewBox="0 0 24 24">
+                    <path
+                        d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
+                    </path>
+                </svg>
+            </a>
+            <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+                <svg fill="none" stroke="#E69803" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    class="w-10 h-10 rounded-full border border-2 border-[#E69803] px-2" viewBox="0 0 24 24">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                </svg>
+            </a>
+            <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+                <svg fill="#E69803" stroke="#E69803" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
+                    class="w-10 h-10 rounded-full border border-2 border-[#E69803] px-2" viewBox="0 0 24 24">
+                    <path stroke="2"
+                        d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
+                    </path>
+                    <circle cx="4" cy="4" r="2" stroke="2"></circle>
+                </svg>
+            </a>
+        </div>
 
 
-        RECRUTEMENTS
-      </a>
+    </nav>
 
-      <!-- Login -->
-      <!-- <a class="flex font-semibold text-gray-600 text-blue-600 transition-colors duration-300 cursor-pointer">
-
-                    <svg class="fill-current h-5 w-5 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <path
-                            d="M10,17V14H3V10H10V7L15,12L10,17M10,2H19A2,2 0 0,1 21,4V20A2,2 0 0,1 19,22H10A2,2 0 0,1 8,20V18H10V20H19V4H10V6H8V4A2,2 0 0,1 10,2Z" />
-                    </svg>
-
-                    Login
-                </a> -->
-    </div>
-
-    <div class="lg:hidden">
-      <button class="flex items-center p-3 text-white navbar-burger">
-        <svg class="block h-6 rounded-full fill-current w-7" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <title>Mobile menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <div class="lg:hidden items-center flex flex-col gap-3 py-3 bg-[#121212] mt-16 mb-0 space-x-8">
-
-    <a href="" class="hidden"></a>
-      <a class="text-center mt-2 flex font-semibold text-white transition-colors duration-300 cursor-pointer">
-        Le groupe
-      </a>
-      <a class="flex font-semibold text-white transition-colors duration-300 cursor-pointer">
-        Prestations
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        Vous accompagner
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        RSE
-      </a>
-
-      <a class="flex text-white transition-colors duration-300 cursor-pointer hover:text-blue-500">
-        Contacts
-      </a>
-    </div>
+    <ul class="justify-center flex items-center bg-[#000] h-20">
+    <li v-for="(categorie, index) in categories" :key="index">
+        <a href="/" class="px-3 py-2 font-medium text-white hover:text-gray-300">{{ categorie.name }}</a>
+    </li>
+</ul>
 </template>

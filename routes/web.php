@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Blog\CategoryController;
 use App\Http\Controllers\Admin\Blog\PostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ContentAiController;
@@ -37,11 +38,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
     Route::post('/editorUpload', [PostController::class, 'editorUpload']);
 });
 
 Route::post('/upload', [ImageUploadController::class, 'store']);
+Route::get('/getcategories', [CategoryController::class, 'getCategories'])->name('getcategories');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

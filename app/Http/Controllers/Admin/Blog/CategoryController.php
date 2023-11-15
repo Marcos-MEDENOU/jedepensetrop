@@ -40,7 +40,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categorie = (new Category)->newQuery();;
+        $categorie = (new Category)->newQuery();
+        ;
 
         if (request()->has('search')) {
             $categorie->where('name', 'Like', '%' . request()->input('search') . '%');
@@ -69,6 +70,14 @@ class CategoryController extends Controller
                 'delete' => Auth::user()->can('category delete'),
             ]
         ]);
+    }
+
+    public function getCategories()
+    {
+       $categories = Category::where('is_visible', 1)->get();
+
+        return response()->json(['categories' => $categories]);
+
     }
 
     /**
@@ -109,7 +118,6 @@ class CategoryController extends Controller
     //  }
 
     public function store(Request $request)
-
     {
         Category::create([
             'name' => $request->name,
@@ -154,15 +162,17 @@ class CategoryController extends Controller
     {
 
         $all_visibility = [
-            'non', 'oui'
+            'non',
+            'oui'
         ];
         $visibility = [];
-        
+
         if ($category->is_visible) {
             $visibility = 1;
         } else {
             $visibility = 0;
-        };
+        }
+        ;
         return Inertia::render('Admin/Category/Edit', [
             'categorie' => $category,
             'all_visibility' => $all_visibility,
@@ -171,7 +181,6 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, Category $category)
-
     {
         $category->update([
             'name' => $request->name,
