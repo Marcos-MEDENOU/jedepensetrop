@@ -106,6 +106,8 @@ class AuthorController extends Controller
     public function update(Request $request, Author $author)
 
     {
+
+        dd($request);
         $author->update([
             'name' => $request->name,
             'bio' => $request->bio,

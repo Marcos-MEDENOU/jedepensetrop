@@ -122,9 +122,28 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return Inertia::render('Admin/Posts/Edit',[
-            'posts'=> $post
-        ] );
+        $visibility = ['non', 'oui'];
+        $categorie = Category::all()->where('is_visible', '=', true)
+            ->pluck('name', 'id');
+        return Inertia::render('Admin/Posts/Edit', [
+            'posts' => $post,
+            'category' => $categorie,
+            'visibility' => $visibility,
+        ]);
+    }
+
+    public function show(Post $post)
+    {
+        // $category = Category::all()->pluck("name","id");
+        // // $roles = Role::all()->pluck("name","id");
+        // // $userHasRoles = array_column(json_decode($category->roles, true), 'id');
+        // dd($category);
+
+        return Inertia::render('Admin/Posts/Show', [
+            'posts' => $post,
+            // 'roles' => $roles,
+            // 'userHasRoles' => $userHasRoles,
+        ]);
     }
 
     public function destroy(Post $post)
@@ -162,6 +181,27 @@ class PostController extends Controller
     {
 
         Post::create([
+            'blog_category_id' => Category::where('name', $request->category)->value('id'),
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'content' => $request->content,
+            'published_at' => $request->published_at,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'image' => $request->image,
+            'post_visible' => ($request->is_visible == "oui") ? true : false,
+        ]);
+
+        return redirect()->route('posts.index')
+            ->with('message', 'post créer avec succes.');
+    }
+
+    public function update(Request $request, Post $post)
+    {
+
+        // dd($request);
+
+        $post->update([
             'blog_category_id' => Category::where('name', $request->category)->value('id'),
             'title' => $request->title,
             'slug' => $request->slug,

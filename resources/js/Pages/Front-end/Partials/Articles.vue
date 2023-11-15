@@ -32,12 +32,12 @@ const showArticle = (slug) => {
 
 
 <template>
-    <section class="lg:mx-24 py-10">
-        <h1 class="text-3xl mb-10 font-bold">Derniers Articles</h1>
+    <section class="py-10 lg:mx-24">
+        <h1 class="mb-10 text-3xl font-bold">Derniers Articles</h1>
 
 
 
-        <div class="grid grid-cols-2 gap-6 ml-10 lg:mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 cursor-pointer">
+        <div class="grid grid-cols-2 gap-6 ml-10 cursor-pointer lg:mx-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
             <div v-for="(article, index) in data.recentPosts" :key="index"
                 class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
@@ -45,7 +45,7 @@ const showArticle = (slug) => {
                     <div class="relative flex justify-center overflow-hidden rounded-lg ">
                         <div class="max-w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                            <img :src="'/images/' + article.image" alt="">
+                            <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="">
 
                         </div>
                         <span
@@ -55,9 +55,9 @@ const showArticle = (slug) => {
                     </div>
 
 
-                    <div class="flex flex-col  justify-center gap-2 mx-auto mt-8 ">
+                    <div class="flex flex-col justify-center gap-2 mx-auto mt-8 ">
 
-                        <h1 class="h-20 font-bold text-xl">
+                        <h1 class="h-20 text-xl font-bold">
                             {{ article.title }}
                         </h1>
                         <div class="flex justify-between">
