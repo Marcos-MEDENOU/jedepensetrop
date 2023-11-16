@@ -66,7 +66,7 @@ class PostController extends Controller
     {
         $recentPosts = Post::where('post_visible', 1)
             ->latest()
-            ->take(4)
+            ->take(6)
             ->get();
 
         $response = $recentPosts->map(function ($post) {
