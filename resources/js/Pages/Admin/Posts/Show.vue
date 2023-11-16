@@ -134,7 +134,7 @@ function setimgSrc(htmlContent) {
 #editor p,
 #editor ul,
 #editor table {
-  font-size: 14pt;
+  font-size: 12pt;
   /* font-family: DMSans; */
   padding-block: 5pt;
 }

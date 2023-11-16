@@ -21,6 +21,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import fileUploads from '@/Components/FormFilePicker.vue'
 import Tiny from '@/components/TinyImplements.vue';
+import Ckeditor from '@/components/Editor.vue';
 import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'

@@ -45,18 +45,18 @@ const props = defineProps({
             <div class="mt-6 mb-12">
                 <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ props.post.title }}</h1>
                 <div class="prose">
-                    <div v-html="props.post['content']"></div>
+                    <div id="editor" v-html="props.post['content']"></div>
                 </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-gray-300 pt-8">
-                <div class="text-gray-700 cursor-pointer  ">
-                    <span class=" p-5 rounded-lg shadow-md bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white"> Article précédent</span>
-                    <span class="block text-lg font-bold mt-8">Titre de l'article précédent</span>
+            <div class="flex items-center justify-between pt-8 border-t border-gray-300">
+                <div class="text-gray-700 cursor-pointer ">
+                    <span class="p-5 text-lg font-bold text-white bg-green-500 rounded-lg shadow-md hover:scale-50 hover:bg-green-600"> Article précédent</span>
+                    <span class="block mt-8 text-lg font-bold">Titre de l'article précédent</span>
                 </div>
-                <div class="text-gray-700 cursor-pointer  ">
-                    <span class=" p-5 mb-5 rounded-md shadow-lg bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white"> Article suivant</span>
-                    <span class="block text-lg font-bold mt-8">Titre de l'article suivant</span>
+                <div class="text-gray-700 cursor-pointer ">
+                    <span class="p-5 mb-5 text-lg font-bold text-white bg-green-500 rounded-md shadow-lg hover:scale-50 hover:bg-green-600"> Article suivant</span>
+                    <span class="block mt-8 text-lg font-bold">Titre de l'article suivant</span>
                 </div>
             </div>
 
@@ -68,3 +68,39 @@ const props = defineProps({
     </MainLayout>
 </template>
 
+<style>
+#editor h1 {
+  font-weight: bold;
+  margin-block: 2rem;
+  font-size: 36pt;
+  /* font-family: DMSans; */
+}
+
+#editor h2 {
+  font-weight: bold;
+  margin-block: 1rem;
+  font-size: 24pt;
+}
+
+#editor h3 {
+  text-decoration: underline;
+  font-size: 18pt;
+}
+
+#editor p,
+#editor ul,
+#editor table {
+  font-size: 12pt;
+  /* font-family: DMSans; */
+  padding-block: 5pt;
+}
+
+#editor table.full {
+  display: block;
+  background-color: white;
+}
+
+#editor h3 {
+  text-decoration: underline
+}
+</style>
