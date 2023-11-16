@@ -12,7 +12,6 @@ import 'tinymce/themes/silver';
 
 // Icon
 import 'tinymce/icons/default';
-
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/table';
@@ -28,12 +27,12 @@ const props = defineProps({
   },
   plugins: {
     type: [String, Array],
-    default: 'quickbars emoticons table image',
+    default: 'quickbars emoticons table lists autoresize link image media code',
   },
   toolbar: {
     type: [String, Array],
     default:
-      ' bold italic underline strikethrough | image |fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify|bullist numlist |outdent indent blockquote | undo redo | axupimgs | removeformat | table | emoticons',
+      'paste copy cut hr | bold code italic underline strikethrough | list image |fontsizeselect blocks fonts | numlist bullist table | forecolor backcolor | alignleft aligncenter alignright alignjustify|bullist numlist |outdent indent blockquote | undo redo | axupimgs | removeformat | table | emoticons',
   },
 });
 
@@ -45,23 +44,27 @@ const init = reactive({
   height: 800,
   width: '100% !important',
   resize: 'both',
-  menubar: 'file edit insert view format table tools help',
+  // menubar:false,
+  menubar: 'file format tools ',
   images_upload_url: '/editorUpload',
   automatic_uploads: true,
-  content_style:'body{font-family: DMSans}' +
-                                  'h1{font-weight: bold; margin-block:2rem;font-size :36pt;font-family: DMSans;}'+ 
-                                  'h2{font-weight: bold; margin-block:1rem;font-size :24pt; }'+
-                                  'h3{ text-decoration: underline ; font-size:18pt; }'+ 
-                                  'p,ul,table {font-size:14pt; font-family: DMSans;  padding-bloc:14pt;  }' +
-                                  'table.full { display: block; background-color:white; } ' +
-                                  'h3{text-decoration: underline}',
+  content_style: 'body{font-family: DMSans}' +
+    'h1{font-weight: bold; margin-block:2rem;font-size :36pt;font-family: DMSans;}' +
+    'h2{font-weight: bold; margin-block:1rem;font-size :24pt; }' +
+    'h3{ text-decoration: underline ; font-size:18pt; }' +
+    'p,ul,table {font-size:14pt; font-family: DMSans;  padding-bloc:14pt;  }' +
+    'table.full { display: block; background-color:white; } ' +
+    'h3{text-decoration: underline}',
 
   // skin: "oxide-dark",
   // content_css: "dark",
   plugins: props.plugins,
   toolbar: props.toolbar,
+  toolbar_sticky_offset: 64,
+  // toolbar_mode: 'sliding',
   quickbars_insert_toolbar: false,
   branding: false,
+  toolbar_sticky: true,
   promotion: false,
   skin: (window.matchMedia("(prefers-color-scheme: dark)").matches ? "oxide-dark" : ""),
   content_css: (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : ""),

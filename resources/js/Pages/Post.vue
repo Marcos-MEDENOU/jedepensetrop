@@ -29,7 +29,7 @@ const props = defineProps({
                 {{ props.post['category'].name }}
             </span>
         </div>
-        <div class=" flex justify-center mt-8">
+        <div class="flex justify-center mt-8 ">
 
 
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
@@ -49,7 +49,7 @@ const props = defineProps({
                     <div class="prose">
                         <div v-html="props.post['content']"></div>
                     </div>
-                    <div class="flex items-center space-x-4 mt-5">
+                    <div class="flex items-center mt-5 space-x-4">
                         <!-- Bouton Like -->
                         <button class="flex items-center text-green-500 hover:text-green-700">
                             <Icon name="like" />
@@ -64,18 +64,18 @@ const props = defineProps({
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between border-t border-gray-300 pt-8">
-                    <div class="text-gray-700 cursor-pointer  ">
+                <div class="flex items-center justify-between pt-8 border-t border-gray-300">
+                    <div class="text-gray-700 cursor-pointer ">
                         <span
-                            class=" p-5 rounded-lg shadow-md bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white">
+                            class="p-5 text-lg font-bold text-white bg-green-500 rounded-lg shadow-md  hover:scale-50 hover:bg-green-600">
                             Article précédent</span>
-                        <span class="block text-lg font-bold mt-8">Titre de l'article précédent</span>
+                        <span class="block mt-8 text-lg font-bold">Titre de l'article précédent</span>
                     </div>
-                    <div class="text-gray-700 cursor-pointer  ">
+                    <div class="text-gray-700 cursor-pointer ">
                         <span
-                            class=" p-5 mb-5 rounded-md shadow-lg bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white">
+                            class="p-5 mb-5 text-lg font-bold text-white bg-green-500 rounded-md shadow-lg  hover:scale-50 hover:bg-green-600">
                             Article suivant</span>
-                        <span class="block text-lg font-bold mt-8">Titre de l'article suivant</span>
+                        <span class="block mt-8 text-lg font-bold">Titre de l'article suivant</span>
                     </div>
                 </div>
 
@@ -91,11 +91,11 @@ const props = defineProps({
             </div>
 
         </div>
-        <div  class="py-8 lg:py-24  dark:bg-gray-800">
-            <div class="px-4 mx-auto max-w-screen-xl">
+        <div  class="py-8 lg:py-24 dark:bg-gray-800">
+            <div class="max-w-screen-xl px-4 mx-auto">
                 <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Articles Liés</h2>
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    <article class="max-w-xs bg-white p-4 rounded-lg shadow-lg">
+                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
                         <a href="#">
                             <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
                                 class="mb-5 rounded-lg" alt="Image 1">
@@ -110,7 +110,7 @@ const props = defineProps({
                             Lire en 2 minutes
                         </a>
                     </article>
-                    <article class="max-w-xs bg-white p-4 rounded-lg shadow-lg">
+                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
                         <a href="#">
                             <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
                                 class="mb-5 rounded-lg" alt="Image 2">
@@ -118,14 +118,14 @@ const props = defineProps({
                         <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                             <a href="#">Enterprise design tips</a>
                         </h2>
-                        <p class="mb-4  text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
                             changes! After months of preparation.</p>
                         <a href="#"
                             class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
                             Lire en 12 minutes
                         </a>
                     </article>
-                    <article class="max-w-xs bg-white p-4 rounded-lg shadow-lg">
+                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
                         <a href="#">
                             <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
                                 class="mb-5 rounded-lg" alt="Image 3">
@@ -133,14 +133,14 @@ const props = defineProps({
                         <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                             <a href="#">We partnered with Google</a>
                         </h2>
-                        <p class="mb-4  text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
                             changes! After months of preparation.</p>
                         <a href="#"
                             class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
                             Lire en 8 minutes
                         </a>
                     </article>
-                    <article class="max-w-xs bg-white p-2 rounded-lg shadow-lg">
+                    <article class="max-w-xs p-2 bg-white rounded-lg shadow-lg">
                         <a href="#">
                             <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
                                 class="mb-5 rounded-lg" alt="Image 4">
@@ -148,7 +148,7 @@ const props = defineProps({
                         <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                             <a href="#">Our first project with React</a>
                         </h2>
-                        <p class="mb-4  text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
                             changes! After months of preparation.</p>
                         <a href="#"
                             class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
