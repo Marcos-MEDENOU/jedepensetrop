@@ -13,6 +13,7 @@ import 'tinymce/themes/silver';
 // Icon
 import 'tinymce/icons/default';
 import 'tinymce/plugins/emoticons';
+// import 'tinymce/plugins/lists';
 import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/quickbars';
@@ -32,7 +33,7 @@ const props = defineProps({
   toolbar: {
     type: [String, Array],
     default:
-      'paste copy cut hr | bold code italic underline strikethrough | list image |fontsizeselect blocks fonts | numlist bullist table | forecolor backcolor | alignleft aligncenter alignright alignjustify|bullist numlist |outdent indent blockquote | undo redo | axupimgs | removeformat | table | emoticons',
+      'paste copy cut hr fontfamily fontsize lineheight| indent outdent | removeformat bold code italic underline strikethrough image |fontsizeselect blocks fonts | numlist bullist table | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist blockquote | undo redo | axupimgs  | emoticons',
   },
 });
 
@@ -47,9 +48,11 @@ const init = reactive({
   // menubar:false,
   menubar: 'file format tools ',
   images_upload_url: '/editorUpload',
+  autosave_restore_when_empty: true,
+  spellchecker_active: true,
   automatic_uploads: true,
   content_style: 'body{font-family: DMSans}' +
-    'h1{font-weight: bold; margin-block:2rem;font-size :36pt;font-family: DMSans;}' +
+    'h1{font-weight: bold; margin-block:2rem;font-size :28pt;font-family: DMSans;}' +
     'h2{font-weight: bold; margin-block:1rem;font-size :24pt; }' +
     'h3{ text-decoration: underline ; font-size:18pt; }' +
     'p,ul,table {font-size:14pt; font-family: DMSans;  padding-bloc:14pt;  }' +

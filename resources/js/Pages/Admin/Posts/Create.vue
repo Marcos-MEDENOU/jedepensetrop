@@ -72,7 +72,7 @@ const form = useForm({
   <LayoutAuthenticated>
 
     <Head title="Ajouter un article" />
-    {{ category }}
+
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Ajouter un article" main>
         <BaseButton :route-name="route('posts.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
