@@ -11,11 +11,11 @@ const year = computed(() => new Date().getFullYear())
   <footer class="container items-center justify-center px-6 py-2 mx-auto">
     <BaseLevel :class="containerMaxW">
       <div class="text-center md:text-left">
-        <b>&copy;{{ year }}, <a href="127.0.0.1" target="_blank">Jedepensetrop</a>.</b>
+        <b>&copy;{{ year }}, <a href="/dashboard" target="_blank">Jedepensetrop</a>.</b>
         Tout droit réservé
       </div>
       <div class="md:py-2">
-        <a href="127.0.0.1">
+        <a href="/dashboard">
           <AppLogo class="w-20 h-auto " />
         </a>
       </div>

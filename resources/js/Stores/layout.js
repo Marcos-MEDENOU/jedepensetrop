@@ -1,14 +1,16 @@
-import { defineStore } from 'pinia'
+import {
+    defineStore
+} from 'pinia'
 
 export const useLayoutStore = defineStore('layout', {
-  state: () => ({
-    isAsideMobileExpanded: false,
-    isAsideLgActive: false
-  }),
+    state: () => ({
+        isAsideMobileExpanded: false,
+        isAsideLgActive: false
+    }),
 
-  actions: {
-    asideMobileToggle () {
-      this.isAsideMobileExpanded = !this.isAsideMobileExpanded
+    actions: {
+        asideMobileToggle() {
+            this.isAsideMobileExpanded = !this.isAsideMobileExpanded
+        }
     }
-  }
 })

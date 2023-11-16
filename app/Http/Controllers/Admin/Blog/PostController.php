@@ -134,11 +134,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        // $category = Category::all()->pluck("name","id");
-        // // $roles = Role::all()->pluck("name","id");
-        // // $userHasRoles = array_column(json_decode($category->roles, true), 'id');
-        // dd($category);
-
+       
         return Inertia::render('Admin/Posts/Show', [
             'posts' => $post,
             // 'roles' => $roles,

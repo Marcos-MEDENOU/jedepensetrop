@@ -36,7 +36,7 @@ const formDelete = useForm({})
 
 function destroy(id) {
   if (confirm("Are you sure you want to delete?")) {
-    formDelete.delete(route("menu.item.destroy", {menu: props.menu.id, item: id}))
+    formDelete.delete(route("menu.item.destroy", { menu: props.menu.id, item: id }))
   }
 }
 
@@ -44,31 +44,15 @@ function destroy(id) {
 
 <template>
   <LayoutAuthenticated>
+
     <Head title="Menu Items" />
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiLink"
-        title="Menu Items"
-        main
-      >
+      <SectionTitleLineWithButton :icon="mdiLink" title="Menu Items" main>
         <BaseButtons type="justify-start lg:justify-end" no-wrap>
-          <BaseButton
-            :route-name="route('menu.index')"
-            :icon="mdiArrowLeftBoldOutline"
-            label="Back"
-            color="white"
-            rounded-full
-            small
-          />
-          <BaseButton
-            v-if="can.delete"
-            :route-name="route('menu.item.create', menu.id)"
-            :icon="mdiPlus"
-            label="Add"
-            color="info"
-            rounded-full
-            small
-          />
+          <BaseButton :route-name="route('menu.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
+            rounded-full small />
+          <BaseButton v-if="can.delete" :route-name="route('menu.item.create', menu.id)" :icon="mdiPlus" label="Add"
+            color="info" rounded-full small />
         </BaseButtons>
       </SectionTitleLineWithButton>
       <!-- <NotificationBar
@@ -79,19 +63,18 @@ function destroy(id) {
         {{ $page.props.flash.message }}
       </NotificationBar> -->
       <CardBox class="mb-6" has-table>
-        <table class="border-collapse w-full border border-slate-400 dark:border-slate-500 bg-white dark:bg-slate-800 text-sm shadow-sm">
+        <table
+          class="border-collapse w-full border border-slate-400 dark:border-slate-500 bg-white dark:bg-slate-800 text-sm shadow-sm">
           <tbody>
             <tr>
-              <td
-                class="
+              <td class="
                   p-4
                   pl-8
                   text-slate-500
                   dark:text-slate-400
                   hidden
                   lg:block
-                "
-              >
+                ">
                 Name
               </td>
               <td data-label="Name">
@@ -99,16 +82,14 @@ function destroy(id) {
               </td>
             </tr>
             <tr>
-              <td
-                class="
+              <td class="
                   p-4
                   pl-8
                   text-slate-500
                   dark:text-slate-400
                   hidden
                   lg:block
-                "
-              >
+                ">
                 Machine name
               </td>
               <td data-label="Machine Name">

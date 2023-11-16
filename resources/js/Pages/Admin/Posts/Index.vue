@@ -6,7 +6,7 @@ import {
   mdiShapePlusOutline,
   mdiSquareEditOutline,
   mdiTrashCan,
-  mdiAlertBoxOutline,mdiEyeCheck,
+  mdiAlertBoxOutline, mdiEyeCheck,
 } from "@mdi/js"
 import { computed, ref } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
@@ -105,29 +105,28 @@ function formatDateTimeISO(dateISO) {
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
-                <Sort label="Image" attribute="name" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
               </th>
               <th>
-                <Sort label="Date de publication" attribute="email" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Date de publication</span>
               </th>
               <th>
-                <Sort label="Categorie" attribute="bio" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Catégorie</span>
               </th>
               <th>
-                <Sort label="Prévisualiser" attribute="bio" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Prévisualiser</span>
               </th>
               <th v-if="can.edit || can.delete">Actions</th>
             </tr>
           </thead>
 
-          <tbody>     
+          <tbody>
             <tr v-for="post in posts.data" :key="post.id">
 
               <td data-label="Name">
-                <span
-                  class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
-                {{ postSlicing(post.title) }}
-              </span>
+                <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
+                  {{ postSlicing(post.title) }}
+                </span>
               </td>
               <td data-label="Image">
                 <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" alt=""

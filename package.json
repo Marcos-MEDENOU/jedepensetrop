@@ -22,10 +22,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^40.1.0",
-        "@ckeditor/ckeditor5-dev-translations": "^39.2.1",
-        "@ckeditor/ckeditor5-dev-utils": "^39.2.1",
-        "@ckeditor/ckeditor5-vue": "^5.1.0",
+
         "@inertiajs/vue3": "^1.0.7",
         "@tinymce/tinymce-vue": "^5.1.0",
         "@vuepic/vue-datepicker": "^5.2.0",
@@ -33,7 +30,6 @@
         "filepond-plugin-file-validate-type": "^1.2.8",
         "filepond-plugin-image-preview": "^4.6.11",
         "numeral": "^2.0.6",
-        "openai": "^3.3.0",
         "primevue": "^3.40.1",
         "tinymce": "^6.4.2",
         "vue-filepond": "^7.0.3",

@@ -1,52 +1,60 @@
-import { defineStore } from 'pinia'
+import {
+    defineStore
+} from 'pinia'
 import * as styles from '@/styles'
-import { darkModeKey, styleKey } from '@/config'
+import {
+    darkModeKey,
+    styleKey
+} from '@/config'
 
 export const useStyleStore = defineStore('style', {
-  state: () => ({
-    /* Styles */
-    asideStyle: '',
-    asideBrandStyle: '',
-    asideMenuItemStyle: '',
-    asideMenuItemActiveStyle: '',
-    asideMenuDropdownStyle: '',
-    navBarItemLabelStyle: '',
-    navBarItemLabelHoverStyle: '',
-    navBarItemLabelActiveColorStyle: '',
-    navBarMenuListUpperLabelStyle: '',
-    overlayStyle: '',
+    state: () => ({
+        /* Styles */
+        asideStyle: '',
+        asideBrandStyle: '',
+        asideMenuItemStyle: '',
+        asideMenuItemActiveStyle: '',
+        asideMenuDropdownStyle: '',
+        navBarItemLabelStyle: '',
+        navBarItemLabelHoverStyle: '',
+        navBarItemLabelActiveColorStyle: '',
+        navBarMenuListUpperLabelStyle: '',
+        overlayStyle: '',
 
-    /* Dark mode */
-    darkMode: false,
-  }),
-  actions: {
-    setStyle (payload) {
-      if (!styles[payload]) {
-        return
-      }
+        /* Dark mode */
+        darkMode: false,
 
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(styleKey, payload)
-      }
+        /*menu background*/
+        background: 'bg-black',
+    }),
+    actions: {
+        setStyle(payload) {
+            if (!styles[payload]) {
+                return
+            }
 
-      const style = styles[payload]
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem(styleKey, payload)
+            }
 
-      for (const key in style) {
-        this[`${key}Style`] = style[key]
-      }
-    },
+            const style = styles[payload]
 
-    setDarkMode (payload = null) {
-      console.log("test");
-      this.darkMode = payload !== null ? payload : !this.darkMode
+            for (const key in style) {
+                this[`${key}Style`] = style[key]
+            }
+        },
 
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(darkModeKey, this.darkMode ? '1' : '0')
-      }
+        setDarkMode(payload = null) {
+            console.log("test");
+            this.darkMode = payload !== null ? payload : !this.darkMode
 
-      if (typeof document !== 'undefined') {
-        document.documentElement.classList[this.darkMode ? 'add' : 'remove']('dark-scrollbars')
-      }
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem(darkModeKey, this.darkMode ? '1' : '0')
+            }
+
+            if (typeof document !== 'undefined') {
+                document.documentElement.classList[this.darkMode ? 'add' : 'remove']('dark-scrollbars')
+            }
+        }
     }
-  }
 })

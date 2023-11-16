@@ -8,20 +8,13 @@ import OverlayLayer from '@/Components/OverlayLayer.vue'
 
 let menu = reactive({})
 menu = computed(() => usePage().props.navigation.menu)
-// menu = computed(() => usePage())
 const layoutStore = useLayoutStore()
 </script>
 
 <template>
-  <AsideMenuLayer
-    v-if="Object.keys(menu).length"
-    :menu="menu"
-    :class="[layoutStore.isAsideMobileExpanded ? 'left-0 ': '-left-60 lg:left-0 ', {'lg:hidden xl:flex': !layoutStore.isAsideLgActive}]"
-
-  />
-  <OverlayLayer
-    v-show="layoutStore.isAsideLgActive"
-    z-index="z-30"
-    @overlay-click="layoutStore.isAsideLgActive = false"
-  />
+  <!-- {{ usePage().props.navigation.menu }} -->
+  <AsideMenuLayer v-if="Object.keys(menu).length" :menu="menu"
+    :class="[layoutStore.isAsideMobileExpanded ? 'left-0 ' : '-left-60 lg:left-0 ', { 'lg:hidden xl:flex': !layoutStore.isAsideLgActive }]" />
+  <OverlayLayer v-show="layoutStore.isAsideLgActive" z-index="z-30"
+    @overlay-click="layoutStore.isAsideLgActive = false" />
 </template>
