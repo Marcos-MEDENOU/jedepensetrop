@@ -36,7 +36,7 @@ const newArticles = [
 <template>
     <section class="py-10 lg:ml-24 sticky top-20">
         <!-- Articles liés -->
-        <h1 class="text-2xl font-bold mb-2">Derniers Articles</h1>
+        <h1 class="text-2xl font-bold mb-2">Articles les plus consultés</h1>
         <div class="my-4">
 
             <div v-for="(item, index) in newArticles" :key="index"

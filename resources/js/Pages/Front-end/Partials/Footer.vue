@@ -63,7 +63,7 @@ onMounted(() => {
                         </div>
 
                         <button type="submit"
-                            class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600">S'inscrire</button>
+                            class="bg-gray-800 text-white p-2 rounded-md hover:bg-gray-900">S'abonner</button>
                     </form>
                 </div>
 
