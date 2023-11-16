@@ -19,7 +19,7 @@ const props = defineProps({
 
         <Head title="Accueil" />
 
-        <Hero />
+        <Hero  />
         <Articles />
 
 
