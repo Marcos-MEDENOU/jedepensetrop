@@ -68,7 +68,7 @@ const newArticles = [
                     type="email" name="email" placeholder="Votre adresse e-mail" id="email" required="">
 
                 <button type="submit"
-                    class="bg-green-500 hover:bg-green-600 rounded-lg text-white p-2 w-full">S'abonner</button>
+                    class="bg-gray-800 hover:bg-gray-900 rounded-lg text-white p-2 w-full">S'abonner</button>
                 <p class="mt-2">Nous nous soucions de la protection de vos données. Lisez notre <a
                         class="text-blue-900 underline" href="/">politique de
                         confidentialité</a>.</p>

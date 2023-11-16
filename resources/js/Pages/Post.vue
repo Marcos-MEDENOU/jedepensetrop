@@ -11,6 +11,7 @@ const props = defineProps({
     },
 })
 
+
 </script>
 <template>
     <MainLayout>
@@ -35,7 +36,7 @@ const props = defineProps({
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
                 <div class="flex items-center justify-between pb-4 border-b">
                     <div class="text-gray-700">
-                        <!-- <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p> -->
+                        <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p>
                         <p class="text-lg font-semibold">Catégorie : {{ props.post['category'].name }}</p>
                     </div>
                     <div class="text-gray-700">
@@ -51,7 +52,7 @@ const props = defineProps({
                     </div>
                     <div class="flex items-center mt-5 space-x-4">
                         <!-- Bouton Like -->
-                        <button class="flex items-center text-green-500 hover:text-green-700">
+                        <button class="flex items-center text-green-500 hover:text-green-600">
                             <Icon name="like" />
                             <span class="ml-2">J'aime(0)</span>
                         </button>
@@ -64,20 +65,22 @@ const props = defineProps({
                     </div>
                 </div>
 
+
                 <div class="flex items-center justify-between pt-8 border-t border-gray-300">
                     <div class="text-gray-700 cursor-pointer ">
                         <span
-                            class="p-5 text-lg font-bold text-white bg-green-500 rounded-lg shadow-md  hover:scale-50 hover:bg-green-600">
+                            class="p-5 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md  hover:scale-50 hover:bg-gray-900">
                             Article précédent</span>
                         <span class="block mt-8 text-lg font-bold">Titre de l'article précédent</span>
                     </div>
                     <div class="text-gray-700 cursor-pointer ">
                         <span
-                            class="p-5 mb-5 text-lg font-bold text-white bg-green-500 rounded-md shadow-lg  hover:scale-50 hover:bg-green-600">
+                            class="p-5 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg  hover:scale-50 hover:bg-gray-900">
                             Article suivant</span>
                         <span class="block mt-8 text-lg font-bold">Titre de l'article suivant</span>
                     </div>
                 </div>
+
 
                 <!-- Commentaires -->
                 <Comment />

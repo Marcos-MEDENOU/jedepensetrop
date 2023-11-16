@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/vue3";
 import Icon from '@/Components/Icons/Icon.vue'
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import { router } from '@inertiajs/vue3'
 
 
 // Fonction me permettant de récupérer les catégorie dans la base de données
@@ -26,14 +27,20 @@ onMounted(() => {
 });
 
 
+const categoryPosts = (slug) => {
+    console.log(slug);
+
+    router.get(route("category_posts", slug))
+};
+
+
 </script>
 
 <template>
     <Head title="Accueil" />
 
     <div style="background-color: whitesmoke" class="  w-full z-50">
-        <nav
-            class=" flex justify-between items-center mx-auto container py-2">
+        <nav class=" flex justify-between items-center mx-auto container py-2">
 
 
             <!-- Logo Container -->
@@ -50,13 +57,16 @@ onMounted(() => {
 
             <!-- Icon Menu Section -->
             <div class="flex -mx-2">
-                <a class="text-gray-500 cursor-pointer hover:scale-105">
+                <a href="https://www.facebook.com/VIPPInterstis" target="_blank"
+                    class="text-gray-500 cursor-pointer hover:scale-105">
                     <svg fill="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-10 h-10 rounded-full border-2 border-[#000] px-2" viewBox="0 0 24 24">
                         <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+
+                <a href="https://twitter.com/vipp_groupe" target="_blank"
+                    class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
                     <svg fill="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-10 h-10 rounded-full border border-2 border-[#000] px-2 " viewBox="0 0 24 24">
                         <path
@@ -64,14 +74,16 @@ onMounted(() => {
                         </path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+                <a href="https://www.instagram.com/vipp_________/?hl=am-et" target="_blank"
+                    class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
                     <svg fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         class="w-10 h-10 rounded-full border border-2 border-[#000] px-2" viewBox="0 0 24 24">
                         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                     </svg>
                 </a>
-                <a class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
+                <a href="https://www.linkedin.com/company/groupe-vipp" target="_blank"
+                    class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
                     <svg fill="#000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"
                         class="w-10 h-10 rounded-full border border-2 border-[#000] px-2" viewBox="0 0 24 24">
                         <path stroke="2"
@@ -91,7 +103,8 @@ onMounted(() => {
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
-            <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">{{ categorie.name }}</a>
+            <a @click="categoryPosts(categorie.slug)"
+                class="px-3 py-2 text-lg font-semibold hover:underline cursor-pointer">{{ categorie.name }}</a>
         </li>
 
         <!-- Formulaire de recherche -->
@@ -109,5 +122,4 @@ onMounted(() => {
             </div>
         </form>
 
-    </ul>
-</template>
+</ul></template>
