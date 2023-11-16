@@ -74,9 +74,15 @@ class CategoryController extends Controller
 
     public function getCategories()
     {
-       $categories = Category::where('is_visible', 1)->get();
+        try {
+             $categories = Category::where('is_visible', 1)
+        ->whereHas('posts')
+        ->get();
 
-        return response()->json(['categories' => $categories]);
+            return response()->json(['categories' => $categories]);
+        } catch (\Exception $th) {
+            return response()->json(['message'=> $th->getMessage()]);
+        }
 
     }
 
@@ -125,7 +131,7 @@ class CategoryController extends Controller
             'description' => $request->description,
             'seo_title' => $request->slug,
             'seo_description' => $request->seo_description,
-            'is_visible' => ($request->is_visible=="oui") ? true:false
+            'is_visible' => ($request->is_visible == "oui") ? true : false
         ]);
 
         return redirect()->route('category.index')

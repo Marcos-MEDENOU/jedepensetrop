@@ -31,8 +31,11 @@ class Category extends Model
         'is_visible' => 'boolean',
     ];
 
-    public function posts(): HasMany
+
+
+    // Relation avec les articles
+     public function posts()
     {
-        return $this->belongsToMany(Post::class, 'article_category', 'category_id', 'post_id');
+        return $this->hasMany(Post::class, 'blog_category_id', 'id');
     }
 }

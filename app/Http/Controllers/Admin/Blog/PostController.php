@@ -65,30 +65,6 @@ class PostController extends Controller
         ]);
     }
 
-    // Fonction permettant de récupérer les 4 derniers posts recentes du blog
-    public function getRecentPosts()
-    {
-        $recentPosts = Post::where('post_visible', 1)
-            ->latest()
-            ->take(6)
-            ->get();
-
-        $response = $recentPosts->map(function ($post) {
-            return [
-                'id' => $post->id,
-                'title' => $post->title,
-                'slug' => $post->slug,
-                'content' => $post->content,
-                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
-                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
-                'image' => $post->image,
-                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
-                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
-            ];
-        });
-
-        return response()->json($response);
-    }
 
 
     public function create()
@@ -220,4 +196,116 @@ class PostController extends Controller
             ->with('message', 'post créer avec succes.');
     }
 
+    // Fonction permettant de récupérer les 4 derniers posts recentes du blog
+    public function getRecentPosts()
+    {
+        $recentPosts = Post::where('post_visible', 1)
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $response = $recentPosts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'content' => $post->content,
+                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
+                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
+                'image' => $post->image,
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
+            ];
+        });
+
+        return response()->json($response);
+    }
+
+    // Fonction permettant de recupérer trois articles par catégorie.
+
+    public function showThreeByCategory()
+    {
+        try {
+            // Récupérez toutes les catégories
+            $categories = Category::all();
+
+            // Récupérez trois articles pour chaque catégorie avec le formatage
+            $postsByCategory = [];
+
+            foreach ($categories as $category) {
+                $posts = Post::where('blog_category_id', $category->id)->latest()->take(3)->get();
+
+                if ($posts->isNotEmpty()) {
+                    $formattedPosts = $posts->map(function ($post) {
+                        return [
+                            'id' => $post->id,
+                            'title' => $post->title,
+                            'slug' => $post->slug,
+                            'content' => $post->content,
+                            'author' => User::find($post->blog_author_id),
+                            'category' => Category::find($post->blog_category_id),
+                            'image' => $post->image,
+                            'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
+                            'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
+                        ];
+                    });
+
+                    $postsByCategory[] = [
+                        'category' => $category->name,
+                        'posts' => $formattedPosts,
+                    ];
+                }
+            }
+
+            return response()->json($postsByCategory);
+        } catch (\Exception $th) {
+            // Gérez les erreurs
+            return response()->json($th);
+        }
+    }
+
+
+
+    public function getCategoryWithPosts($slug)
+{
+    try {
+        // Récupérez la catégorie avec les articles associés
+        $category = Category::where('slug', $slug)->first();
+
+        if ($category) {
+            $posts = Post::where('blog_category_id', $category->id)->get();
+
+            $formattedCategory = [
+                'category' => $category->name,
+                'posts' => $posts->map(function ($post) {
+                    return [
+                        'id' => $post->id,
+                        'title' => $post->title,
+                        'slug' => $post->slug,
+                        'content' => $post->content,
+                        'author' => User::find($post->blog_author_id),
+                        'category' => Category::find($post->blog_category_id),
+                        'image' => $post->image,
+                        'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
+                        'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
+                    ];
+                }),
+            ];
+
+            return Inertia::render('CategoryPosts', [
+                'formattedCategory' => $formattedCategory
+            ]);
+        } else {
+            return Inertia::render('CategoryPosts', ['error' => 'Catégorie non trouvée']);
+        }
+    } catch (\Exception $th) {
+        // Gérez les erreurs
+        return Inertia::render('CategoryPosts', ['error' => $th->getMessage()]);
+    }
 }
+
+
+
+
+}
+
