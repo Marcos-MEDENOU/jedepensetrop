@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiRobot,
   mdiArrowLeftBoldOutline,
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -31,7 +31,7 @@ const props = defineProps({
     <Head title="View role" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiRobot"
         title="View role"
         main
       >

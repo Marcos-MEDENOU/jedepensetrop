@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiAccountGroup,
   mdiArrowLeftBoldOutline,
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -31,7 +31,7 @@ const props = defineProps({
     <Head title="View user" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiAccountGroup"
         title="View user"
         main
       >

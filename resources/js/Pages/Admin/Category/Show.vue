@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiPostageStamp,
   mdiArrowLeftBoldOutline,
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -31,7 +31,7 @@ const props = defineProps({
     <Head title="View user" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiShapePlusOutline"
+        :icon="mdiPostageStamp"
         title="Voir la catégorie"
         main
       >
@@ -67,16 +67,7 @@ const props = defineProps({
                 {{ categorie.description }}
               </td>
             </tr>
-            <tr>
-              <td
-                class="hidden p-4 pl-8 text-slate-500 dark:text-slate-400 lg:block"
-              >
-               Visibilité
-              </td>
-              <td data-label="visibility">
-                {{ categorie.is_visible }}
-              </td>
-            </tr>
+         
             <tr>
               <td
                 class="hidden p-4 pl-8 text-slate-500 dark:text-slate-400 lg:block"

@@ -90,8 +90,8 @@ function formatDateTimeISO(dateISO) {
             <div class="flex pl-4">
               <input type="search" v-model="form.search"
                 class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                placeholder="Search" />
-              <BaseButton label="Search" type="submit" color="info" class="inline-flex items-center px-4 py-2 ml-4" />
+                placeholder="Trouver un article " />
+              <BaseButton label="Rechercher" type="submit" color="info" class="inline-flex items-center px-4 py-2 ml-4" />
             </div>
           </div>
         </form>
@@ -105,6 +105,9 @@ function formatDateTimeISO(dateISO) {
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
+                <Sort label="Auteur" attribute="name" />
+              </th>
+              <th class="flex justify-center items-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
               </th>
               <th>
@@ -121,16 +124,24 @@ function formatDateTimeISO(dateISO) {
           </thead>
 
           <tbody>
+           
             <tr v-for="post in posts.data" :key="post.id">
-
+      
               <td data-label="Name">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                   {{ postSlicing(post.title) }}
                 </span>
               </td>
-              <td data-label="Image">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" alt=""
-                  class="items-center justify-center w-12 h-auto rounded-lg">
+
+              <td data-label="Name">
+                <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
+                  {{(post.author_name)}}
+                </span>
+              </td>
+
+              <td data-label="Image" class="">
+               
+                  <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 rounded-sm mx-auto">
               </td>
               <td data-label="Published_at">
                 {{ formatDateTimeISO(post.published_at) }}

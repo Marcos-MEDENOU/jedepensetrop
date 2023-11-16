@@ -1,11 +1,11 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiRobot,
   mdiPlus,
   mdiSquareEditOutline,
   mdiTrashCan,
-  mdiAlertBoxOutline,
+  mdiAccountEye,
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
 import SectionMain from "@/Components/SectionMain.vue"
@@ -50,7 +50,7 @@ function destroy(id) {
     <Head title="Roles" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiRobot"
         title="Roles"
         main
       >

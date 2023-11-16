@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+
 class PostController extends Controller
 {
     public function __construct()
@@ -30,7 +31,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = (new Post)->newQuery()->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')->select('blog_post.*', 'blog_category.name as category_name');
+        $posts = (new Post)->newQuery()
+        ->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')
+        ->join('users', 'blog_post.blog_author_id', '=', 'users.id')
+        ->select('blog_post.*', 'blog_category.name as category_name', 'users.name as author_name');
 
         if (request()->has('search')) {
             $posts->where('title', 'Like', '%' . request()->input('search') . '%');
@@ -152,8 +156,10 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+        
         Post::create([
             'blog_category_id' => Category::where('name', $request->category)->value('id'),
+            'blog_author_id'=>Auth::user()->id,
             'title' => $request->title,
             'slug' => $request->slug,
             'content' => $request->content,
@@ -175,6 +181,7 @@ class PostController extends Controller
 
         $post->update([
             'blog_category_id' => Category::where('name', $request->category)->value('id'),
+            'blog_author_id'=>Auth::user()->id,
             'title' => $request->title,
             'slug' => $request->slug,
             'content' => $request->content,

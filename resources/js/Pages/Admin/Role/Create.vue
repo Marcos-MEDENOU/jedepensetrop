@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiRobot,
   mdiArrowLeftBoldOutline
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -33,7 +33,7 @@ const form = useForm({
     <Head title="Add role" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiRobot"
         title="Add role"
         main
       >

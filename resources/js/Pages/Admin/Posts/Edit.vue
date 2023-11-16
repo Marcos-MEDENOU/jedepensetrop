@@ -125,14 +125,15 @@ const form = useForm({
 
         <FormField label="Categories" wrap-body>
 
-          <FormCheckRadioGroup v-model="form.category" aria-checked="true" name="category" type="radio" isRow :options="props.category" />
+          <FormCheckRadioGroup v-model="form.category" aria-checked="true" name="category" type="radio" isRow
+            :options="props.category" />
         </FormField>
 
         <FormField label="Visibilité" wrap-body>
           <FormCheckRadioGroup v-model="form.is_visible" name="is_visible" type="radio" isRow
             :options="props.visibility" />
         </FormField>
-      
+
         <template #footer>
           <BaseButtons>
             <BaseButton type="submit" color="info" label="Submit" :class="{ 'opacity-25': form.processing }"

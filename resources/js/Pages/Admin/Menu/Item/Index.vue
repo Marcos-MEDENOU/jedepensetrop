@@ -3,7 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
   mdiLink,
   mdiPlus,
-  mdiSquareEditOutline,
+  mdiMenu,
   mdiTrashCan,
   mdiAlertBoxOutline,
   mdiArrowLeftBoldOutline
