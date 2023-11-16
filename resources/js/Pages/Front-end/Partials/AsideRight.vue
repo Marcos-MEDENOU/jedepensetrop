@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import { router } from '@inertiajs/vue3'
 
 const data = reactive({
@@ -30,6 +30,55 @@ const newArticles = [
 ];
 
 
+const partners = ref([
+    { id: 1, logo: 'https://placekitten.com/32/32' },
+    { id: 2, logo: 'https://placekitten.com/32/31' },
+    { id: 3, logo: 'https://placekitten.com/32/30' },
+    { id: 4, logo: 'https://placekitten.com/32/29' },
+    { id: 5, logo: 'https://placekitten.com/32/28' },
+    { id: 6, logo: 'https://placekitten.com/32/27' },
+    { id: 7, logo: 'https://placekitten.com/32/26' },
+    { id: 8, logo: 'https://placekitten.com/32/25' },
+    { id: 9, logo: 'https://placekitten.com/32/24' },
+    { id: 10, logo: 'https://placekitten.com/32/23' },
+]);
+
+const sliderRef = ref(null);
+let intervalId;
+
+onMounted(() => {
+    // Initialiser le carrousel
+    startCarousel();
+});
+
+const startCarousel = () => {
+    // Définir l'intervalle pour le défilement automatique
+    intervalId = setInterval(() => {
+        slide();
+    }, 2000); // Ajustez la durée selon vos besoins
+};
+
+const slide = () => {
+    // Calculer la largeur d'un élément de partenaire pour le défilement
+    const partnerWidth = sliderRef.value.clientWidth / partners.value.length;
+
+    // Défiler d'une largeur d'élément
+    sliderRef.value.style.transform = `translateX(-${partnerWidth}px)`;
+
+    // Déplacer le premier élément à la fin pour créer l'effet infini
+    partners.value.push(partners.value.shift());
+};
+
+const stopCarousel = () => {
+    // Arrêter le défilement automatique lorsque le curseur est sur le carrousel
+    clearInterval(intervalId);
+};
+
+const resumeCarousel = () => {
+    // Reprendre le défilement automatique lorsque le curseur quitte le carrousel
+    startCarousel();
+};
+
 </script>
 
 
@@ -49,14 +98,67 @@ const newArticles = [
                     <div class="font-semibold">{{ item.title }}</div>
                     <div class="font-">{{ item.content }}</div>
 
-                    <div
-                        class="absolute bottom-1 right-4 px-3 py-1  font-medium text-white bg-[#e39a00]  rounded-lg">
+                    <div class="absolute bottom-1 right-4 px-3 py-1  font-medium text-white bg-[#e39a00]  rounded-lg">
                         <a href="#" class="">Lire plus</a>
                     </div>
                 </div>
             </div>
 
         </div>
+
+        <!-- Partners -->
+
+
+
+        <section class='partners'>
+            <h1 class="text-2xl font-bold mt-10 mb-5">Nos partenaires</h1>
+            <div class="slider">
+            <div class="slide-track">
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250" alt="" />
+                </div>
+            </div>
+        </div>
+        </section>
 
         <!-- Formulaire d'abonnement à la newsletter -->
         <div class="mt-10">
@@ -78,4 +180,71 @@ const newArticles = [
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+
+
+
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+.slider {
+
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  height: 100px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 440px;
+border-radius: 10px;
+}
+
+.slider::before,
+.slider::after {
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+  content: "";
+  height: 100px;
+  position: absolute;
+  width: 200px;
+  z-index: 2;
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+.slider .slide-track {
+  animation: scroll 40s linear infinite;
+  display: flex;
+  width: calc(250px * 14);
+}
+
+.slider .slide {
+  height: 100px;
+  width: 250px;
+}
+
+
+/* Ajouter des media queries pour ajuster la taille sur différents écrans */
+@media screen and (max-width: 768px) {
+  .slider {
+    width: 340px;
+  }
+
+  .slider .slide-track {
+    width: calc(25% * 10);
+  }
+}
 </style>

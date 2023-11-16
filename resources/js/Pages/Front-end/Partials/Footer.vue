@@ -2,6 +2,7 @@
 import { Head } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import { router } from '@inertiajs/vue3'
 
 
 // Fonction me permettant de récupérer les catégorie dans la base de données
@@ -24,6 +25,13 @@ onMounted(() => {
     getCategories();
 });
 
+
+const categoryPosts = (slug) => {
+    console.log(slug);
+
+    router.get(route("category_posts", slug))
+};
+
 </script>
 
 <template>
@@ -40,15 +48,15 @@ onMounted(() => {
             <ul class=" flex flex-col   ">
                 <li class="font-bold text-2xl mb-5">Menu</li>
                 <li v-for="(categorie, index) in categories" :key="index">
-                    <a href="/" class="font-semibold hover:underline">{{ categorie.name }}</a>
+                    <a @click="categoryPosts(categorie.slug)" class="font-semibold hover:underline cursor-pointer">{{ categorie.name }}</a>
                 </li>
             </ul>
 
             <ul class=" flex flex-col   ">
                 <li class="font-bold text-2xl mb-5">Entreprise</li>
-                <li><a href="" class="font-semibold hover:underline">A propos</a></li>
-                <li><a href="" class="font-semibold hover:underline">Politique de Confidentialité</a></li>
-                <li><a href="" class="font-semibold hover:underline">Termes et Services</a></li>
+                <li><a href="" class="font-semibold hover:underline cursor-pointer">A propos</a></li>
+                <li><a href="" class="font-semibold hover:underline cursor-pointer">Politique de Confidentialité</a></li>
+                <li><a href="" class="font-semibold hover:underline cursor-pointer">Termes et Services</a></li>
             </ul>
 
             <div class="flex flex-col gap-2">
