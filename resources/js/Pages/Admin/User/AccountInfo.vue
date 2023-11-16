@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccount,
+  mdiAccountGroup,
   mdiAccountCircle,
   mdiLock,
   mdiMail,

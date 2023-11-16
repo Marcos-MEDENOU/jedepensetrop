@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccount,
+  mdiPostageStamp,
   mdiAccountCircle,
   mdiLock,
   mdiMail,
@@ -42,7 +42,7 @@ const passwordForm = useForm({
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiAccount" title="Profile" main>
+      <SectionTitleLineWithButton :icon="mdiPostageStamp" title="Profile" main>
         <BaseButton
           :route-name="route('dashboard')"
           :icon="mdiArrowLeftBoldOutline"

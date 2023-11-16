@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiPostageStamp,
   mdiPlus,
   mdiShapePlusOutline,
   mdiSquareEditOutline,
@@ -51,7 +51,7 @@ function destroy(id) {
     <Head title="Categories" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiShapePlusOutline"
+        :icon="mdiPostageStamp"
         title="Categories"
         main
       >
@@ -100,9 +100,7 @@ function destroy(id) {
               <th>
                 <Sort label="Description" attribute="description" />
               </th>
-              <th>
-                <Sort label="Visibilité" attribute="is_visible" />
-              </th>
+              
               <th v-if="can.edit || can.delete">Actions</th>
             </tr>
           </thead>
@@ -121,9 +119,7 @@ function destroy(id) {
               <td data-label="Description">
                 {{ category.description }}
               </td>
-              <td data-label="visibility">
-                {{ category.is_visible }}
-              </td>
+           
               <td
                 v-if="can.edit || can.delete"
                 class="before:hidden lg:w-1 whitespace-nowrap"

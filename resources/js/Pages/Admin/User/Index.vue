@@ -5,7 +5,7 @@ import {
   mdiPlus,
   mdiSquareEditOutline,
   mdiTrashCan,
-  mdiAlertBoxOutline,
+  mdiAccountGroup,
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
 import SectionMain from "@/Components/SectionMain.vue"
@@ -50,7 +50,7 @@ function destroy(id) {
     <Head title="Users" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiAccountGroup"
         title="Users"
         main
       >

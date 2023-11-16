@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiAccountGroup,
   mdiArrowLeftBoldOutline
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -36,7 +36,7 @@ const form = useForm({
     <Head title="Add user" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiAccountGroup"
         title="Add user"
         main
       >
@@ -126,7 +126,7 @@ const form = useForm({
           <FormCheckRadioGroup
             v-model="form.roles"
             name="roles"
-            is-column
+            is-row
             :options="props.roles"
           />
         </FormField>

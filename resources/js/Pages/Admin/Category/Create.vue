@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiPostageStamp,
   mdiArrowLeftBoldOutline,
   mdiShapePlusOutline
 } from "@mdi/js"
@@ -29,7 +29,7 @@ const form = useForm({
   description: '',
   seo_title: '',
   seo_description: '',
-  is_visible: [],
+  // is_visible: [],
 })
 console.log(form.is_visible);
 </script>
@@ -39,7 +39,7 @@ console.log(form.is_visible);
     <Head title="Ajouter une catégorie" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiShapePlusOutline"
+        :icon="mdiPostageStamp"
         title="Ajouter une catégorie"
         main
       >
@@ -153,7 +153,7 @@ console.log(form.is_visible);
 
         <BaseDivider />
 
-        <FormField
+        <!-- <FormField
           label="Visibilité"
           wrap-body
         >
@@ -164,7 +164,7 @@ console.log(form.is_visible);
             is-column
             :options="props.visibility"
           />
-        </FormField>
+        </FormField> -->
 
         <template #footer>
           <BaseButtons>

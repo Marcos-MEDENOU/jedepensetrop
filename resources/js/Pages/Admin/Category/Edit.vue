@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
-  mdiAccountKey,
+  mdiPostageStamp,
   mdiArrowLeftBoldOutline
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
@@ -42,7 +42,7 @@ const form = useForm({
   slug: props.categorie.slug,
   seo_title: props.categorie.seo_title,
   seo_description: props.categorie.seo_description,
-  visibility:props.visibility,
+  // visibility:props.visibility,
 })
 </script>
 
@@ -51,7 +51,7 @@ const form = useForm({
     <Head title="Modifier l'utilisateur" />
     <SectionMain>
       <SectionTitleLineWithButton
-        :icon="mdiAccountKey"
+        :icon="mdiPostageStamp"
         title="Mise a jour categorie"
         main
       >
@@ -148,9 +148,9 @@ const form = useForm({
         </FormField>
 
 
-        <BaseDivider />
+        <!-- <BaseDivider /> -->
 
-        <FormField
+        <!-- <FormField
           label="Visibilité"
           wrap-body
         >
@@ -161,7 +161,7 @@ const form = useForm({
             is-column
             :options="props.all_visibility"
           />
-        </FormField>
+        </FormField> -->
 
         <template #footer>
           <BaseButtons>
