@@ -30,25 +30,37 @@ const props = defineProps({
             </span>
         </div>
 
-        <div class="container mx-auto my-8">
-    <div class="flex items-center justify-between pb-4 border-b">
-        <div class="text-gray-700">
-            <!-- <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p> -->
-            <p class="text-lg font-semibold">Catégorie : {{ props.post['category'].name }}</p>
-        </div>
-        <div class="text-gray-700">
-            <p class="text-lg font-semibold">Publié le {{ props.post['created_at'] }}</p>
-            <p class="text-lg font-semibold">Dernière mise à jour le {{ props.post['updated_at'] }}</p>
-        </div>
-    </div>
+        <div class="container mx-auto my-8 w-[800px]">
+            <div class="flex items-center justify-between pb-4 border-b">
+                <div class="text-gray-700">
+                    <!-- <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p> -->
+                    <p class="text-lg font-semibold">Catégorie : {{ props.post['category'].name }}</p>
+                </div>
+                <div class="text-gray-700">
+                    <p class="text-lg font-semibold">Publié le {{ props.post['created_at'] }}</p>
+                    <p class="text-lg font-semibold">Dernière mise à jour le {{ props.post['updated_at'] }}</p>
+                </div>
+            </div>
 
-    <div class="mt-6 mb-12">
-        <h1 class="mb-4 text-4xl font-bold">{{ props.post.title }}</h1>
-        <div class="prose">
-            <div v-html="props.post['content']"></div>
+            <div class="mt-6 mb-12">
+                <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ props.post.title }}</h1>
+                <div class="prose">
+                    <div v-html="props.post['content']"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between border-t border-gray-300 pt-8">
+                <div class="text-gray-700 cursor-pointer  ">
+                    <span class=" p-5 rounded-lg shadow-md bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white"> Article précédent</span>
+                    <span class="block text-lg font-bold mt-8">Titre de l'article précédent</span>
+                </div>
+                <div class="text-gray-700 cursor-pointer  ">
+                    <span class=" p-5 mb-5 rounded-md shadow-lg bg-green-500 font-bold text-lg hover:scale-50 hover:bg-green-600 text-white"> Article suivant</span>
+                    <span class="block text-lg font-bold mt-8">Titre de l'article suivant</span>
+                </div>
+            </div>
+
         </div>
-    </div>
-</div>
 
 
 
