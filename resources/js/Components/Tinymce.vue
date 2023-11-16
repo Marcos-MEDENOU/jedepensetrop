@@ -41,12 +41,21 @@ const emit = defineEmits(['update:modelValue']);
 
 const init = reactive({
   language: 'fr_FR',
-  height: 600,
+  document_base_url: 'http://127.0.0.1:8000/public/',
+  height: 800,
   width: '100% !important',
   resize: 'both',
   menubar: 'file edit insert view format table tools help',
   images_upload_url: '/editorUpload',
   automatic_uploads: true,
+  content_style:'body{font-family: DMSans}' +
+                                  'h1{font-weight: bold; margin-block:2rem;font-size :36pt;font-family: DMSans;}'+ 
+                                  'h2{font-weight: bold; margin-block:1rem;font-size :24pt; }'+
+                                  'h3{ text-decoration: underline ; font-size:18pt; }'+ 
+                                  'p,ul,table {font-size:14pt; font-family: DMSans;  padding-bloc:14pt;  }' +
+                                  'table.full { display: block; background-color:white; } ' +
+                                  'h3{text-decoration: underline}',
+
   // skin: "oxide-dark",
   // content_css: "dark",
   plugins: props.plugins,

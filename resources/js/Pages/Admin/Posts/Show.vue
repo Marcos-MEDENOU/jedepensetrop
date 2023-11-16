@@ -24,25 +24,49 @@ const props = defineProps({
     default: () => ({}),
   }
 })
+
+
+function setimgSrc(htmlContent) {
+  //créer une div temporaire sans l'ajouter dans le dom
+  let tempElement = document.createElement("div");
+  //ajoute le code htmml a l'intérieur de la div
+  tempElement.innerHTML = htmlContent;
+  //Expression réguliere qui détecte les attributs src a modifier
+  let regex = /^http:\/\/127.0.0.1:8000\/admin/;
+  //Vérification et execution d'un bloc de code pour chacune des attributs src des images
+  tempElement.querySelectorAll("img").forEach(function (imgTag) {
+    //Cas ou une image verifiant la regex a été détectée
+    if (regex.test(imgTag.src)) {
+      //Coupure de l'attribut src a partir de /
+      let x = imgTag.src.split("/");
+      //supression de 2em element du tableau obtenu
+      x.splice(1, 1);
+      //supression du 1er element du nouveau tableau apres la ligne de split précédente
+      x.splice(0, 1);
+      //Supresion det remplacement du 1er element du nouveau tableau par l'adresse localhost du serveur
+      // x.splice(0, 1, "http://interstis.com/backend/public");
+      x.splice(0, 2, "http://127.0.0.1:8000");
+      //Association des elements tableau avec pour indice '/'
+      let y = x.join("/");
+      //Remplacement du src du code html actuelle par le nouveau
+      imgTag.src = y;
+    }
+  });
+  // Obtenez le contenu HTML modifié
+  let modifiedHtmlContent = tempElement;
+  return modifiedHtmlContent.innerHTML;
+}
+
 </script>
 
 <template>
   <LayoutAuthenticated>
+
     <Head title="Donnée peronnelle de l'utilisateur" />
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiTrashCan"
-        title="Prévisualiser le contenu"
-        main
-      >
-        <BaseButton
-          :route-name="route('author.index')"
-          :icon="mdiArrowLeftBoldOutline"
-          label="Back"
-          color="white"
-          rounded-full
-          small
-        />
+      <SectionTitleLineWithButton :icon="mdiTrashCan" title="Prévisualiser le contenu" main>
+        <BaseButton :route-name="route('author.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
+          rounded-full small />
       </SectionTitleLineWithButton>
       <CardBox class="mb-6">
         <!-- <table>
@@ -80,9 +104,47 @@ const props = defineProps({
           
           </tbody>
         </table> -->
-        <div v-html="posts.content"></div>
-  
+
+        <div id="editor" v-html="setimgSrc(posts.content)"></div>
+
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>
 </template>
+
+<style>
+#editor h1 {
+  font-weight: bold;
+  margin-block: 2rem;
+  font-size: 36pt;
+  /* font-family: DMSans; */
+}
+
+#editor h2 {
+  font-weight: bold;
+  margin-block: 1rem;
+  font-size: 24pt;
+}
+
+#editor h3 {
+  text-decoration: underline;
+  font-size: 18pt;
+}
+
+#editor p,
+#editor ul,
+#editor table {
+  font-size: 14pt;
+  /* font-family: DMSans; */
+  padding-block: 5pt;
+}
+
+#editor table.full {
+  display: block;
+  background-color: white;
+}
+
+#editor h3 {
+  text-decoration: underline
+}
+</style>
