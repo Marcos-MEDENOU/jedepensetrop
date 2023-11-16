@@ -17,7 +17,7 @@ const props = defineProps({
 
         <Head title="Accueil" />
 
-        <div class="relative h-[700px] flex items-center justify-center transition-all ">
+        <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
                 <img :src="'http://127.0.0.1:8000/storage/uploads/' + props.post.image" :alt="props.post.title"
