@@ -48,7 +48,7 @@ function handleChange() {
 
 <template>
   <label :class="type" class="mb-3 mr-6 last:mr-0 ">
-    <input v-model="computedValue" :type="inputType" :name="name" :value="label" 
+    <input v-model="computedValue" :type="inputType" :name="name" :value="label" :checked="isChecked"
     >
     <span class="check" />
     <span class="pl-2">{{ label }}</span>
