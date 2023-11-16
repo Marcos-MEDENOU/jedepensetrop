@@ -88,7 +88,7 @@ onMounted(() => {
 
     <ul class="sticky top-0 z-50 justify-center flex items-center gap-5 bg-[#ffcd00] h-20 w-full">
         <li>
-            <a href="" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
+            <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">{{ categorie.name }}</a>
