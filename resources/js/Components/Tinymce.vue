@@ -13,7 +13,7 @@ import 'tinymce/themes/silver';
 // Icon
 import 'tinymce/icons/default';
 import 'tinymce/plugins/emoticons';
-// import 'tinymce/plugins/lists';
+// import 'tinymce/plugins/listss';
 import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/quickbars';
