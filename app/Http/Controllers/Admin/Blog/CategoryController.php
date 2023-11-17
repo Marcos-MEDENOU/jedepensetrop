@@ -75,8 +75,7 @@ class CategoryController extends Controller
     public function getCategories()
     {
         try {
-             $categories = Category::where('is_visible', 1)
-        ->whereHas('posts')
+             $categories = Category::whereHas('posts')
         ->get();
 
             return response()->json(['categories' => $categories]);

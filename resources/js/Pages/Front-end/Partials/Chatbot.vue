@@ -38,7 +38,7 @@ const toggleChat = () => {
             <div class=" absolute bottom-5 left-5 right-5 flex gap-3 items-center">
                 <textarea placeholder="Ecrire un message..." required id="message" rows="4"
                     class=" h-20 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
-                <span id="send-btn" class="">
+                <span id="send-btn" class=" cursor-pointer">
 
                     <Icon name="send" />
                 </span>
@@ -47,7 +47,7 @@ const toggleChat = () => {
 
         <div class="flex justify-end">
             <div @click="toggleChat"
-                class="bg-indigo-600 hover:bg-indigo-700 w-12 h-12 flex justify-center items-center rounded-lg mt-10 text-right">
+                class="bg-indigo-600 cursor-pointer hover:bg-indigo-700 w-12 h-12 flex justify-center items-center rounded-lg mt-10 text-right">
                 <Icon name="chat" />
             </div>
         </div>
