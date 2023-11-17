@@ -78,7 +78,11 @@ class PostController extends Controller
     public function showArticle($slug)
     {
         $selectedPost = Post::where('slug', $slug)->firstOrFail();
+        // Calculer la durée de lecture estimée
+        $wordCount = str_word_count(strip_tags($selectedPost->content)); // Compter les mots dans le contenu
+        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
+        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
         return Inertia::render('Post', [
             'post' => [
                 'id' => $selectedPost->id,
@@ -88,6 +92,8 @@ class PostController extends Controller
                 'author' => User::find($selectedPost->blog_author_id),
                 'category' => Category::find($selectedPost->blog_category_id),
                 'image' => $selectedPost->image,
+                'duree' => $estimatedReadingTime,
+                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
             ],
@@ -216,6 +222,13 @@ class PostController extends Controller
             ->get();
 
         $response = $recentPosts->map(function ($post) {
+
+            // Calculer la durée de lecture estimée
+            $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
+            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
             return [
                 'id' => $post->id,
                 'title' => $post->title,
@@ -224,6 +237,8 @@ class PostController extends Controller
                 'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
                 'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
                 'image' => $post->image,
+                'duree' => $estimatedReadingTime,
+                'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
                 'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
                 'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
             ];
@@ -248,6 +263,11 @@ class PostController extends Controller
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
+                        // Calculer la durée de lecture estimée
+                        $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
+                        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+                        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
                         return [
                             'id' => $post->id,
                             'title' => $post->title,
@@ -256,6 +276,8 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
+                            'duree' => $estimatedReadingTime,
+                            'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];
@@ -284,9 +306,16 @@ class PostController extends Controller
             if ($category) {
                 $posts = Post::where('blog_category_id', $category->id)->get();
 
+
                 $formattedCategory = [
                     'category' => $category->name,
                     'posts' => $posts->map(function ($post) {
+                        // Calculer la durée de lecture estimée
+                        $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
+                        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+                        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
                         return [
                             'id' => $post->id,
                             'title' => $post->title,
@@ -295,6 +324,8 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
+                            'duree' => $estimatedReadingTime,
+                            'published' => Carbon::parse($post->published)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];
