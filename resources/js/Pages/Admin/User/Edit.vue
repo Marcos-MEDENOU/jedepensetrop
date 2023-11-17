@@ -38,11 +38,22 @@ const form = useForm({
   password_confirmation: '',
   roles: props.userHasRoles
 })
+
+function is_checked($db_value, $html_value){
+  if($db_value == $html_value){
+    return "checked";
+  }
+  else{
+    return "";
+  }
+}
 </script>
 
 <template>
+ 
   <LayoutAuthenticated>
     <Head title="Update user" />
+    {{ props.userHasRoles[0] }}
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountGroup"
@@ -135,8 +146,10 @@ const form = useForm({
           <FormCheckRadioGroup
             v-model="form.roles"
             name="roles"
+            type="radio"
             is-row
             :options="props.roles"
+    
           />
         </FormField>
 

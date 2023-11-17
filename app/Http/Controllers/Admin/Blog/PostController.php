@@ -32,9 +32,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = (new Post)->newQuery()
-            ->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')
-            ->join('users', 'blog_post.blog_author_id', '=', 'users.id')
-            ->select('blog_post.*', 'blog_category.name as category_name', 'users.name as author_name');
+        ->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')
+        ->join('users', 'blog_post.blog_author_id', '=', 'users.id')
+        ->select('blog_post.*', 'blog_category.name as category_name', 'users.name as author_name');
 
         if (request()->has('search')) {
             $posts->where('title', 'Like', '%' . request()->input('search') . '%');
@@ -70,7 +70,7 @@ class PostController extends Controller
     public function create()
     {
         $visibility = ['non', 'oui'];
-        $categorie = Category::all()->where('is_visible', '=', true)
+        $categorie = Category::all()
             ->pluck('name', 'id');
 
         return Inertia::render('Admin/Posts/Create', [
@@ -108,11 +108,12 @@ class PostController extends Controller
     }
 
 
-    public function edit(Post $post)
+    public function edit(Request $request,Post $post)
     {
+
+
         $visibility = ['non', 'oui'];
-        $categorie = Category::all()->where('is_visible', '=', true)
-            ->pluck('name', 'id');
+        $categorie = Category::all()->pluck('name', 'id');
         return Inertia::render('Admin/Posts/Edit', [
             'posts' => $post,
             'category' => $categorie,
@@ -185,11 +186,30 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-        // dd($request);
+
+        // if(is_int((int)($request->is_visible))){
+        //     $request->is_visible = $request->is_visible;
+        // }elseif($request->is_visible = "oui"){
+        //     dd($request->is_visible);
+        //     $request->is_visible=true;
+        // }else{
+        //     $request->is_visible=false;
+        // }
+
+
+
+        // if(is_int((int)($request->category))){
+        //     $request->category = $request->category;
+
+        // }else{
+
+        //     $request->category= Category::where('name', $request->category)->value('id');
+        // }
+
 
         $post->update([
             'blog_category_id' => Category::where('name', $request->category)->value('id'),
-            'blog_author_id' => Auth::user()->id,
+            'blog_author_id'=>Auth::user()->id,
             'title' => $request->title,
             'slug' => $request->slug,
             'content' => $request->content,
@@ -197,7 +217,7 @@ class PostController extends Controller
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
             'image' => $request->image,
-            'post_visible' => ($request->is_visible == "oui") ? true : false,
+            'post_visible' => $request->is_visible,
         ]);
 
         return redirect()->route('posts.index')

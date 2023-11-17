@@ -42,9 +42,9 @@ watch(modelValueProp, value => {
   }
 })
 
-// const handleFileChange = event =>{
+const handleFileChange = event =>{
   
-// }
+}
 
 const upload = event => {
   const value = event.target.files || event.dataTransfer.files
