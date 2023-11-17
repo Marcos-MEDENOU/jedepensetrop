@@ -8,11 +8,8 @@ use App\Models\Admin\Blog\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-
 
 class PostController extends Controller
 {
@@ -32,9 +29,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = (new Post)->newQuery()
-        ->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')
-        ->join('users', 'blog_post.blog_author_id', '=', 'users.id')
-        ->select('blog_post.*', 'blog_category.name as category_name', 'users.name as author_name');
+            ->join('blog_category', 'blog_post.blog_category_id', '=', 'blog_category.id')
+            ->join('users', 'blog_post.blog_author_id', '=', 'users.id')
+            ->select('blog_post.*', 'blog_category.name as category_name', 'users.name as author_name');
 
         if (request()->has('search')) {
             $posts->where('title', 'Like', '%' . request()->input('search') . '%');
@@ -65,8 +62,6 @@ class PostController extends Controller
         ]);
     }
 
-
-
     public function create()
     {
         $visibility = ['non', 'oui'];
@@ -84,12 +79,6 @@ class PostController extends Controller
     {
         $selectedPost = Post::where('slug', $slug)->firstOrFail();
 
-        // Calculer la durée de lecture estimée
-        $wordCount = str_word_count(strip_tags($selectedPost->content)); // Compter les mots dans le contenu
-        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
-
-        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
-
         return Inertia::render('Post', [
             'post' => [
                 'id' => $selectedPost->id,
@@ -99,18 +88,14 @@ class PostController extends Controller
                 'author' => User::find($selectedPost->blog_author_id),
                 'category' => Category::find($selectedPost->blog_category_id),
                 'image' => $selectedPost->image,
-                'duree' => $estimatedReadingTime,
-                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'), // Format français
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
             ],
         ]);
     }
 
-
-    public function edit(Request $request,Post $post)
+    public function edit(Request $request, Post $post)
     {
-
 
         $visibility = ['non', 'oui'];
         $categorie = Category::all()->pluck('name', 'id');
@@ -164,7 +149,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-
+        // dd($request);
 
         Post::create([
             'blog_category_id' => Category::where('name', $request->category)->value('id'),
@@ -186,7 +171,6 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-
         // if(is_int((int)($request->is_visible))){
         //     $request->is_visible = $request->is_visible;
         // }elseif($request->is_visible = "oui"){
@@ -195,8 +179,6 @@ class PostController extends Controller
         // }else{
         //     $request->is_visible=false;
         // }
-
-
 
         // if(is_int((int)($request->category))){
         //     $request->category = $request->category;
@@ -207,10 +189,10 @@ class PostController extends Controller
         // }
 
 
-        
         $post->update([
-            'blog_category_id' => Category::where('name', $request->category)->value('id'),
-            'blog_author_id'=>Auth::user()->id,
+            // 'blog_category_id' =>  $request->category,
+            'blog_category_id' => $request->category,
+            'blog_author_id' => Auth::user()->id,
             'title' => $request->title,
             'slug' => $request->slug,
             'content' => $request->content,
@@ -234,24 +216,16 @@ class PostController extends Controller
             ->get();
 
         $response = $recentPosts->map(function ($post) {
-            // Calculer la durée de lecture estimée
-            $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
-            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
-
-            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
-
             return [
                 'id' => $post->id,
                 'title' => $post->title,
                 'slug' => $post->slug,
                 'content' => $post->content,
-                'author' => User::find($post->blog_author_id),
-                'category' => Category::find($post->blog_category_id),
+                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
+                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
                 'image' => $post->image,
-                'duree' => $estimatedReadingTime,
-                'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
-                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
-                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
             ];
         });
 
@@ -274,12 +248,6 @@ class PostController extends Controller
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
-                        // Calculer la durée de lecture estimée
-                        $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
-                        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
-
-                        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
-
                         return [
                             'id' => $post->id,
                             'title' => $post->title,
@@ -288,8 +256,6 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
-                            'duree' => $estimatedReadingTime,
-                            'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];
@@ -309,8 +275,6 @@ class PostController extends Controller
         }
     }
 
-
-
     public function getCategoryWithPosts($slug)
     {
         try {
@@ -323,12 +287,6 @@ class PostController extends Controller
                 $formattedCategory = [
                     'category' => $category->name,
                     'posts' => $posts->map(function ($post) {
-
-                        // Calculer la durée de lecture estimée
-                        $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
-                        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
-
-                        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
                         return [
                             'id' => $post->id,
                             'title' => $post->title,
@@ -337,8 +295,6 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
-                            'duree' => $estimatedReadingTime,
-                            'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];
@@ -346,7 +302,7 @@ class PostController extends Controller
                 ];
 
                 return Inertia::render('CategoryPosts', [
-                    'formattedCategory' => $formattedCategory
+                    'formattedCategory' => $formattedCategory,
                 ]);
             } else {
                 return Inertia::render('CategoryPosts', ['error' => 'Catégorie non trouvée']);
@@ -357,8 +313,4 @@ class PostController extends Controller
         }
     }
 
-
-
-
 }
-
