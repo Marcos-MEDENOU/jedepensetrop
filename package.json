@@ -22,7 +22,6 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-
         "@inertiajs/vue3": "^1.0.7",
         "@tinymce/tinymce-vue": "^5.1.0",
         "@vuepic/vue-datepicker": "^5.2.0",
@@ -31,6 +30,7 @@
         "filepond-plugin-image-preview": "^4.6.11",
         "numeral": "^2.0.6",
         "primevue": "^3.40.1",
+        "sweetalert2": "^11.10.0",
         "tinymce": "^6.4.2",
         "vue-filepond": "^7.0.3",
         "vue-router": "^4.2.4"
