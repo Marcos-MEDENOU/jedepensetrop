@@ -199,6 +199,7 @@ class PostController extends Controller
         // }
 
 
+        
         $post->update([
             // 'blog_category_id' =>  $request->category,
             'blog_category_id' =>$request->category,
