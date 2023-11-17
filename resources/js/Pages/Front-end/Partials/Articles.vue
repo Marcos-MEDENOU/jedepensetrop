@@ -1,7 +1,8 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import AsideRight from '../Partials/AsideRight.vue';
 
 const data = reactive({
@@ -44,6 +45,55 @@ const showArticle = (slug) => {
     router.get(route("post.show", slug))
 };
 
+const email = ref('');
+const question = ref('');
+
+const subscribe = () => {
+
+    axios.post('/newsletter/store', {
+        email: email.value,
+        question: question.value,
+    })
+        .then(response => {
+           
+            if (response.data.successMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.data.successMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (response.data.errorMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: response.data.errorMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            email.value = '';
+            question.value = '';
+
+        })
+        .catch(error => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: error,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            email.value = '';
+            question.value = '';
+        });
+}
+
 </script>
 
 
@@ -60,12 +110,12 @@ const showArticle = (slug) => {
                     <div v-for="(article, index) in data.recentPosts" :key="index"
                         class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                         <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
-                            <div class="relative flex justify-center overflow-hidden rounded-lg ">
+                            <div class="relative flex justify-center overflow-hidden rounded-lg">
                                 <div
-                                    class="max-w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
-
-                                    <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="">
-
+                                    class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                    <!-- Apply fixed width and height to the image -->
+                                    <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
+                                        class="w-full h-full object-cover">
                                 </div>
                                 <span
                                     class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
@@ -73,24 +123,19 @@ const showArticle = (slug) => {
                                 </span>
                             </div>
 
-
-                            <div class="flex flex-col justify-center gap-2 mx-auto mt-8 ">
-
+                            <div class="flex flex-col justify-center gap-2 mx-auto mt-1 ">
                                 <h1 class="h-20 text-xl font-bold">
                                     {{ article.title }}
                                 </h1>
-                                <div class="flex justify-between">
+                                <div class="text-red-900 mt-5">
                                     <p class="italic">
-                                        Créer le : {{ article.created_at }}
+                                        Publié le : {{ article.published_at }}
                                     </p>
-                                    <!-- <p class="italic ">
-                                par : {{ article.author.name }}
-                            </p> -->
+                                    <p class="italic">
+                                        Lire en : {{ article.duree }} minutes
+                                    </p>
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -101,38 +146,40 @@ const showArticle = (slug) => {
                 <form action="#" method="POST" class=" flex items-center gap-5 ">
                     <!-- Champ de la question -->
                     <div class="w-full">
-                        <input type="text" id="question" name="question" placeholder="Posez votre question ici!"
+                        <input v-model="question" type="text" id="question" name="question"
+                            placeholder="Posez votre question ici!"
                             class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
                     </div>
 
                     <!-- Champ de l'email -->
                     <div class="w-full">
 
-                        <input type="email" id="email" name="email" placeholder="Entrez votre adresse email"
-                            class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
+                        <input v-model="email" type="email" id="email" name="email" placeholder="Entrez votre adresse email"
+                            class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md ">
                     </div>
 
                     <!-- Bouton Envoyer -->
-                    <button type="submit"
-                        class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition duration-300">Envoyer</button>
+                    <span @click="subscribe()"
+                        class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition duration-300 cursor-pointer">Envoyer</span>
                 </form>
             </div>
 
 
-            <div v-for="categories, index in dataByCategory" :key="index" >
+            <div v-for="categories, index in dataByCategory" :key="index">
                 <div v-for="category, index in categories" :key="index" class="mb-10 mt-10">
 
                     <h1 class="mb-5 text-3xl font-bold">{{ category.category }}</h1>
-                    <div class="grid grid-cols-3 gap-6  cursor-pointer lg:mx-auto grid-cols-2 ">
+                    <div class="grid grid-cols-3 gap-6  cursor-pointer  ">
 
                         <div v-for="(article, index) in category.posts" :key="index"
                             class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
-                                        class="max-w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                        class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="">
+                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
+                                            class="w-full h-full object-cover">
 
                                     </div>
                                     <span
@@ -142,19 +189,21 @@ const showArticle = (slug) => {
                                 </div>
 
 
-                                <div class="flex flex-col justify-center gap-2 mx-auto mt-8 ">
+                                <div class="flex flex-col justify-center gap-2 mx-auto mt-1 ">
 
                                     <h1 class="h-20 text-xl font-bold">
                                         {{ article.title }}
                                     </h1>
-                                    <div class="flex justify-between">
+
+                                    <div class="text-red-900 mt-5">
                                         <p class="italic">
-                                            Créer le : {{ article.created_at }}
+                                            Publié le : {{ article.published_at }}
                                         </p>
-                                        <!-- <p class="italic ">
-                                par : {{ article.author.name }}
-                            </p> -->
+                                        <p class="italic">
+                                            Lire en : {{ article.duree }} minutes
+                                        </p>
                                     </div>
+
 
                                 </div>
 

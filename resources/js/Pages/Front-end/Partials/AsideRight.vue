@@ -1,6 +1,8 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted, reactive } from 'vue';
+import Swal from 'sweetalert2';
+import Chatbot from '../Partials/Chatbot.vue';
 import { router } from '@inertiajs/vue3'
 
 const data = reactive({
@@ -29,55 +31,53 @@ const newArticles = [
     },
 ];
 
+const email = ref('');
+const question = ref('');
 
-const partners = ref([
-    { id: 1, logo: 'https://placekitten.com/32/32' },
-    { id: 2, logo: 'https://placekitten.com/32/31' },
-    { id: 3, logo: 'https://placekitten.com/32/30' },
-    { id: 4, logo: 'https://placekitten.com/32/29' },
-    { id: 5, logo: 'https://placekitten.com/32/28' },
-    { id: 6, logo: 'https://placekitten.com/32/27' },
-    { id: 7, logo: 'https://placekitten.com/32/26' },
-    { id: 8, logo: 'https://placekitten.com/32/25' },
-    { id: 9, logo: 'https://placekitten.com/32/24' },
-    { id: 10, logo: 'https://placekitten.com/32/23' },
-]);
+const subscribe = () => {
 
-const sliderRef = ref(null);
-let intervalId;
+    axios.post('/newsletter/store', {
+        email: email.value,
+        question: question.value,
+    })
+        .then(response => {
 
-onMounted(() => {
-    // Initialiser le carrousel
-    startCarousel();
-});
+            if (response.data.successMessage) {
 
-const startCarousel = () => {
-    // Définir l'intervalle pour le défilement automatique
-    intervalId = setInterval(() => {
-        slide();
-    }, 2000); // Ajustez la durée selon vos besoins
-};
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.data.successMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (response.data.errorMessage) {
 
-const slide = () => {
-    // Calculer la largeur d'un élément de partenaire pour le défilement
-    const partnerWidth = sliderRef.value.clientWidth / partners.value.length;
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: response.data.errorMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
 
-    // Défiler d'une largeur d'élément
-    sliderRef.value.style.transform = `translateX(-${partnerWidth}px)`;
-
-    // Déplacer le premier élément à la fin pour créer l'effet infini
-    partners.value.push(partners.value.shift());
-};
-
-const stopCarousel = () => {
-    // Arrêter le défilement automatique lorsque le curseur est sur le carrousel
-    clearInterval(intervalId);
-};
-
-const resumeCarousel = () => {
-    // Reprendre le défilement automatique lorsque le curseur quitte le carrousel
-    startCarousel();
-};
+            email.value = '';
+            question.value = '';
+        })
+        .catch(error => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: error,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            email.value = '';
+            question.value = '';
+        });
+}
 
 </script>
 
@@ -113,70 +113,85 @@ const resumeCarousel = () => {
         <section class='partners'>
             <h1 class="text-2xl font-bold mt-10 mb-5">Nos partenaires</h1>
             <div class="slider">
-            <div class="slide-track">
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250" alt="" />
-                </div>
-                <div class="slide">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250" alt="" />
+                <div class="slide-track">
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/1.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/2.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/3.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/4.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/5.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/6.png" height="100" width="250"
+                            alt="" />
+                    </div>
+                    <div class="slide">
+                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/7.png" height="100" width="250"
+                            alt="" />
+                    </div>
                 </div>
             </div>
-        </div>
         </section>
 
         <!-- Formulaire d'abonnement à la newsletter -->
         <div class="mt-10">
             <h3 class="text-2xl font-bold mb-2">Newsletter</h3>
             <p class="text-gray-700 mb-2">Abonnez-vous à notre newsletter pour les dernières mises à jour.</p>
-            <form action="#" method="post">
-                <input
-                    class="block p-3  w-full  text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-2"
+            <form>
+                <input v-model="email"
+                    class="block p-3 mb-5  w-full  text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     type="email" name="email" placeholder="Votre adresse e-mail" id="email" required="">
 
-                <button type="submit"
-                    class="bg-gray-800 hover:bg-gray-900 rounded-lg text-white p-2 w-full">S'abonner</button>
+                <span @click="subscribe()"
+                    class="bg-gray-800 hover:bg-gray-900 rounded-lg text-white p-2 w-full cursor-pointer">S'abonner</span>
                 <p class="mt-2">Nous nous soucions de la protection de vos données. Lisez notre <a
                         class="text-blue-900 underline" href="/">politique de
                         confidentialité</a>.</p>
             </form>
         </div>
     </section>
+    <Chatbot  class=" fixed bottom-20 right-20"/>
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
@@ -185,66 +200,67 @@ const resumeCarousel = () => {
 
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-250px * 7));
-  }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * 7));
+    }
 }
 
 .slider {
 
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
-  height: 100px;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  width: 440px;
-border-radius: 10px;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+    height: 100px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 400px;
+    border-radius: 10px;
 }
 
 .slider::before,
 .slider::after {
-  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
-  content: "";
-  height: 100px;
-  position: absolute;
-  width: 200px;
-  z-index: 2;
+    background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+    content: "";
+    height: 100px;
+    position: absolute;
+    width: 100px;
+    z-index: 2;
 }
 
 .slider::after {
-  right: 0;
-  top: 0;
-  transform: rotateZ(180deg);
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
 }
 
 .slider::before {
-  left: 0;
-  top: 0;
+    left: 0;
+    top: 0;
 }
 
 .slider .slide-track {
-  animation: scroll 40s linear infinite;
-  display: flex;
-  width: calc(250px * 14);
+    animation: scroll 40s linear infinite;
+    display: flex;
+    width: calc(250px * 15);
 }
 
 .slider .slide {
-  height: 100px;
-  width: 250px;
+    height: 100px;
+    width: 250px;
 }
 
 
 /* Ajouter des media queries pour ajuster la taille sur différents écrans */
 @media screen and (max-width: 768px) {
-  .slider {
-    width: 340px;
-  }
+    .slider {
+        width: 340px;
+    }
 
-  .slider .slide-track {
-    width: calc(25% * 10);
-  }
+    .slider .slide-track {
+        width: calc(25% * 10);
+    }
 }
 </style>

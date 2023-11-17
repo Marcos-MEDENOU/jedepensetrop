@@ -2,6 +2,7 @@
 import { Head } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 
 
@@ -31,6 +32,57 @@ const categoryPosts = (slug) => {
 
     router.get(route("category_posts", slug))
 };
+
+
+
+const email = ref('');
+const question = ref('');
+
+const subscribe = () => {
+
+    axios.post('/newsletter/store', {
+        email: email.value,
+        question: question.value,
+    })
+        .then(response => {
+
+            if (response.data.successMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.data.successMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (response.data.errorMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: response.data.errorMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            email.value = '';
+            question.value = '';
+
+        })
+        .catch(error => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: error,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            email.value = '';
+            question.value = '';
+        });
+}
 
 </script>
 
@@ -67,11 +119,11 @@ const categoryPosts = (slug) => {
 
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-600">Adresse e-mail:</label>
-                            <input type="email" id="email" name="email" class="mt-1 p-2 w-60  rounded-md shadow-lg border-0">
+                            <input v-model="email" type="email" id="email" placeholder="Votre email" name="email" class="mt-1 p-2 w-60  rounded-md shadow-lg border-0">
                         </div>
 
-                        <button type="submit"
-                            class="bg-gray-800 text-white p-2 rounded-md hover:bg-gray-900">S'abonner</button>
+                        <span @click="subscribe()"
+                            class="bg-gray-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer">S'abonner</span>
                     </form>
                 </div>
 

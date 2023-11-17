@@ -34,14 +34,14 @@ const props = defineProps({
 
 
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
-                <div class="flex items-center justify-between pb-4 border-b">
+                <div class="flex items-center justify-between pb-4 border-b italic">
                     <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Auteur : {{ props.post['author'].name }}</p>
-                        <p class="text-lg font-semibold">Catégorie : {{ props.post['category'].name }}</p>
+                        <p class="text-lg font-semibold">Lire en : {{ props.post['duree'] }} minutes</p>
+                        <p class="text-lg font-semibold">Rédigé par : {{ props.post['author'].name }}</p>
                     </div>
                     <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Publié le {{ props.post['created_at'] }}</p>
-                        <p class="text-lg font-semibold">Dernière mise à jour le {{ props.post['updated_at'] }}</p>
+                        <p class="text-lg font-semibold">Publié le : {{ props.post['published_at'] }}</p>
+                        <p class="text-lg font-semibold">Dernière mise à jour : {{ props.post['updated_at'] }}</p>
                     </div>
                 </div>
 

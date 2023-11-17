@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Blog\PostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ContentAiController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -50,5 +51,6 @@ Route::get('/recent-posts', [PostController::class, 'getRecentPosts'])->name('re
 Route::get('/post/{slug}', [PostController::class, 'showArticle'])->name('post.show');
 Route::get('/showThreeByCategory', [PostController::class, 'showThreeByCategory'])->name('showThreeByCategory');
 Route::get('/category_posts/{slug}', [PostController::class, 'getCategoryWithPosts'])->name('category_posts');
+Route::post('/newsletter/store', [NewsletterController::class, 'store'])->name('newsletter.store');
 
 require __DIR__.'/auth.php';
