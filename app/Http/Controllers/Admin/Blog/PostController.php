@@ -216,10 +216,14 @@ class PostController extends Controller
     // Fonction permettant de récupérer les 4 derniers posts recentes du blog
     public function getRecentPosts()
     {
+        $today = now();
+
         $recentPosts = Post::where('post_visible', 1)
+            ->where('published_at', '<', $today)
             ->latest()
             ->take(6)
             ->get();
+
 
         $response = $recentPosts->map(function ($post) {
 
@@ -257,9 +261,12 @@ class PostController extends Controller
 
             // Récupérez trois articles pour chaque catégorie avec le formatage
             $postsByCategory = [];
+            $today = now();
+
 
             foreach ($categories as $category) {
-                $posts = Post::where('blog_category_id', $category->id)->latest()->take(3)->get();
+                $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
+                    ->where('published_at', '<', $today)->latest()->take(3)->get();
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
@@ -302,9 +309,10 @@ class PostController extends Controller
         try {
             // Récupérez la catégorie avec les articles associés
             $category = Category::where('slug', $slug)->first();
-
+            $today = now();
             if ($category) {
-                $posts = Post::where('blog_category_id', $category->id)->get();
+                $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
+                    ->where('published_at', '<', $today)->get();
 
 
                 $formattedCategory = [
