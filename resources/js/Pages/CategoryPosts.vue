@@ -39,9 +39,9 @@ console.log(props.formattedCategory);
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
-                                        class="max-w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                        class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="">
+                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="" class="w-full h-full object-cover">
 
                                     </div>
                                     <span
@@ -71,7 +71,7 @@ console.log(props.formattedCategory);
                             </div>
                         </div>
 
-                       
+
                     </div>
                 </div>
 
