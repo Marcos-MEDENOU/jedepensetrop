@@ -49,6 +49,8 @@ class PostController extends Controller
             $posts->latest();
         }
 
+    
+
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
 
         return Inertia::render('Admin/Posts/Index', [
@@ -156,7 +158,6 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-
         Post::create([
             'blog_category_id' => $request->category,
             'blog_author_id' => Auth::user()->id,
@@ -194,7 +195,6 @@ class PostController extends Controller
         //     $request->category= Category::where('name', $request->category)->value('id');
         // }
 
-
         $post->update([
             // 'blog_category_id' =>  $request->category,
             'blog_category_id' => $request->category,
@@ -219,11 +219,10 @@ class PostController extends Controller
         $today = now();
 
         $recentPosts = Post::where('post_visible', 1)
-            ->where('published_at', '<', $today)
+            ->where('published_at', '<=', $today)
             ->latest()
             ->take(6)
             ->get();
-
 
         $response = $recentPosts->map(function ($post) {
 
@@ -263,10 +262,9 @@ class PostController extends Controller
             $postsByCategory = [];
             $today = now();
 
-
             foreach ($categories as $category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
-                    ->where('published_at', '<', $today)->latest()->take(3)->get();
+                    ->where('published_at', '<=', $today)->latest()->take(3)->get();
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
@@ -312,8 +310,7 @@ class PostController extends Controller
             $today = now();
             if ($category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
-                    ->where('published_at', '<', $today)->get();
-
+                    ->where('published_at', '<=', $today)->get();
 
                 $formattedCategory = [
                     'category' => $category->name,

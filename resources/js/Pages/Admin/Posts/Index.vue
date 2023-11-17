@@ -68,9 +68,91 @@ function formatDateTimeISO(dateISO) {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const secondes = date.getSeconds().toString().padStart(2, '0');
 
-  return `${jour}-${mois}-${annee} ${heures}:${minutes}:${secondes}`;
+  return `${jour}-${mois}-${annee}`;
 }
 
+
+function differenceInDays(date) {
+
+  let today = new Date();
+
+  // Extraire les composantes de la date
+  let jour = today.getDate();
+  let mois = today.getMonth() + 1; // Les mois sont indexés à partir de 0
+  let annee = today.getFullYear();
+
+  // Créer une nouvelle date avec uniquement la date (sans l'heure, minute, seconde et milliseconde)
+  let endDate = new Date(annee, mois - 1, jour);
+  
+  // Convertir les dates en objets Date si elles ne le sont pas déjà
+  let startDate = new Date(date);
+
+  // Calculer la différence en millisecondes
+  let timeDifference = endDate.getTime() - startDate.getTime();
+
+  // Convertir la différence en jours
+  let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24))>0 ? Math.floor(timeDifference / (1000 * 60 * 60 * 24)): -Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference-1;
+}
+
+
+function showStatus(post_visible, published_at) {
+  // Obtenir la date d'aujourd'hui
+  // Obtenir la date d'aujourd'hui
+  let today = new Date();
+
+  // Extraire les composantes de la date
+  let jour = today.getDate();
+  let mois = today.getMonth() + 1; // Les mois sont indexés à partir de 0
+  let annee = today.getFullYear();
+
+  // Créer une nouvelle date avec uniquement la date (sans l'heure, minute, seconde et milliseconde)
+  var dateWithoutHours = new Date(annee, mois - 1, jour);
+
+  
+
+  // Créer un objet Date à partir de la chaîne de date
+  var providedDates = new Date(published_at);
+  
+  // Extraire les composantes de la date
+  let jourprovidedDate = providedDates.getDate();
+  let moisprovidedDate = providedDates.getMonth() + 1; // Les mois sont indexés à partir de 0
+  let anneeprovidedDate = providedDates.getFullYear();
+  
+
+  // Créer un objet Date à partir de la chaîne de date
+  var providedDate = new Date(anneeprovidedDate,moisprovidedDate - 1,jourprovidedDate  );
+
+  
+  switch (post_visible) {
+    case 0:
+      if (providedDate > dateWithoutHours) {
+        return "retiré";
+      } else if (providedDate < dateWithoutHours) {
+        return "en cours d\'édition";
+      } else {
+        return "retiré";
+      }
+      break;
+
+    case 1:
+      if (providedDate > dateWithoutHours) {
+        return "publication dans";
+      } else if (providedDate < dateWithoutHours) {
+        return "en cours d\'édition";
+      } else {
+        return "publié";
+      }
+      break;
+
+    default:
+      break;
+  }
+  // Comparer les dates
+
+
+}
 
 </script>
 
@@ -110,13 +192,13 @@ function formatDateTimeISO(dateISO) {
               <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
               </th>
-              <th>
+              <th class="items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Date de publication</span>
               </th>
               <th>
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Catégorie</span>
               </th>
-              <th>
+              <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Statut</span>
               </th>
               <th>
@@ -127,9 +209,9 @@ function formatDateTimeISO(dateISO) {
           </thead>
 
           <tbody>
-           
+
             <tr v-for="post in posts.data" :key="post.id">
-      
+
               <td data-label="Name">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                   {{ postSlicing(post.title) }}
@@ -138,22 +220,35 @@ function formatDateTimeISO(dateISO) {
 
               <td data-label="Name">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
-                  {{(post.author_name)}}
+                  {{ (post.author_name) }}
                 </span>
               </td>
 
               <td data-label="Image" class="">
-               
-                  <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 mx-auto rounded-sm">
+                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 mx-auto rounded-sm">
               </td>
+
               <td data-label="Published_at">
                 {{ formatDateTimeISO(post.published_at) }}
               </td>
+
               <td data-label="categorie">
                 {{ post.category_name }}
               </td>
-              <td data-label="categorie">
-                {{ post.category_name }}
+
+              <td data-label="categorie" class="text-center">
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'retiré'"
+                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-red-500 rounded-lg">{{
+                    showStatus(post.post_visible, post.published_at) }}</span>
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'publié'"
+                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-green-500 rounded-lg ">{{
+                    showStatus(post.post_visible, post.published_at) }}</span>
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'en cours d\'édition'"
+                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-blue-500 rounded-lg ">{{
+                    showStatus(post.post_visible, post.published_at) }}</span>
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'publication dans'"
+                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-green-500 rounded-lg ">{{
+                    showStatus(post.post_visible, post.published_at) }} {{differenceInDays(post.published_at)}} jour(s)</span>
               </td>
               <td data-label="prévisualiser">
                 <Link :href="route('posts.show', post.id)"

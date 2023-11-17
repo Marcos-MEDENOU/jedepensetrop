@@ -23,7 +23,10 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.7",
-        "@tinymce/tinymce-vue": "^5.1.0",
+        "@tinymce/tinymce-vue": "^4.0.7",
+        "@tiptap/pm": "^2.1.12",
+        "@tiptap/starter-kit": "^2.1.12",
+        "@tiptap/vue-3": "^2.1.12",
         "@vuepic/vue-datepicker": "^5.2.0",
         "filepond": "^4.30.4",
         "filepond-plugin-file-validate-type": "^1.2.8",
