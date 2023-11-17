@@ -58,7 +58,7 @@ const form = useForm({
   seo_title: '',
   seo_description: '',
   image: '',
-  is_visible: [],
+  is_visible: ['non'],
   category: [],
 })
 
@@ -108,8 +108,8 @@ const form = useForm({
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads  @change="handleFileChange"></fileUploads>
-         
+          <fileUploads @change="handleFileChange"></fileUploads>
+
         </FormField>
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">

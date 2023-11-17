@@ -155,10 +155,10 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
+
 
         Post::create([
-            'blog_category_id' => Category::where('name', $request->category)->value('id'),
+            'blog_category_id' => $request->category,
             'blog_author_id' => Auth::user()->id,
             'title' => $request->title,
             'slug' => $request->slug,
@@ -167,7 +167,7 @@ class PostController extends Controller
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
             'image' => $request->image,
-            'post_visible' => ($request->is_visible == "oui") ? true : false,
+            'post_visible' => $request->is_visible,
         ]);
 
         return redirect()->route('posts.index')

@@ -107,7 +107,7 @@ function formatDateTimeISO(dateISO) {
               <th>
                 <Sort label="Auteur" attribute="name" />
               </th>
-              <th class="flex justify-center items-center">
+              <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
               </th>
               <th>
@@ -115,6 +115,9 @@ function formatDateTimeISO(dateISO) {
               </th>
               <th>
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Catégorie</span>
+              </th>
+              <th>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Statut</span>
               </th>
               <th>
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Prévisualiser</span>
@@ -141,10 +144,13 @@ function formatDateTimeISO(dateISO) {
 
               <td data-label="Image" class="">
                
-                  <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 rounded-sm mx-auto">
+                  <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 mx-auto rounded-sm">
               </td>
               <td data-label="Published_at">
                 {{ formatDateTimeISO(post.published_at) }}
+              </td>
+              <td data-label="categorie">
+                {{ post.category_name }}
               </td>
               <td data-label="categorie">
                 {{ post.category_name }}
