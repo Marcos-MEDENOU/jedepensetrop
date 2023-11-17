@@ -88,7 +88,6 @@ CREATE TABLE `blog_post` (
   `seo_title` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `seo_description` varchar(160) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `post_visible` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

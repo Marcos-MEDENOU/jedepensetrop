@@ -53,7 +53,7 @@ function is_checked($db_value, $html_value){
  
   <LayoutAuthenticated>
     <Head title="Update user" />
-    {{ props.userHasRoles }}
+    {{ props.userHasRoles[0] }}
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountGroup"
@@ -149,7 +149,7 @@ function is_checked($db_value, $html_value){
             type="radio"
             is-row
             :options="props.roles"
-           
+    
           />
         </FormField>
 

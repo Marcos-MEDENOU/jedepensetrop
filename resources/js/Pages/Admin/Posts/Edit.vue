@@ -55,12 +55,17 @@ const form = useForm({
   seo_title: props.posts.seo_title,
   seo_description: props.posts.seo_description,
   image: props.posts.image,
-  is_visible: props.posts.is_visible,
-  category: props.posts.category,
+  is_visible: props.posts.post_visible,
+  category: props.posts.blog_category_id,
   // name: props.authors.name,
   // bio: props.authors.bio,
   // email: props.authors.email,
 })
+
+
+const handleFileChange = (event) => {
+  form.image = event.target.files[0]['name'];
+}
 </script>
 
 <template>
@@ -103,7 +108,8 @@ const form = useForm({
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads @change="handleFileChange"></fileUploads>
+
+          <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads>
         </FormField>
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">
@@ -124,7 +130,7 @@ const form = useForm({
         </FormField>
 
         <FormField label="Categories" wrap-body>
-
+          <!-- {{ props.posts.blog_category_id}} -->
           <FormCheckRadioGroup v-model="form.category" aria-checked="true" name="category" type="radio" isRow
             :options="props.category" />
         </FormField>

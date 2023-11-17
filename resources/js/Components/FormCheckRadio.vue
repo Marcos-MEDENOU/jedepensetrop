@@ -33,7 +33,7 @@ const computedValue = computed({
 const inputType = computed(() => props.type === 'radio' ? 'radio' : 'checkbox')
 
 // Nouvelle propriété pour déterminer si l'option est cochée
-let isChecked = computed(() => props.modelValue === props.inputValue)
+let isChecked = computed(() => props.modelValue[0] === props.inputValue)
 
 function handleChange() {
   // Émettre la nouvelle valeur lorsque l'option est sélectionnée
@@ -47,8 +47,13 @@ function handleChange() {
 </script>
 
 <template>
+
   <label :class="type" class="mb-3 mr-6 last:mr-0 ">
-    <input v-model="computedValue" :type="inputType" :name="name" :value="label" :checked="isChecked"
+    <input v-model="computedValue" 
+    :type="inputType" 
+    :name="name" 
+    :value="Number(inputValue)" 
+    :checked="inputValue==modelValue"
     >
     <span class="check" />
     <span class="pl-2">{{ label }}</span>
