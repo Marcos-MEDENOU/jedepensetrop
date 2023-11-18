@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, reactive } from 'vue';
+import { Head } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
@@ -14,7 +15,11 @@ const props = defineProps({
 
 console.log(props.formattedCategory);
 
+const showArticle = (slug) => {
+    console.log(slug);
 
+    router.get(route("post.show", slug))
+};
 
 </script>
 
@@ -22,6 +27,7 @@ console.log(props.formattedCategory);
 <template>
     <MainLayout>
 
+        <Head :title="props.formattedCategory.category" />
         <div class=" flex justify-center mt-8">
 
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
@@ -33,15 +39,15 @@ console.log(props.formattedCategory);
 
                     <div class="grid grid-cols-3 gap-6  cursor-pointer lg:mx-auto grid-cols-2 ">
 
-                        <div
-                            v-for="(article, index) in props.formattedCategory.posts" :key="index"
+                        <div v-for="(article, index) in props.formattedCategory.posts" :key="index"
                             class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
                                         class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt="" class="w-full h-full object-cover">
+                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
+                                            class="w-full h-full object-cover">
 
                                     </div>
                                     <span
@@ -56,13 +62,13 @@ console.log(props.formattedCategory);
                                     <h1 class="h-20 text-xl font-bold">
                                         {{ article.title }}
                                     </h1>
-                                    <div class="flex justify-between">
+                                    <div class="text-red-900 mt-5">
                                         <p class="italic">
-                                            Créer le : {{ article.created_at }}
+                                            Publié le : {{ article.published_at }}
                                         </p>
-                                        <!-- <p class="italic ">
-                                par : {{ article.author.name }}
-                            </p> -->
+                                        <p class="italic">
+                                            Lire en : {{ article.duree }} minutes
+                                        </p>
                                     </div>
 
                                 </div>

@@ -87,7 +87,6 @@ const subscribe = () => {
 </script>
 
 <template>
-    <Head title="Accueil" />
 
 
     <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5">
