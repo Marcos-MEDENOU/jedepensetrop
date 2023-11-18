@@ -42,32 +42,30 @@ const emit = defineEmits(['update:modelValue']);
 const init = reactive({
   language: 'fr_FR',
   document_base_url: 'http://127.0.0.1:8000/public/',
-  height: 700,
-  width: '100% !important',
+  height: 800,
+  width: '50% !important',
   resize: 'both',
+  // content_css: 'http://127.0.0.1:8000/css/tailwind.css',
   // menubar:false,
   menubar: 'file format tools ',
   images_upload_url: '/editorUpload',
   autosave_restore_when_empty: true,
-  spellchecker_active: true,
+  // spellchecker_active: true,
   automatic_uploads: true,
   content_style: 'body{font-family: DMSans}' +
     'h1{font-weight: bold; margin-block:2rem;font-size :28pt;font-family: DMSans;}' +
     'h2{font-weight: bold; margin-block:1rem;font-size :24pt; }' +
     'h3{ text-decoration: underline ; font-size:18pt; }' +
-    'p,ul,table {font-size:14pt; font-family: DMSans;  padding-bloc:14pt;  }' +
+    'p,ul,table {font-size:14pt; font-family: DMSans; }' +
     'table.full { display: block; background-color:white; } ' +
     'h3{text-decoration: underline}',
-
-  // skin: "oxide-dark",
-  // content_css: "dark",
   plugins: props.plugins,
   toolbar: props.toolbar,
-  toolbar_sticky_offset: 64,
+  // toolbar_sticky_offset: 64,
   // toolbar_mode: 'sliding',
-  quickbars_insert_toolbar: false,
+  // quickbars_insert_toolbar: false,
   branding: false,
-  toolbar_sticky: true,
+  // toolbar_sticky: true,
   promotion: false,
   skin: (window.matchMedia("(prefers-color-scheme: dark)").matches ? "oxide-dark" : ""),
   content_css: (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : ""),

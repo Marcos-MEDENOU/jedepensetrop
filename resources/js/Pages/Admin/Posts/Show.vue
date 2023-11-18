@@ -105,7 +105,7 @@ function setimgSrc(htmlContent) {
           </tbody>
         </table> -->
 
-        <div id="editor" v-html="setimgSrc(posts.content)"></div>
+        <div id="editor" v-html="setimgSrc(posts.content)" class=""></div>
 
       </CardBox>
     </SectionMain>
@@ -147,4 +147,15 @@ function setimgSrc(htmlContent) {
 #editor h3 {
   text-decoration: underline
 }
+
+ul li{
+  list-style: disc;
+}
+
+ol li{
+  list-style: decimal;
+  margin-left: 1rem;
+}
+
+
 </style>

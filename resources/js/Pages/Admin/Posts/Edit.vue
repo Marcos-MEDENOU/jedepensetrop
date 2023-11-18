@@ -23,7 +23,9 @@ import Tiny from '@/components/TinyImplements.vue';
 import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
-import Tiptap from '@/components/Tiptap.vue'
+import Editor from '@/components/Editor.vue'
+
+import ckeditor from '@/Components/Ckeditor.vue'
 const props = defineProps({
   posts: {
     type: Object,
@@ -124,10 +126,11 @@ function formatDateTimeISO(dateISO) {
         <FormField label="Contenu de l'article" :class="{ 'text-red-400': form.errors.content }">
           <div class="mt-4"></div>
         </FormField>
-        <!-- <Tiny v-model="form.content" /> -->
+        <!-- <editor v-model="form.content" /> -->
+        <Tiny v-model="form.content" class=" max-w-none" />
 
         <!-- zone editeur -->
-        <tiptap />
+        <!-- <ckeditor v-model="form.content" /> -->
         <!-- zone editeur -->
 
         
