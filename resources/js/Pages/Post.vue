@@ -3,7 +3,10 @@ import axios from 'axios';
 import { computed, ref, onMounted } from 'vue'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
+import { router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import Comment from './Front-end/Partials/Comment.vue';
+
 const props = defineProps({
     post: {
         type: Object,
@@ -11,23 +14,113 @@ const props = defineProps({
     },
 })
 
+let post = ref(props.post)
+console.log(post.value);
+
+// Fonction qui permet d'afficher l'article précédent
+const previousPost = (id) => {
+    console.log(id);
+
+    router.get(route("previous.post", id))
+};
+
+// Fonction qui permet d'afficher l'article suivant
+const nextPost = (id) => {
+    console.log(id);
+
+    router.get(route("next.post", id))
+};
+
+const hasPrevious = ref(false);
+const hasNext = ref(false);
+
+// Fontion qui verifie si l'article afficher possède ou non un article suivant
+const hasNextPost = async (id) => {
+    try {
+        const response = await axios.get(route('has-next.post', props.post.id));
+        hasNext.value = response.data.hasNext;
+        console.error(hasNext.value);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Fontion qui verifie si l'article afficher possède ou non un article precedent
+const hasPreviousPost = async (id) => {
+    try {
+        const response = await axios.get(route('has-previous.post', props.post.id));
+        hasPrevious.value = response.data.hasPrevious;
+        console.error(hasPrevious.value);
+    } catch (error) {
+        console.error(error);
+    }
+}
+// Fonction permettant de liker le post
+const likePost = async () => {
+    const response = await axios.post(`/posts/${props.post.id}/like`);
+    post.value = response.data.post;
+};
+
+// Fonction permettant de disliker le post
+const dislikePost = async () => {
+    const response = await axios.post(`/posts/${props.post.id}/dislike`);
+    post.value = response.data.post;
+};
+
+
+onMounted(async () => {
+    await hasNextPost();
+    await hasPreviousPost();
+});
+
+
+const setimgSrc = (htmlContent) => {
+    //créer une div temporaire sans l'ajouter dans le dom
+    let tempElement = document.createElement("div");
+    //ajoute le code htmml a l'intérieur de la div
+    tempElement.innerHTML = htmlContent;
+    //Expression réguliere qui détecte les attributs src a modifier
+    let regex = /^http:\/\/127.0.0.1:8000\/post/;
+    //Vérification et execution d'un bloc de code pour chacune des attributs src des images
+    tempElement.querySelectorAll("img").forEach(function (imgTag) {
+        //Cas ou une image verifiant la regex a été détectée
+        if (regex.test(imgTag.src)) {
+            //Coupure de l'attribut src a partir de /
+            let x = imgTag.src.split("/");
+            //supression de 2em element du tableau obtenu
+            x.splice(1, 1);
+            //supression du 1er element du nouveau tableau apres la ligne de split précédente
+            x.splice(0, 1);
+            //Supresion det remplacement du 1er element du nouveau tableau par l'adresse localhost du serveur
+            // x.splice(0, 1, "http://interstis.com/backend/public");
+            x.splice(0, 2, "http://127.0.0.1:8000");
+            //Association des elements tableau avec pour indice '/'
+            let y = x.join("/");
+            //Remplacement du src du code html actuelle par le nouveau
+            imgTag.src = y;
+        }
+    });
+    // Obtenez le contenu HTML modifié
+    let modifiedHtmlContent = tempElement;
+    return modifiedHtmlContent.innerHTML;
+}
 
 </script>
 <template>
     <MainLayout>
 
-        <Head title="Accueil" />
+        <Head :title="props.post.slug" />
 
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'http://127.0.0.1:8000/storage/uploads/' + props.post.image" :alt="props.post.title"
+                <img :src="'http://127.0.0.1:8000/storage/uploads/' + post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>
             <span
                 class="absolute text-2xl z-10 inline-flex px-3 py-2 mt-3 ml-3 font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                {{ props.post['category'].name }}
+                {{ post['category'].name }}
             </span>
         </div>
         <div class="flex justify-center mt-8 ">
@@ -36,50 +129,55 @@ const props = defineProps({
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
                 <div class="flex items-center justify-between pb-4 border-b italic">
                     <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Lire en : {{ props.post['duree'] }} minutes</p>
-                        <p class="text-lg font-semibold">Rédigé par : {{ props.post['author'].name }}</p>
+                        <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
+                        <p class="text-lg font-semibold">Rédigé par : {{ post['author'].name }}</p>
                     </div>
                     <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Publié le : {{ props.post['published_at'] }}</p>
-                        <p class="text-lg font-semibold">Dernière mise à jour : {{ props.post['updated_at'] }}</p>
+                        <p class="text-lg font-semibold">Publié le : {{ post['published_at'] }}</p>
+                        <p class="text-lg font-semibold">Dernière mise à jour : {{ post['updated_at'] }}</p>
                     </div>
                 </div>
 
                 <div class="mt-6 mb-12">
-                    <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ props.post.title }}</h1>
+                    <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
                     <div class="prose">
-                        <div v-html="props.post['content']"></div>
+                        <div v-html="setimgSrc(post['content'])"></div>
                     </div>
                     <div class="flex items-center mt-5 space-x-4">
                         <!-- Bouton Like -->
-                        <button class="flex items-center text-green-500 hover:text-green-600">
+                        <span @click="likePost" :class="{ 'text-green-600': post.user_liked }"
+                            class="flex items-center text-green-500 hover:text-green-600 cursor-pointer">
                             <Icon name="like" />
-                            <span class="ml-2">J'aime(0)</span>
-                        </button>
+                            <span class="ml-2">J'aime( {{ post.likes_count }})</span>
+                        </span>
 
                         <!-- Bouton Dislike -->
-                        <button class="flex items-center text-red-500 hover:text-red-700">
+                        <span @click="dislikePost" :class="{ 'text-red-700': post.user_liked }"
+                            class="flex items-center text-red-500 hover:text-red-700 cursor-pointer">
                             <Icon name="dislike" />
-                            <span class="ml-2">J'aime pas(0)</span>
-                        </button>
+                            <span class="ml-2">Je n'aime pas({{ post.dislikes_count }})</span>
+                        </span>
                     </div>
                 </div>
 
-
-                <div class="flex items-center justify-between pt-8 border-t border-gray-300">
-                    <div class="text-gray-700 cursor-pointer ">
+                <div class="relative flex items-center justify-between pt-8 border-t border-gray-300"
+                    :class="{ 'justify-end': !hasPrevious }"> <!-- Ajoutez 'justify-end' si hasPrevious est faux -->
+                    <div v-if="hasPrevious" @click="previousPost(props.post.id)"
+                        class="text-gray-700 text-start cursor-pointer left-0">
                         <span
-                            class="p-5 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md  hover:scale-50 hover:bg-gray-900">
-                            Article précédent</span>
-                        <span class="block mt-8 text-lg font-bold">Titre de l'article précédent</span>
+                            class="p-4 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md hover:scale-50 hover:bg-gray-900">
+                            Article précédent
+                        </span>
                     </div>
-                    <div class="text-gray-700 cursor-pointer ">
+                    <div v-if="hasNext" @click="nextPost(props.post.id)"
+                        class="text-gray-700 cursor-pointer absolute right-0">
                         <span
-                            class="p-5 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg  hover:scale-50 hover:bg-gray-900">
-                            Article suivant</span>
-                        <span class="block mt-8 text-lg font-bold">Titre de l'article suivant</span>
+                            class="p-4 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg hover:scale-50 hover:bg-gray-900">
+                            Article suivant
+                        </span>
                     </div>
                 </div>
+
 
 
                 <!-- Commentaires -->
@@ -94,7 +192,7 @@ const props = defineProps({
             </div>
 
         </div>
-        <div  class="py-8 lg:py-24 dark:bg-gray-800">
+        <div class="py-8 lg:py-24 dark:bg-gray-800">
             <div class="max-w-screen-xl px-4 mx-auto">
                 <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Articles Liés</h2>
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -156,12 +254,13 @@ const props = defineProps({
                         <a href="#"
                             class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
                             Lire en 4 minutes
-                    </a>
-                </article>
+                        </a>
+                    </article>
+                </div>
             </div>
         </div>
-    </div>
 
 
-</MainLayout></template>
+    </MainLayout>
+</template>
 

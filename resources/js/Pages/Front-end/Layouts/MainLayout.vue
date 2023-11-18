@@ -8,7 +8,7 @@ import Footer from '../Partials/Footer.vue';
 
 <template>
     <main>
-        <Header class=""/>
+        <Header class="Accueil"/>
         <slot />
         <Footer></Footer>
     </main>

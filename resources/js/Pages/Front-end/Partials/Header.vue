@@ -37,7 +37,6 @@ const categoryPosts = (slug) => {
 </script>
 
 <template>
-    <Head title="Accueil" />
 
     <div style="background-color: whitesmoke" class="  w-full z-50">
         <nav class=" flex justify-between items-center mx-auto container py-2">

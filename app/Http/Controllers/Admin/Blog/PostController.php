@@ -49,7 +49,7 @@ class PostController extends Controller
             $posts->latest();
         }
 
-    
+
 
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
 
@@ -76,31 +76,7 @@ class PostController extends Controller
         ]);
     }
 
-    // Fonction permettant d'afficher les posts par leur slug
-    public function showArticle($slug)
-    {
-        $selectedPost = Post::where('slug', $slug)->firstOrFail();
-        // Calculer la durée de lecture estimée
-        $wordCount = str_word_count(strip_tags($selectedPost->content)); // Compter les mots dans le contenu
-        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
-        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
-        return Inertia::render('Post', [
-            'post' => [
-                'id' => $selectedPost->id,
-                'title' => $selectedPost->title,
-                'slug' => $selectedPost->slug,
-                'content' => $selectedPost->content,
-                'author' => User::find($selectedPost->blog_author_id),
-                'category' => Category::find($selectedPost->blog_category_id),
-                'image' => $selectedPost->image,
-                'duree' => $estimatedReadingTime,
-                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
-                'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
-                'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
-            ],
-        ]);
-    }
 
     public function edit(Request $request, Post $post)
     {
@@ -213,18 +189,99 @@ class PostController extends Controller
             ->with('message', 'post créer avec succes.');
     }
 
-    // Fonction permettant de récupérer les 4 derniers posts recentes du blog
-    public function getRecentPosts()
+
+    // Fonction permettant d'afficher les posts par leur slug
+    public function showArticle($slug)
+    {
+        $selectedPost = Post::where('slug', $slug)->firstOrFail();
+        $user = auth()->user(); // Récupérez l'utilisateur connecté
+
+        // Calculer la durée de lecture estimée
+        $wordCount = str_word_count(strip_tags($selectedPost->content)); // Compter les mots dans le contenu
+        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
+        // Obtenir le nombre total de likes et dislikes pour le post
+        $likesCount = $selectedPost->likesDislikes()->where('is_like', true)->count();
+        $dislikesCount = $selectedPost->likesDislikes()->where('is_like', false)->count();
+
+        // Vérifier si l'utilisateur connecté a déjà aimé le post
+        $userLiked = $user ? $selectedPost->userLiked($user->id) : false;
+
+        return Inertia::render('Post', [
+            'post' => [
+                'id' => $selectedPost->id,
+                'title' => $selectedPost->title,
+                'slug' => $selectedPost->slug,
+                'content' => $selectedPost->content,
+                'author' => User::find($selectedPost->blog_author_id),
+                'category' => Category::find($selectedPost->blog_category_id),
+                'image' => $selectedPost->image,
+                'duree' => $estimatedReadingTime,
+                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
+                'likes_count' => $likesCount,
+                'dislikes_count' => $dislikesCount,
+                'user_liked' => $userLiked,
+            ],
+        ]);
+    }
+
+
+    // Fonction permettant de récupérer le dernier post publié du blog
+    public function getLatestPost()
     {
         $today = now();
 
+        $user = auth()->user(); // Récupérez l'utilisateur connecté
+
+        $latestPost = Post::where('post_visible', 1)
+            ->where('published_at', '<=', $today)
+            ->latest()
+            ->first();
+
+        // Calculer la durée de lecture estimée
+        $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
+        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
+
+        $response = [
+            'id' => $latestPost->id,
+            'title' => $latestPost->title,
+            'slug' => $latestPost->slug,
+            'seo_description' => $latestPost->seo_description,
+            'content' => $latestPost->content,
+            'author' => User::find($latestPost->blog_author_id),
+            'category' => Category::find($latestPost->blog_category_id),
+            'image' => $latestPost->image,
+            'duree' => $estimatedReadingTime,
+            'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
+            'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
+            'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
+        ];
+
+        return response()->json($response);
+    }
+
+    /// Fonction permettant de récupérer les 3 articles les plus récents, sauf le dernier
+    public function getPreviousThreePosts()
+    {
+        $today = now();
+
+        // Récupérer les quatre derniers articles publiés
         $recentPosts = Post::where('post_visible', 1)
             ->where('published_at', '<=', $today)
             ->latest()
-            ->take(6)
+            ->take(4)
             ->get();
 
-        $response = $recentPosts->map(function ($post) {
+        // Exclure le dernier article publié
+        $previousThreePosts = $recentPosts->slice(0, 3);
+
+        $response = $previousThreePosts->map(function ($post) {
 
             // Calculer la durée de lecture estimée
             $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
@@ -244,6 +301,7 @@ class PostController extends Controller
                 'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
                 'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
                 'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
+
             ];
         });
 
@@ -312,6 +370,7 @@ class PostController extends Controller
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
                     ->where('published_at', '<=', $today)->get();
 
+
                 $formattedCategory = [
                     'category' => $category->name,
                     'posts' => $posts->map(function ($post) {
@@ -349,4 +408,141 @@ class PostController extends Controller
         }
     }
 
+    // Fonction permettant de récupérer l'article précédent par rapport à un article donné
+    public function getPreviousPost($id)
+    {
+        $today = now();
+        $user = auth()->user(); // Récupérez l'utilisateur connecté
+        $currentPost = Post::findOrFail($id);
+
+        // Récupérer l'article précédent par date de publication
+        $previousPost = Post::where('post_visible', 1)
+            ->where('published_at', '<=', $today)
+            ->where('id', '<', $currentPost->id)
+            ->latest('published_at')
+            ->first();
+
+        if ($previousPost) {
+            // Calculer la durée de lecture estimée
+            $wordCount = str_word_count(strip_tags($previousPost->content)); // Compter les mots dans le contenu
+            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
+            // Obtenir le nombre total de likes et dislikes pour le post
+            $likesCount = $previousPost->likesDislikes()->where('is_like', true)->count();
+            $dislikesCount = $previousPost->likesDislikes()->where('is_like', false)->count();
+
+            // Vérifier si l'utilisateur connecté a déjà aimé le post
+            $userLiked = $user ? $previousPost->userLiked($user->id) : false;
+            return Inertia::render('Post', [
+                'post' => [
+                    'id' => $previousPost->id,
+                    'title' => $previousPost->title,
+                    'slug' => $previousPost->slug,
+                    'content' => $previousPost->content,
+                    'author' => User::find($previousPost->blog_author_id),
+                    'category' => Category::find($previousPost->blog_category_id),
+                    'image' => $previousPost->image,
+                    'duree' => $estimatedReadingTime,
+                    'published_at' => Carbon::parse($previousPost->published_at)->format('d/m/Y'),
+                    'created_at' => Carbon::parse($previousPost->created_at)->format('d/m/Y'),
+                    'updated_at' => Carbon::parse($previousPost->updated_at)->format('d/m/Y'),
+                    'likes_count' => $likesCount,
+                    'dislikes_count' => $dislikesCount,
+                    'user_liked' => $userLiked,
+                ],
+            ]);
+        } else {
+            return Inertia::render('Post', [
+                'post' => ['errorMessage' => 'Aucun article précedent trouvé.'],
+            ]);
+        }
+    }
+
+    // Fonction permettant de récupérer l'article suivant par rapport à un article donné
+    public function getNextPost($id)
+    {
+        $today = now();
+        $user = auth()->user(); // Récupérez l'utilisateur connecté
+        $currentPost = Post::findOrFail($id);
+
+        // Récupérer l'article suivant par date de publication
+        $nextPost = Post::where('post_visible', 1)
+            ->where('published_at', '<=', $today)
+            ->where('id', '>', $currentPost->id)
+            ->oldest('published_at')
+            ->first();
+
+        if ($nextPost) {
+            // Calculer la durée de lecture estimée
+            $wordCount = str_word_count(strip_tags($nextPost->content)); // Compter les mots dans le contenu
+            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
+            // Obtenir le nombre total de likes et dislikes pour le post
+            $likesCount = $nextPost->likesDislikes()->where('is_like', true)->count();
+            $dislikesCount = $nextPost->likesDislikes()->where('is_like', false)->count();
+
+            // Vérifier si l'utilisateur connecté a déjà aimé le post
+            $userLiked = $user ? $nextPost->userLiked($user->id) : false;
+            return Inertia::render('Post', [
+                'post' => [
+                    'id' => $nextPost->id,
+                    'title' => $nextPost->title,
+                    'slug' => $nextPost->slug,
+                    'content' => $nextPost->content,
+                    'author' => User::find($nextPost->blog_author_id),
+                    'category' => Category::find($nextPost->blog_category_id),
+                    'image' => $nextPost->image,
+                    'duree' => $estimatedReadingTime,
+                    'published_at' => Carbon::parse($nextPost->published_at)->format('d/m/Y'),
+                    'created_at' => Carbon::parse($nextPost->created_at)->format('d/m/Y'),
+                    'updated_at' => Carbon::parse($nextPost->updated_at)->format('d/m/Y'),
+                    'likes_count' => $likesCount,
+                    'dislikes_count' => $dislikesCount,
+                    'user_liked' => $userLiked,
+                ],
+            ]);
+        } else {
+            return Inertia::render('Post', [
+                'post' => ['errorMessage' => 'Aucun article suivant trouvé.'],
+            ]);
+        }
+    }
+
+    // Fonction pour vérifier s'il y a un article précédent
+    public function hasPreviousPost($postId)
+    {
+        $today = now();
+
+        $currentPost = Post::findOrFail($postId);
+
+        $previousPost = Post::where('post_visible', 1)
+            ->where('published_at', '<=', $today)
+            ->where('id', '<', $currentPost->id)
+            ->latest('published_at')
+            ->first();
+
+        return response()->json(['hasPrevious' => $previousPost !== null]);
+    }
+
+    // Fonction pour vérifier s'il y a un article suivant
+    public function hasNextPost($postId)
+    {
+        $today = now();
+
+        $currentPost = Post::findOrFail($postId);
+
+        $nextPost = Post::where('post_visible', 1)
+            ->where('published_at', '<=', $today)
+            ->where('id', '>', $currentPost->id)
+            ->oldest('published_at')
+            ->first();
+
+        return response()->json(['hasNext' => $nextPost !== null]);
+    }
 }
+
+

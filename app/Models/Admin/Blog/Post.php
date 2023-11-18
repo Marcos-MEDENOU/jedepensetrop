@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Blog;
 
+use App\Models\LikeDislike;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,11 @@ class Post extends Model
      * @var string
      */
     protected $table = 'blog_post';
+
+protected $attributes = [
+        'user_liked' => false,
+        'user_disliked' => false,
+    ];
 
     protected $fillable = [
         'blog_category_id',
@@ -34,7 +40,7 @@ class Post extends Model
     /**
      * @var array<string, string>
      */
-     protected $casts = [
+    protected $casts = [
         'published_at' => 'date',
     ];
 
@@ -43,13 +49,42 @@ class Post extends Model
         return $this->belongsTo(Author::class, 'blog_author_id');
     }
 
-    public function category(): BelongsTo
-    {
-        return $this->belongsToMany(Category::class, 'article_category', 'post_id', 'category_id');
-    }
-
-public function categorie()
+    public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function likesDislikes()
+    {
+        return $this->hasMany(LikeDislike::class);
+    }
+
+
+
+    public function userLiked($userId)
+    {
+        return $this->likesDislikes()
+            ->where('user_id', $userId)
+            ->where('is_like', true)
+            ->exists();
+    }
+
+
+    public function userDisliked($userId)
+    {
+        return $this->likesDislikes()
+            ->where('user_id', $userId)
+            ->where('is_like', false)
+            ->exists();
+    }
+
+    public function likesCount()
+    {
+        return $this->likesDislikes()->where('is_like', true)->count();
+    }
+
+    public function dislikesCount()
+    {
+        return $this->likesDislikes()->where('is_like', false)->count();
     }
 }

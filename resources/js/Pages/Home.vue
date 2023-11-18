@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios';
+import { Head } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import Hero from './Front-end/Partials/Hero.vue';

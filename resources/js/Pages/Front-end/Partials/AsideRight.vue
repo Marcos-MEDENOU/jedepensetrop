@@ -191,7 +191,7 @@ const subscribe = () => {
             </form>
         </div>
     </section>
-    <Chatbot  class=" fixed bottom-20 right-20"/>
+    <Chatbot  class=" fixed bottom-10 right-20"/>
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
