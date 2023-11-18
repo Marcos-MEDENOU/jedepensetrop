@@ -140,7 +140,7 @@ function showStatus(post_visible, published_at) {
       if (providedDate > dateWithoutHours) {
         return "publication dans";
       } else if (providedDate < dateWithoutHours) {
-        return "en cours d\'édition";
+        return "publié";
       } else {
         return "publié";
       }
@@ -187,7 +187,7 @@ function showStatus(post_visible, published_at) {
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
-                <Sort label="Auteur" attribute="name" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur</span>
               </th>
               <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
@@ -212,7 +212,7 @@ function showStatus(post_visible, published_at) {
 
             <tr v-for="post in posts.data" :key="post.id">
 
-              <td data-label="Name">
+              <td data-label="title">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                   {{ postSlicing(post.title) }}
                 </span>
