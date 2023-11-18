@@ -23,7 +23,7 @@ import Tiny from '@/components/TinyImplements.vue';
 import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
-
+import Tiptap from '@/components/Tiptap.vue'
 const props = defineProps({
   posts: {
     type: Object,
@@ -45,7 +45,9 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-
+const setDate = (value) => {
+  date.value = value;
+}
 const form = useForm({
   _method: 'put',
   title: props.posts.title,
@@ -65,6 +67,29 @@ const form = useForm({
 
 const handleFileChange = (event) => {
   form.image = event.target.files[0]['name'];
+}
+
+
+const date = ref(new Date());
+// In case of a range picker, you'll receive [Date, Date]
+const format = (date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `L'article sera publié le ${day}/${month}/${year}`;
+}
+
+function formatDateTimeISO(dateISO) {
+  const date = new Date(dateISO);
+  const jour = date.getDate().toString().padStart(2, '0');
+  const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont indexés de 0 à 11
+  const annee = date.getFullYear().toString();
+  const heures = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const secondes = date.getSeconds().toString().padStart(2, '0');
+
+  return `${jour}-${mois}-${annee}`;
 }
 </script>
 
@@ -99,16 +124,21 @@ const handleFileChange = (event) => {
         <FormField label="Contenu de l'article" :class="{ 'text-red-400': form.errors.content }">
           <div class="mt-4"></div>
         </FormField>
-        <Tiny v-model="form.content" />
+        <!-- <Tiny v-model="form.content" /> -->
+
+        <!-- zone editeur -->
+        <tiptap />
+        <!-- zone editeur -->
+
+        
         <div class="mt-4"></div>
 
         <FormField label="Date de publication" :class="{ 'text-red-400': form.errors.content }">
-          <VueDatePicker v-model="form.published_at" utc position="left" :model-value="form.published_at"
-            @update:model-value="setDate" />
+          <VueDatePicker v-model="form.published_at" date position="left" :format="format"
+            :model-value="form.published_at" utc @update:model-value="setDate" />
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-
           <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads>
         </FormField>
 

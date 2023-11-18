@@ -13,7 +13,7 @@ import 'tinymce/themes/silver';
 // Icon
 import 'tinymce/icons/default';
 import 'tinymce/plugins/emoticons';
-// import 'tinymce/plugins/listss';
+import 'tinymce/plugins/listss';
 import 'tinymce/plugins/emoticons/js/emojis.js';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/quickbars';
@@ -33,7 +33,7 @@ const props = defineProps({
   toolbar: {
     type: [String, Array],
     default:
-      'paste copy cut hr fontfamily fontsize lineheight| indent outdent | removeformat bold code italic underline strikethrough image |fontsizeselect blocks fonts | numlist bullist table | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist blockquote | undo redo | axupimgs  | emoticons',
+      'fontfamily fontsize hr lineheight| indent outdent | removeformat bold code italic underline strikethrough image |fontsizeselect blocks fonts | numlist bullist table | forecolor backcolor | alignleft aligncenter alignright alignjustify | blockquote | undo redo | axupimgs  | emoticons',
   },
 });
 
@@ -42,7 +42,7 @@ const emit = defineEmits(['update:modelValue']);
 const init = reactive({
   language: 'fr_FR',
   document_base_url: 'http://127.0.0.1:8000/public/',
-  height: 800,
+  height: 700,
   width: '100% !important',
   resize: 'both',
   // menubar:false,

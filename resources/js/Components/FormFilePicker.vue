@@ -55,7 +55,7 @@ const upload = event => {
   let formData = new FormData()
   console.log(formData);
   formData.append('image_principale', file.value)
-
+  let imagePreview = document.getElementById('file-ip-1-preview');
   const mediaStoreRoute = `/upload`
 
   axios
@@ -68,6 +68,7 @@ const upload = event => {
     })
     .then(r => {
      formData.append('image_crypt', r.data)
+     imagePreview.src = 'http://127.0.0.1:8000/storage/uploads/'+ file.value
     })
     .catch(err => {
       // console.error("Une erreur s'est produite");
@@ -83,19 +84,16 @@ const progressEvent = progressEvent => {
 </script>
 
 <template>
-  <div class="relative flex items-stretch justify-start">
-    <label class="inline-flex">
+  <div class="relative flex-col items-center justify-center gap-4">
+    <label class="w-full">
       <BaseButton as="a" :label="label" :icon="icon" :color="color" :class="{ 'rounded-r-none': file }" />
       <input ref="root" type="file" class="absolute top-0 left-0 w-full h-full outline-none opacity-0 cursor-pointer -z-1"
         :accept="accept" @input="upload" >
     </label>
     <div v-if="file">
-      <span
-        class="inline-flex justify-center px-4 py-2 bg-gray-100 border border-gray-200 rounded-r dark:bg-slate-800 dark:border-slate-700">
-        {{ file.name }}
-      </span>
-      <div class="preview">
-        <img id="file-ip-1-preview">
+   
+      <div class="w-64 mt-6">
+        <img id="file-ip-1-preview" class="rounded-md">
       </div>
     </div>
   </div>
