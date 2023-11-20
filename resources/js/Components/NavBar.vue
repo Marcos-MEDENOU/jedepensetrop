@@ -133,16 +133,16 @@ const logout = () => {
           </NavBarMenu> -->
           <NavBarMenu>
             <NavBarItemLabel :label="userName">
-              <UserAvatarCurrentUser class="inline-flex w-6 h-6 mr-3" />
+              <UserAvatarCurrentUser class="inline-flex w-6 h-6" />
             </NavBarItemLabel>
 
             <template #dropdown>
-              <NavBarItem route-name="profile.edit">
+              <!-- <NavBarItem route-name="profile.edit">
                 <NavBarItemLabel
                   :icon="mdiAccount"
                   label="My Profile"
                 />
-              </NavBarItem>
+              </NavBarItem> -->
               <NavBarItem>
                 <NavBarItemLabel
                   :icon="mdiCogOutline"
@@ -155,14 +155,14 @@ const logout = () => {
                   label="Messages"
                 />
               </NavBarItem>
-              <BaseDivider nav-bar />
+              <!-- <BaseDivider nav-bar />
               <NavBarItem>
                 <NavBarItemLabel
                   :icon="mdiLogout"
                   label="Log Out"
                   @click.prevent="logout"
                 />
-              </NavBarItem>
+              </NavBarItem> -->
             </template>
           </NavBarMenu>
           <NavBarItem
