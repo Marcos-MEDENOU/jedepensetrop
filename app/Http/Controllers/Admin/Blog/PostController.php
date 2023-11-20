@@ -15,10 +15,10 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:category list', ['only' => ['index', 'show']]);
-        $this->middleware('can:category create', ['only' => ['create', 'store']]);
-        $this->middleware('can:category edit', ['only' => ['edit', 'update']]);
-        $this->middleware('can:category delete', ['only' => ['destroy']]);
+        $this->middleware('can:posts list', ['only' => ['index', 'show']]);
+        $this->middleware('can:posts create', ['only' => ['create', 'store']]);
+        $this->middleware('can:posts edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:posts delete', ['only' => ['destroy']]);
     }
 
     /**

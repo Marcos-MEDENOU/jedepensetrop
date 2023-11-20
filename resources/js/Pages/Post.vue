@@ -127,7 +127,7 @@ const setimgSrc = (htmlContent) => {
 
 
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
-                <div class="flex items-center justify-between pb-4 border-b italic">
+                <div class="flex items-center justify-between pb-4 italic border-b">
                     <div class="text-gray-700">
                         <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
                         <p class="text-lg font-semibold">Rédigé par : {{ post['author'].name }}</p>
@@ -141,19 +141,19 @@ const setimgSrc = (htmlContent) => {
                 <div class="mt-6 mb-12">
                     <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
                     <div class="prose">
-                        <div v-html="setimgSrc(post['content'])"></div>
+                        <div id="editor" v-html="setimgSrc(post['content'])"></div>
                     </div>
                     <div class="flex items-center mt-5 space-x-4">
                         <!-- Bouton Like -->
                         <span @click="likePost" :class="{ 'text-green-600': post.user_liked }"
-                            class="flex items-center text-green-500 hover:text-green-600 cursor-pointer">
+                            class="flex items-center text-green-500 cursor-pointer hover:text-green-600">
                             <Icon name="like" />
                             <span class="ml-2">J'aime( {{ post.likes_count }})</span>
                         </span>
 
                         <!-- Bouton Dislike -->
                         <span @click="dislikePost" :class="{ 'text-red-700': post.user_liked }"
-                            class="flex items-center text-red-500 hover:text-red-700 cursor-pointer">
+                            class="flex items-center text-red-500 cursor-pointer hover:text-red-700">
                             <Icon name="dislike" />
                             <span class="ml-2">Je n'aime pas({{ post.dislikes_count }})</span>
                         </span>
@@ -163,14 +163,14 @@ const setimgSrc = (htmlContent) => {
                 <div class="relative flex items-center justify-between pt-8 border-t border-gray-300"
                     :class="{ 'justify-end': !hasPrevious }"> <!-- Ajoutez 'justify-end' si hasPrevious est faux -->
                     <div v-if="hasPrevious" @click="previousPost(props.post.id)"
-                        class="text-gray-700 text-start cursor-pointer left-0">
+                        class="left-0 text-gray-700 cursor-pointer text-start">
                         <span
                             class="p-4 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md hover:scale-50 hover:bg-gray-900">
                             Article précédent
                         </span>
                     </div>
                     <div v-if="hasNext" @click="nextPost(props.post.id)"
-                        class="text-gray-700 cursor-pointer absolute right-0">
+                        class="absolute right-0 text-gray-700 cursor-pointer">
                         <span
                             class="p-4 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg hover:scale-50 hover:bg-gray-900">
                             Article suivant
@@ -264,3 +264,52 @@ const setimgSrc = (htmlContent) => {
     </MainLayout>
 </template>
 
+<style>
+#editor h1 {
+  font-weight: bold;
+  margin-block: 1rem;
+  font-size: 32pt;
+  line-height: 3.5rem;
+  /* font-family: DMSans; */
+}
+
+#editor h2 {
+  font-weight: bold;
+  margin-block: 1rem;
+  font-size: 24pt;
+}
+
+#editor h3 {
+  text-decoration: underline;
+  font-size: 18pt;
+}
+
+#editor p,
+#editor ul,
+#editor table {
+  font-size: 12pt;
+  /* font-family: DMSans; */
+  padding-block: 5pt;
+}
+
+#editor table.full {
+  display: block;
+  background-color: white;
+}
+
+#editor h3 {
+  text-decoration: underline
+}
+
+#editor ul li{
+  list-style: disc;
+  margin-left: 2.5rem;
+}
+
+#editor ol li{
+  list-style: decimal;
+  margin-left: 2.5rem;
+}
+
+
+</style>
