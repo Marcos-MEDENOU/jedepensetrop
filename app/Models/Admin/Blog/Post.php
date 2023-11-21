@@ -6,8 +6,6 @@ use App\Models\LikeDislike;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Spatie\Tags\HasTags;
 
 class Post extends Model
 {
@@ -19,10 +17,10 @@ class Post extends Model
      */
     protected $table = 'blog_post';
 
-protected $attributes = [
-        'user_liked' => false,
-        'user_disliked' => false,
-    ];
+    // protected $attributes = [
+    //     'user_liked' => false,
+    //     'user_disliked' => false,
+    // ];
 
     protected $fillable = [
         'blog_category_id',
@@ -59,8 +57,6 @@ protected $attributes = [
         return $this->hasMany(LikeDislike::class);
     }
 
-
-
     public function userLiked($userId)
     {
         return $this->likesDislikes()
@@ -68,7 +64,6 @@ protected $attributes = [
             ->where('is_like', true)
             ->exists();
     }
-
 
     public function userDisliked($userId)
     {

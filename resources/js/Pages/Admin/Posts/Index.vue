@@ -162,7 +162,7 @@ function showStatus(post_visible, published_at) {
     <Head title="Articles" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>
-        <BaseButton v-if="can.delete" :route-name="route('posts.create')" :icon="mdiPlus" label="Add" color="info"
+        <BaseButton v-if="can.create" :route-name="route('posts.create')" :icon="mdiPlus" label="Ajouter un article" color="info"
           rounded-full small />
       </SectionTitleLineWithButton>
 
@@ -225,11 +225,12 @@ function showStatus(post_visible, published_at) {
               </td>
 
               <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 mx-auto rounded-sm">
+                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 rounded-sm lg:mx-auto">
               </td>
 
               <td data-label="Published_at">
-                {{ formatDateTimeISO(post.published_at) }}
+                {{ new Date(post.published_at).toLocaleDateString() }}
+           
               </td>
 
               <td data-label="categorie">

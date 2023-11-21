@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
             },
             'navigation' => [
                 'menu' => Menu::getMenuTree($role),
+                // 'menu' => Menu::getMenuTree($role),
                 // 'menu' => Menu::getMenuTree(Role::where('id', Auth::user()->id)->firstOrFail()['name'])
             ],
         ]);

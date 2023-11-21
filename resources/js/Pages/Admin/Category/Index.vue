@@ -56,10 +56,10 @@ function destroy(id) {
         main
       >
         <BaseButton
-          v-if="can.delete"
+          v-if="can.create"
           :route-name="route('category.create')"
           :icon="mdiPlus"
-          label="Add"
+          label="Ajouter une catégorie"
           color="info"
           rounded-full
           small
