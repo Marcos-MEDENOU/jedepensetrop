@@ -253,6 +253,7 @@ const toggleReplyForm = (commentId) => {
 
 };
 
+
 const makeCommentUpdate = (commentId) => {
     // Assurez-vous que showReplyForm a une propriété pour chaque commentaire
     if (!showReplyForm.value[commentId]) {
@@ -269,6 +270,10 @@ const makeCommentUpdate = (commentId) => {
     } else {
         isUpdate.value = true
     }
+
+    axios.get(route('comments.edit', commentId)).then(response => {
+        replyComment.value = response.data.content
+    })
 
     comment.value = "";
     replyComment.value = "";
@@ -297,7 +302,7 @@ const submitReply = async (parentCommentId, commentId) => {
     try {
         // Envoyez les données au serveur pour traitement
         await axios.post('/comments-reply', {
-            content: replyComment.value,
+            content: comment.value,
             post_id: props.post.id,
             parent_comment_id: parentCommentId
         }).then(response => {
@@ -348,8 +353,18 @@ const submitReply = async (parentCommentId, commentId) => {
 
 
 const updateComment = (commentId) => {
-    axios.put(route('comments.update', commentId)).then(response => {
-        console.log(response);
+    axios.post(route('comments.update', {
+        post_id: props.post.id,
+        commentId: commentId,
+        content: replyComment.value
+    })).then(response => {
+
+        commentaires.value = response.data.commentaires.original.comments
+        count.value = response.data.commentaires.original.count
+        showReplyForm.value[commentId] = false;
+        replyComment.value = ''
+
+        // Hide the reply form
     })
 }
 
@@ -514,7 +529,7 @@ const deleteComment = (commentId) => {
                                             placeholder="Ecrire un commentaire..." required></textarea>
                                     </div>
                                     <div v-if="replyComment.trim() !== ''" class="flex">
-                                        <span v-if="!isUpdate" @click="submitReply(commentaire.id, reply.id)"
+                                        <span v-if="!isUpdate" @click="submitReply(commentaire.id, commentaire.id)"
                                             class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
 
                                         <span v-if="isUpdate" @click="updateComment(commentaire.id)"

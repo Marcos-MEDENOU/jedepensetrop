@@ -32,6 +32,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         try {
+           
             $user = auth()->user();
 
             if ($user) {
@@ -68,6 +69,7 @@ class CommentController extends Controller
     public function show($postId)
     {
         try {
+
             // Récupérer les trois derniers commentaires du post qui n'ont pas de parent
             $comments = Comment::where('post_id', $postId)
                 ->whereNull('parent_comment_id')
@@ -80,7 +82,6 @@ class CommentController extends Controller
 
             // Charger les réponses pour chaque commentaire
             $comments->load('childComments.user'); // Assurez-vous que la relation est définie dans le modèle Comment
-
 
             return response()->json(
                 [
@@ -102,25 +103,34 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
+        // Récupérer l'élément à éditer depuis la base de données
+        $comment = Comment::findOrFail($id);
 
+        return response()->json($comment);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         // Valider les données du formulaire
         $request->validate([
             'content' => 'required|string',
         ]);
-        $comment = Comment::findOrFail($id);
+        $comment = Comment::findOrFail($request->commentId);
 
         $comment->update([
-            'content' => $request->input('content'),
+            'content' => $request->content,
         ]);
 
-        return response()->json(['success' => '']);
+        // Ajouter le nouveau commentaire à la liste des commentaires
+        $comments = self::show($request->post_id);
+
+
+        return response()->json([
+            'commentaires' => $comments,
+        ]);
     }
 
     /**
@@ -129,7 +139,7 @@ class CommentController extends Controller
     public function destroy(Request $request)
     {
         try {
-// dd  ($request->all());  
+            // dd  ($request->all());
             $comment = Comment::findOrFail($request->commentId);
             $comment->delete();
 
