@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use BalajiDharma\LaravelMenu\Models\Menu;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -19,7 +20,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): string | null
     {
         return parent::version($request);
     }
@@ -31,6 +32,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user(); // Utilisez $request->user() pour éviter l'erreur lors de la déconnexion
+
+        $role = $user ? $user->roles->pluck('name')[0] : 'none';
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -41,8 +46,10 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'navigation' => [
-                'menu' => Menu::getMenuTree('admin')
-            ]
+                'menu' => Menu::getMenuTree($role),
+                // 'menu' => Menu::getMenuTree($role),
+                // 'menu' => Menu::getMenuTree(Role::where('id', Auth::user()->id)->firstOrFail()['name'])
+            ],
         ]);
     }
 }

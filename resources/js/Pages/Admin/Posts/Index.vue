@@ -140,7 +140,7 @@ function showStatus(post_visible, published_at) {
       if (providedDate > dateWithoutHours) {
         return "publication dans";
       } else if (providedDate < dateWithoutHours) {
-        return "en cours d\'édition";
+        return "publié";
       } else {
         return "publié";
       }
@@ -162,7 +162,7 @@ function showStatus(post_visible, published_at) {
     <Head title="Articles" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>
-        <BaseButton v-if="can.delete" :route-name="route('posts.create')" :icon="mdiPlus" label="Add" color="info"
+        <BaseButton v-if="can.create" :route-name="route('posts.create')" :icon="mdiPlus" label="Ajouter un article" color="info"
           rounded-full small />
       </SectionTitleLineWithButton>
 
@@ -187,7 +187,7 @@ function showStatus(post_visible, published_at) {
                 <Sort label="Titre" attribute="name" />
               </th>
               <th>
-                <Sort label="Auteur" attribute="name" />
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur</span>
               </th>
               <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
@@ -212,7 +212,7 @@ function showStatus(post_visible, published_at) {
 
             <tr v-for="post in posts.data" :key="post.id">
 
-              <td data-label="Name">
+              <td data-label="title">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                   {{ postSlicing(post.title) }}
                 </span>
@@ -225,11 +225,12 @@ function showStatus(post_visible, published_at) {
               </td>
 
               <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 mx-auto rounded-sm">
+                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`" class="w-16 rounded-sm lg:mx-auto">
               </td>
 
               <td data-label="Published_at">
-                {{ formatDateTimeISO(post.published_at) }}
+                {{ new Date(post.published_at).toLocaleDateString() }}
+           
               </td>
 
               <td data-label="categorie">

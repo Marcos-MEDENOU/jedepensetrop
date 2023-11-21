@@ -115,8 +115,9 @@ function setimgSrc(htmlContent) {
 <style>
 #editor h1 {
   font-weight: bold;
-  margin-block: 2rem;
-  font-size: 36pt;
+  margin-block: 1rem;
+  font-size: 32pt;
+  line-height: 3.5rem;
   /* font-family: DMSans; */
 }
 
@@ -147,4 +148,16 @@ function setimgSrc(htmlContent) {
 #editor h3 {
   text-decoration: underline
 }
+
+#editor ul li{
+  list-style: disc;
+  margin-left: 2.5rem;
+}
+
+#editor ol li{
+  list-style: decimal;
+  margin-left: 2.5rem;
+}
+
+
 </style>
