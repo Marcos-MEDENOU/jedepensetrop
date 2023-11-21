@@ -11,6 +11,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SocialiteController;
 use Inertia\Inertia;
 
 /*
@@ -70,3 +71,14 @@ Route::post('/comments/update', [CommentController::class, 'update'])->name('com
 Route::post('/comments/delete', [CommentController::class, 'destroy'])->name('comments.delete');
 
 require __DIR__.'/auth.php';
+
+
+# Socialite URLs
+
+// La page où on présente les liens de redirection vers les providers
+// Route::get("login-register", "SocialiteController@loginRegister");
+Route::get('login-register', [SocialiteController::class, 'loginRegister']);
+// La redirection vers le provider
+// Route::get("redirect/{provider}", "SocialiteController@redirect")->name('socialite.redirect');
+Route::get('redirect/{provider}/', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
+Route::get('callback/{provider}/', [SocialiteController::class, 'callback'])->name('socialite.callback');
