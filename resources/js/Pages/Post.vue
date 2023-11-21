@@ -21,18 +21,15 @@ const props = defineProps({
 })
 
 let post = ref(props.post)
-console.log(post.value);
 
 // Fonction qui permet d'afficher l'article précédent
 const previousPost = (id) => {
-    console.log(id);
 
     router.get(route("previous.post", id))
 };
 
 // Fonction qui permet d'afficher l'article suivant
 const nextPost = (id) => {
-    console.log(id);
 
     router.get(route("next.post", id))
 };
@@ -45,7 +42,6 @@ const hasNextPost = async (id) => {
     try {
         const response = await axios.get(route('has-next.post', props.post.id));
         hasNext.value = response.data.hasNext;
-        console.error(hasNext.value);
     } catch (error) {
         console.error(error);
     }
@@ -56,7 +52,6 @@ const hasPreviousPost = async (id) => {
     try {
         const response = await axios.get(route('has-previous.post', props.post.id));
         hasPrevious.value = response.data.hasPrevious;
-        console.error(hasPrevious.value);
     } catch (error) {
         console.error(error);
     }
@@ -65,7 +60,6 @@ const hasPreviousPost = async (id) => {
 const likePost = async () => {
 
     await axios.post(`/posts/${props.post.id}/like`).then(response => {
-        console.log(response.data.errorMessage);
         if (response.data.errorMessage == 'Veuillez vous connecter pour aimer le post.') {
             Swal.fire({
                 title: "Important!",
@@ -94,7 +88,6 @@ const likePost = async () => {
 const dislikePost = async () => {
 
     await axios.post(`/posts/${props.post.id}/dislike`).then(response => {
-        console.log(response.data.errorMessage);
         if (response.data.errorMessage == 'Veuillez vous connecter pour désaimer le post.') {
             Swal.fire({
                 title: "Important!",
@@ -168,7 +161,6 @@ const addComment = () => {
         post_id: props.post.id,
         parent_comment_id: parent_comment_id.value
     })).then(response => {
-        console.log(response.data.errorMessage);
         if (response.data.errorMessage == 'Veuillez vous connecter pour commenter le post.') {
             Swal.fire({
                 title: "Important!",
@@ -195,7 +187,8 @@ const addComment = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            commentaires.value = response.data.commentaires.original
+            commentaires.value = response.data.commentaires.original.comments
+            count.value = response.data.commentaires.original.count
             comment.value = '';
         }
 
@@ -239,7 +232,6 @@ const toggleDropdown = (type, id) => {
 const showReplyForm = ref({});
 
 const toggleReplyForm = (commentId) => {
-    console.log(commentId);
     // Assurez-vous que showReplyForm a une propriété pour chaque commentaire
     if (!showReplyForm.value[commentId]) {
         // Si la propriété n'existe pas, initialisez-la à true pour afficher le formulaire
@@ -255,7 +247,6 @@ const toggleReplyForm = (commentId) => {
 const showReplyComments = ref({});
 
 const toggleReplyComments = (commentId) => {
-    console.log(commentId);
     // Assurez-vous que showReplyComments a une propriété pour chaque commentaire
     if (!showReplyComments.value[commentId]) {
         // Si la propriété n'existe pas, initialisez-la à true pour afficher le cshowReplyCommentsulaire
@@ -271,8 +262,6 @@ const toggleReplyComments = (commentId) => {
 
 
 const submitReply = async (parentCommentId, commentId) => {
-    console.log(parentCommentId);
-    console.log(commentId);
     try {
         // Envoyez les données au serveur pour traitement
         await axios.post('/comments-reply', {
@@ -280,7 +269,6 @@ const submitReply = async (parentCommentId, commentId) => {
             post_id: props.post.id,
             parent_comment_id: parentCommentId
         }).then(response => {
-            console.log(response.data);
 
             if (response.data.errorMessage == 'Veuillez vous connecter pour commenter le post.') {
                 Swal.fire({
@@ -308,11 +296,12 @@ const submitReply = async (parentCommentId, commentId) => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                commentaires.value = response.data.commentaires.original
+                commentaires.value = response.data.commentaires.original.comments
+                count.value = response.data.commentaires.original.count
+                showReplyForm.value[commentId] = false;
                 replyComment.value = ''
 
                 // Hide the reply form
-                showReplyForm.value[commentId] = false;
             }
         });
 
@@ -469,12 +458,12 @@ const submitReply = async (parentCommentId, commentId) => {
                                             class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                             placeholder="Ecrire un commentaire..." required></textarea>
                                     </div>
-                                    <span @click="submitReply(commentaire.id)" v-if="replyComment.trim() !== ''"
+                                    <span @click="submitReply(commentaire.id, commentaire.id)" v-if="replyComment.trim() !== ''"
                                         class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
                                 </form>
                             </div>
 
-                            <div @click="toggleReplyComments(commentaire.id)"
+                            <div v-if="commentaire.child_comments.length > 0" @click="toggleReplyComments(commentaire.id)"
                                 class="cursor-pointer m-2 text-sm text-blue-700 font-semibold hover:underline ">{{
                                     commentaire.child_comments.length < 10 ? '0' + commentaire.child_comments.length :
                                     commentaire.child_comments.length }} réponse(s)</div>
