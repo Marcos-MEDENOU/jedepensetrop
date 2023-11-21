@@ -66,6 +66,7 @@ Route::post('/posts/{postId}/dislike', [LikeDislikeController::class, 'dislike']
 Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comments.show');
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::post('/comments-reply', [CommentController::class, 'store'])->name('comments.reply');
-Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+Route::post('/comments/update', [CommentController::class, 'update'])->name('comments.update');
+Route::post('/comments/delete', [CommentController::class, 'destroy'])->name('comments.delete');
 
 require __DIR__.'/auth.php';

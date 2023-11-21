@@ -229,8 +229,10 @@ const toggleDropdown = (type, id) => {
     isOpen.value[type][id] = !isOpen.value[type][id];
 };
 
+
 const showReplyForm = ref({});
 
+let isUpdate = ref(false)
 const toggleReplyForm = (commentId) => {
     // Assurez-vous que showReplyForm a une propriété pour chaque commentaire
     if (!showReplyForm.value[commentId]) {
@@ -241,11 +243,40 @@ const toggleReplyForm = (commentId) => {
         showReplyForm.value[commentId] = !showReplyForm.value[commentId];
     }
 
+    if (isUpdate.value = true) {
+        isUpdate.value = false
+
+    }
+
+    comment.value = "";
+    replyComment.value = "";
 
 };
 
-const showReplyComments = ref({});
+const makeCommentUpdate = (commentId) => {
+    // Assurez-vous que showReplyForm a une propriété pour chaque commentaire
+    if (!showReplyForm.value[commentId]) {
+        // Si la propriété n'existe pas, initialisez-la à true pour afficher le formulaire
+        showReplyForm.value[commentId] = true;
+    } else {
+        // Sinon, basculez la valeur pour afficher ou masquer le formulaire
+        showReplyForm.value[commentId] = !showReplyForm.value[commentId];
+    }
 
+    if (isUpdate.value = false) {
+        isUpdate.value = true
+
+    } else {
+        isUpdate.value = true
+    }
+
+    comment.value = "";
+    replyComment.value = "";
+
+}
+
+
+const showReplyComments = ref({});
 const toggleReplyComments = (commentId) => {
     // Assurez-vous que showReplyComments a une propriété pour chaque commentaire
     if (!showReplyComments.value[commentId]) {
@@ -258,6 +289,7 @@ const toggleReplyComments = (commentId) => {
 
 
 };
+
 
 
 
@@ -312,6 +344,29 @@ const submitReply = async (parentCommentId, commentId) => {
         // Gérez l'erreur (affichage d'un message d'erreur, journalisation, etc.)
     };
 };
+
+
+
+const updateComment = (commentId) => {
+    axios.put(route('comments.update', commentId)).then(response => {
+        console.log(response);
+    })
+}
+
+const deleteComment = (commentId) => {
+    axios.post(route('comments.delete', {
+        post_id: props.post.id,
+        commentId: commentId
+    })).then(response => {
+
+        commentaires.value = response.data.commentaires.original.comments
+        count.value = response.data.commentaires.original.count
+        showReplyForm.value[commentId] = false;
+        replyComment.value = ''
+
+        // Hide the reply form
+    })
+}
 
 </script>
 <template>
@@ -430,12 +485,12 @@ const submitReply = async (parentCommentId, commentId) => {
                                         class="absolute left-2  mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                                             <li>
-                                                <a href="#"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
+                                                <a @click="makeCommentUpdate(commentaire.id)"
+                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Modifier</a>
                                             </li>
                                             <li>
-                                                <a href="#"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                                <a @click="deleteComment(commentaire.id)"
+                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Supprimer</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -458,8 +513,13 @@ const submitReply = async (parentCommentId, commentId) => {
                                             class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                             placeholder="Ecrire un commentaire..." required></textarea>
                                     </div>
-                                    <span @click="submitReply(commentaire.id, commentaire.id)" v-if="replyComment.trim() !== ''"
-                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+                                    <div v-if="replyComment.trim() !== ''" class="flex">
+                                        <span v-if="!isUpdate" @click="submitReply(commentaire.id, reply.id)"
+                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+
+                                        <span v-if="isUpdate" @click="updateComment(commentaire.id)"
+                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Enrégistrer</span>
+                                    </div>
                                 </form>
                             </div>
 
@@ -492,12 +552,12 @@ const submitReply = async (parentCommentId, commentId) => {
                                                     class="absolute left-2 mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                                                         <li>
-                                                            <a href="#"
-                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
+                                                            <a @click="makeCommentUpdate(reply.id)"
+                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Modifier</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#"
-                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                                            <a @click="deleteComment(reply.id)"
+                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Supprimer</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -520,9 +580,13 @@ const submitReply = async (parentCommentId, commentId) => {
                                                         class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                                         placeholder="Ecrire un commentaire..." required></textarea>
                                                 </div>
-                                                <span @click="submitReply(commentaire.id, reply.id)"
-                                                    v-if="replyComment.trim() !== ''"
-                                                    class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+                                                <div v-if="replyComment.trim() !== ''" class="flex">
+                                                    <span v-if="!isUpdate" @click="submitReply(commentaire.id, reply.id)"
+                                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+
+                                                    <span v-if="isUpdate" @click="updateComment(reply.id)"
+                                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Enrégistrer</span>
+                                                </div>
                                             </form>
                                         </div>
                                     </article>

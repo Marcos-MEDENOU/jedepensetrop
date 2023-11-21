@@ -93,7 +93,7 @@ const subscribe = () => {
 
         <div class="container flex  justify-between mx-auto mt-5">
             <a href="/">
-                <img class="w-auto h-14" src="/images/jdtblog.png" alt="">
+                <img class="w-auto h-14" src="/images/logo1.png" alt="">
             </a>
 
             <ul class=" flex flex-col   ">

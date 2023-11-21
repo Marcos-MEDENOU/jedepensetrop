@@ -320,6 +320,7 @@ class PostController extends Controller
             $postsByCategory = [];
             $today = now();
 
+
             foreach ($categories as $category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
                     ->where('published_at', '<=', $today)->latest()->take(3)->get();

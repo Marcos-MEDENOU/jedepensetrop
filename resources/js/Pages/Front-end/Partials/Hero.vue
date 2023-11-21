@@ -11,7 +11,7 @@
         <!-- Contenu au centre -->
         <div class="absolute top-28 text-center flex items-center text-white">
             <!-- Mascotte avec punchlines -->
-            <img src="/images/mascotte.png" alt="Mascotte" class="floating-image" />
+            <img src="/images/masso.png" alt="Mascotte" class="floating-image" />
             <transition name="fade" mode="out-in">
                 <div :key="currentPunchline" class="mb-4 w-96 transition-opacity">
                     <p class="text-4xl">{{ currentPunchline }}</p>
@@ -20,7 +20,7 @@
         </div>
 
 
-        
+
     </div>
 </template>
 
@@ -33,6 +33,7 @@ const backgrounds = [
 ];
 
 const punchlines = [
+    " JE DEPENSE ? NON...! \n JE DEPENSE TROP.",
     "La finance au service de tous.",
     "Investir pour un avenir meilleur.",
     "Construisons ensemble votre succès financier.",

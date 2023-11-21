@@ -47,7 +47,7 @@ const categoryPosts = (slug) => {
                 <!-- Logo -->
                 <a href="/" class="cursor-pointer">
                     <h3 class="text-2xl font-medium text-blue-500">
-                        <img class="object-cover h-14" src="/images/jdtblog.png" alt="BlogLogo">
+                        <img class="object-cover h-14" src="/images/logo1.png" alt="BlogLogo">
                     </h3>
                 </a>
             </div>
