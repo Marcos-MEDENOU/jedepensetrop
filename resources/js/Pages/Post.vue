@@ -4,8 +4,14 @@ import { computed, ref, onMounted } from 'vue'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
 import { router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import { Head } from '@inertiajs/vue3';
 import Comment from './Front-end/Partials/Comment.vue';
+import Icon from '@/Components/Icons/Icon.vue';
+import moment from 'moment';
+import 'moment/locale/fr';
+
+
 
 const props = defineProps({
     post: {
@@ -57,20 +63,67 @@ const hasPreviousPost = async (id) => {
 }
 // Fonction permettant de liker le post
 const likePost = async () => {
-    const response = await axios.post(`/posts/${props.post.id}/like`);
-    post.value = response.data.post;
+
+    await axios.post(`/posts/${props.post.id}/like`).then(response => {
+        console.log(response.data.errorMessage);
+        if (response.data.errorMessage == 'Veuillez vous connecter pour aimer le post.') {
+            Swal.fire({
+                title: "Important!",
+                text: "Veuillez vous connecter pour aimer le post!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Se connecter"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    router.get(route("login"))
+
+                }
+            });
+        }
+        post.value = response.data.post.original;
+
+
+    })
 };
 
 // Fonction permettant de disliker le post
 const dislikePost = async () => {
-    const response = await axios.post(`/posts/${props.post.id}/dislike`);
-    post.value = response.data.post;
+
+    await axios.post(`/posts/${props.post.id}/dislike`).then(response => {
+        console.log(response.data.errorMessage);
+        if (response.data.errorMessage == 'Veuillez vous connecter pour désaimer le post.') {
+            Swal.fire({
+                title: "Important!",
+                text: "Veuillez vous connecter pour désaimer le post!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Se connecter"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    router.get(route("login"))
+
+                }
+            });
+        }
+        post.value = response.data.post.original;
+
+
+    })
 };
 
 
 onMounted(async () => {
     await hasNextPost();
     await hasPreviousPost();
+    showComment();
 });
 
 
@@ -105,6 +158,93 @@ const setimgSrc = (htmlContent) => {
     return modifiedHtmlContent.innerHTML;
 }
 
+let comment = ref('');
+let parent_comment_id = ref('');
+
+const addComment = () => {
+    axios.post(route('comments.store', {
+        content: comment.value,
+        post_id: props.post.id,
+        parent_comment_id: parent_comment_id.value
+    })).then(response => {
+        console.log(response.data.errorMessage);
+        if (response.data.errorMessage == 'Veuillez vous connecter pour commenter le post.') {
+            Swal.fire({
+                title: "Important!",
+                text: "Veuillez vous connecter pour commenter le post!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Annuler",
+                confirmButtonText: "Se connecter"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    router.get(route("login"))
+
+                }
+            });
+        }
+        if (response.data.successMessage) {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: response.data.successMessage,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        comment.value = '';
+
+    })
+}
+
+
+
+const formatCreatedAtDiff = (created_at) => {
+    moment.locale('fr');  // Définir la localisation sur le français
+    const now = moment();
+    const commentDate = moment(created_at);
+    const diff = now.diff(commentDate);
+    const duration = moment.duration(diff);
+
+    if (duration.asDays() > 1) {
+        return commentDate.fromNow();
+    } else {
+        return commentDate.startOf('minute').fromNow();
+    }
+};
+
+let commentaires = ref([])
+const showComment = () => {
+    axios.get(route('comments.show', props.post.id)).then(response => {
+        commentaires.value = response.data;
+    })
+}
+
+const isOpen = ref({
+    comment: {},
+    reply: {},
+});
+
+const toggleDropdown = (type, id) => {
+    isOpen.value[type][id] = !isOpen.value[type][id];
+};
+
+const showReplyForm = ref({});
+
+const toggleReplyForm = (commentId) => {
+   console.log(commentId);
+    showReplyForm[commentId] = !showReplyForm[commentId];
+};
+
+
+const submitReply = (commentId) => {
+
+  showReplyForm[commentId] = false;
+};
+
 </script>
 <template>
     <MainLayout>
@@ -138,24 +278,22 @@ const setimgSrc = (htmlContent) => {
                     </div>
                 </div>
 
-                <div class="mt-6 mb-12">
+                <div class="mt-10 mb-10">
                     <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
                     <div class="prose">
                         <div v-html="setimgSrc(post['content'])"></div>
                     </div>
-                    <div class="flex items-center mt-5 space-x-4">
+                    <div class="flex items-center gap-5 mt-10 space-x-4">
                         <!-- Bouton Like -->
-                        <span @click="likePost" :class="{ 'text-green-600': post.user_liked }"
-                            class="flex items-center text-green-500 hover:text-green-600 cursor-pointer">
+                        <span @click="likePost" class="flex items-center  cursor-pointer relative">
                             <Icon name="like" />
-                            <span class="ml-2">J'aime( {{ post.likes_count }})</span>
+                            <span class="ml-2 absolute -top-2 -right-3">{{ post.likes_count }}</span>
                         </span>
 
                         <!-- Bouton Dislike -->
-                        <span @click="dislikePost" :class="{ 'text-red-700': post.user_liked }"
-                            class="flex items-center text-red-500 hover:text-red-700 cursor-pointer">
+                        <span @click="dislikePost" class="flex items-center  cursor-pointer relative">
                             <Icon name="dislike" />
-                            <span class="ml-2">Je n'aime pas({{ post.dislikes_count }})</span>
+                            <span class="ml-2 absolute -top-2 -right-3">{{ post.dislikes_count }}</span>
                         </span>
                     </div>
                 </div>
@@ -181,7 +319,142 @@ const setimgSrc = (htmlContent) => {
 
 
                 <!-- Commentaires -->
-                <Comment />
+                <section class=" dark:bg-gray-900 py-8 lg:py-16 antialiased">
+                    <div class=" px-4">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
+                        </div>
+                        <form class="mb-6">
+                            <div
+                                class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+
+                                <textarea id="comment" rows="6" v-model="comment"
+                                    class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                    placeholder="Ecrire un commentaire..." required></textarea>
+                            </div>
+                            <span @click="addComment()" v-if="comment.trim() !== ''"
+                                class="inline-flex items-center px-4 py-2 cursor-pointer font-medium text-center  bg-primary-700  focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 hover:bg-black hover:text-white rounded-full">
+                                Ajouter un commentaire
+                            </span>
+                        </form>
+
+                        <article v-for="(commentaire) in commentaires" :key="commentaire.id"
+                            class="p-6 text-base rounded-lg dark:bg-gray-900 bg-white mb-2">
+                            <footer class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <p
+                                        class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                                        {{ commentaire.user.name }}
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        {{ formatCreatedAtDiff(commentaire.created_at) }}
+                                    </p>
+                                </div>
+                                <div class="relative inline-block">
+                                    <span @click="toggleDropdown( commentaire.id)"
+                                        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                                        <Icon name="param" />
+                                    </span>
+
+                                    <!-- Dropdown menu -->
+                                    <div v-if="isOpen.comment[commentaire.id]"
+                                        class="absolute left-2  mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                            <li>
+                                                <a href="#"
+                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"
+                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </footer>
+                            <p class="text-gray-500 dark:text-gray-400">{{ commentaire.content }}</p>
+                            <div class="flex flex-col  mt-4 space-x-4">
+                                <!-- Bouton "Répondre" -->
+                                <span @click="toggleReplyForm(commentaire.id)"
+                                    class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium cursor-pointer">
+                                    <Icon name="answers" />
+                                    Répondre
+                                </span>
+
+                                <!-- Formulaire de réponse conditionnel -->
+                                <form v-if="showReplyForm[commentaire.id]">
+                                    <div
+                                        class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                                        <textarea id="comment" rows="6" v-model="comment"
+                                            class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                            placeholder="Ecrire un commentaire..." required></textarea>
+                                    </div>
+                                    <span @click="submitReply(commentaire.id)"
+                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Envoyer</span>
+                                </form>
+                            </div>
+
+                            <article v-for="(reply) in commentaire.child_comments" :key="reply.id"
+                                class="p-6 mb-3 ml-6 bg-gray-50 lg:ml-12 text-base rounded-lg dark:bg-gray-900 mt-5">
+                                <footer class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <p
+                                            class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                                            {{ reply.user.name }}
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            {{ formatCreatedAtDiff(reply.created_at) }}
+                                        </p>
+                                    </div>
+                                    <div class="relative inline-block">
+                                        <span @click="toggleDropdown('reply', reply.id)"
+                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                                            <Icon name="param" />
+                                        </span>
+
+                                        <!-- Dropdown menu -->
+                                        <div v-if="isOpen.reply[reply.id]"
+                                            class="absolute left-2 mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                                <li>
+                                                    <a href="#"
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </footer>
+                                <p class="text-gray-500 dark:text-gray-400">{{ reply.content }}</p>
+                                <div class="flex flex-col  mt-4 space-x-4">
+                                    <!-- Bouton "Répondre" -->
+                                    <span @click="toggleReplyForm(reply.id)"
+                                        class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium cursor-pointer">
+                                        <Icon name="answers" />
+                                        Répondre
+                                    </span>
+
+                                    <!-- Formulaire de réponse conditionnel -->
+                                    <form v-if="showReplyForm[reply.id]">
+                                        <div
+                                            class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                                            <textarea id="comment" rows="6" v-model="comment"
+                                                class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                                placeholder="Ecrire un commentaire..." required></textarea>
+                                        </div>
+                                        <span @click="submitReply(reply.id)"
+                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Envoyer</span>
+                                    </form>
+                                </div>
+                            </article>
+                        </article>
+
+
+                    </div>
+                </section>
 
 
 

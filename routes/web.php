@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Blog\CategoryController;
 use App\Http\Controllers\Admin\Blog\PostController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContentAiController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\LikeDislikeController;
@@ -60,5 +61,10 @@ Route::get('/posts/has-previous/{postId}', [PostController::class, 'hasPreviousP
 Route::get('/posts/has-next/{postId}', [PostController::class, 'hasNextPost'])->name('has-next.post');
 Route::post('/posts/{postId}/like', [LikeDislikeController::class, 'like']);
 Route::post('/posts/{postId}/dislike', [LikeDislikeController::class, 'dislike']);
+
+
+Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comments.show');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 
 require __DIR__.'/auth.php';
