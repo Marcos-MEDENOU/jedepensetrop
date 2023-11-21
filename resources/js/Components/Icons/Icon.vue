@@ -43,8 +43,8 @@
         </path>
     </svg>
 
-    <svg v-else-if="name === 'send'" xmlns="http://www.w3.org/2000/svg" width="30" fill="#724ae8" enable-background="new 0 0 32 32" viewBox="0 0 32 32"
-        id="send">
+    <svg v-else-if="name === 'send'" xmlns="http://www.w3.org/2000/svg" width="30" fill="#724ae8"
+        enable-background="new 0 0 32 32" viewBox="0 0 32 32" id="send">
         <path
             d="M31.48959,2.90819c-0.03976-1.04205-1.19317-1.68439-2.12529-1.26078C29.36432,1.64735,1.34714,14.91867,1.34714,14.91867c-1.03748,0.4537-1.15173,2.02162-0.17779,2.61244c-0.00006,0,6.56647,4.29322,6.56647,4.29322v7.16302c-0.03842,1.29145,1.66795,2.01355,2.56215,1.06113c-0.00003,0.00007,3.96029-3.95982,3.96029-3.95982s5.54258,3.62374,5.54258,3.62374c0.24722,0.16172,0.53353,0.24478,0.82179,0.24478c0.61638,0.00498,1.2002-0.39932,1.40809-0.98157c0,0.00001,9.38467-25.45261,9.38467-25.45261C31.48575,3.3223,31.51829,3.11498,31.48959,2.90819z M22.81887,8.06956L10.70725,20.18081l-5.65374-3.69624L22.81887,8.06956z M10.73767,25.36404V23.7869l0.95377,0.62355L10.73767,25.36404z M19.86631,26.16873l-6.5923-4.30983L26.23356,8.89966L19.86631,26.16873z">
         </path>
@@ -56,6 +56,30 @@
             clip-rule="evenodd"></path>
     </svg>
 
+
+    <svg v-else-if="name === 'like'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="like" class="h-8 w-8">
+        <path
+            d="M14 6h-4V3c0-1.103-.897-2-2-2H6.5a.5.5 0 0 0-.5.5v2.367L4.066 7.252A.493.493 0 0 0 4 7.5v7a.5.5 0 0 0 .5.5h8.025a2 2 0 0 0 1.827-1.188l1.604-3.609A.491.491 0 0 0 16 10V8c0-1.103-.897-2-2-2zM0 7.5v7a.5.5 0 0 0 .5.5H3V7H.5a.5.5 0 0 0-.5.5z">
+        </path>
+    </svg>
+
+
+    <svg v-else-if="name === 'dislike'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="dislike" class="h-8 w-8">
+        <path
+            d="M14 10h-4v3c0 1.103-.897 2-2 2H6.5a.5.5 0 0 1-.5-.5v-2.367L4.066 8.748A.493.493 0 0 1 4 8.5v-7a.5.5 0 0 1 .5-.5h8.025a2 2 0 0 1 1.827 1.188l1.604 3.609A.491.491 0 0 1 16 6v2c0 1.103-.897 2-2 2zM0 8.5v-7A.5.5 0 0 1 .5 1H3v8H.5a.5.5 0 0 1-.5-.5z">
+        </path>
+    </svg>
+
+    <svg v-else-if="name === 'answers'" class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        fill="none" viewBox="0 0 20 18">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
+    </svg>
+
+    <svg v-else-if="name === 'param'"  class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+        <path
+            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+    </svg>
 
     <svg v-else-if="name === 'youtube'" xmlns="http://www.w3.org/2000/svg" width="512" height="512" id="youtube">
         <g fill="#1A1A1A" fill-rule="evenodd" clip-rule="evenodd">

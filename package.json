@@ -33,6 +33,7 @@
         "filepond": "^4.30.4",
         "filepond-plugin-file-validate-type": "^1.2.8",
         "filepond-plugin-image-preview": "^4.6.11",
+        "moment": "^2.29.4",
         "numeral": "^2.0.6",
         "primevue": "^3.40.1",
         "sweetalert2": "^11.10.0",

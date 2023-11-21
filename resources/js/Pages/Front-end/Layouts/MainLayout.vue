@@ -16,5 +16,6 @@ import Footer from '../Partials/Footer.vue';
 <style>
 main{
 background-color: whitesmoke;
+/* background-color: #EEECE1; */
 }
 </style>
