@@ -302,7 +302,7 @@ const submitReply = async (parentCommentId, commentId) => {
     try {
         // Envoyez les données au serveur pour traitement
         await axios.post('/comments-reply', {
-            content: comment.value,
+            content: replyComment.value,
             post_id: props.post.id,
             parent_comment_id: parentCommentId
         }).then(response => {
