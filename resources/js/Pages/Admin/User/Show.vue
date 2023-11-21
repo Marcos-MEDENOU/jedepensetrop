@@ -28,35 +28,19 @@ const props = defineProps({
 
 <template>
   <LayoutAuthenticated>
+
     <Head title="View user" />
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiAccountGroup"
-        title="View user"
-        main
-      >
-        <BaseButton
-          :route-name="route('user.index')"
-          :icon="mdiArrowLeftBoldOutline"
-          label="Back"
-          color="white"
-          rounded-full
-          small
-        />
+      <SectionTitleLineWithButton :icon="mdiAccountGroup" title="View user" main>
+        <BaseButton :route-name="route('user.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
+          rounded-full small />
       </SectionTitleLineWithButton>
-      <CardBox class="mb-6">
+      <!-- <CardBox class="mb-6">
         <table>
           <tbody>
             <tr>
               <td
-                class="
-                  p-4
-                  pl-8
-                  text-slate-500
-                  dark:text-slate-400
-                  hidden
-                  lg:block
-                "
+                class="hidden p-4 pl-8 text-slate-500 dark:text-slate-400 lg:block"
               >
                 Name
               </td>
@@ -66,14 +50,7 @@ const props = defineProps({
             </tr>
             <tr>
               <td
-                class="
-                  p-4
-                  pl-8
-                  text-slate-500
-                  dark:text-slate-400
-                  hidden
-                  lg:block
-                "
+                class="hidden p-4 pl-8 text-slate-500 dark:text-slate-400 lg:block"
               >
                 Email
               </td>
@@ -83,14 +60,7 @@ const props = defineProps({
             </tr>
             <tr>
               <td
-                class="
-                  p-4
-                  pl-8
-                  text-slate-500
-                  dark:text-slate-400
-                  hidden
-                  lg:block
-                "
+                class="hidden p-4 pl-8 text-slate-500 dark:text-slate-400 lg:block"
               >
                 Created
               </td>
@@ -100,7 +70,57 @@ const props = defineProps({
             </tr>
           </tbody>
         </table>
-      </CardBox>
+      </CardBox> -->
+
+
+      <div
+        class="relative w-full max-w-md min-w-0 mx-auto mt-24 mb-6 break-words bg-white shadow-lg lg:mt-20 md:container rounded-xl">
+        <div class="px-6">
+          <div class="flex flex-wrap justify-center">
+            <div class="flex justify-center w-full">
+              <div class="relative">
+                <img
+                  src="/images/user.jpg"
+                  class="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]" />
+              </div>
+            </div>
+            <div class="w-full mt-20 text-center">
+              <div class="flex justify-center pt-8 pb-0 lg:pt-4">
+                <div class="p-3 text-center">
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">564</span>
+                  <span class="text-sm text-slate-400">Commentaires</span>
+                </div>
+                <div class="p-3 text-center">
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">3,360</span>
+                  <span class="text-sm text-slate-400">Articles</span>
+                </div>
+                <div class="p-3 text-center">
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">2,454</span>
+                  <span class="text-sm text-slate-400">J'aimes</span>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 text-center">
+            <h3 class="mb-1 text-2xl font-bold leading-normal text-slate-700"> {{ user.name }}</h3>
+            <div class="mt-0 mb-2 text-xs font-bold uppercase text-slate-400">
+              <i class="mr-2 opacity-75 fas fa-map-marker-alt text-slate-400"></i> {{ user.email }}
+            </div>
+          </div>
+          <div class="py-6 mt-6 text-center border-t border-slate-200">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full px-4">
+                <p class="mb-4 font-light leading-relaxed text-slate-600">Explorez les méandres de la réflexion et de
+                  l'imagination sur jedepensetrop.fr, où chaque pensée est une étincelle d'inspiration et chaque idée un
+                  voyage captivant dans l'univers de la pensée.</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </SectionMain>
   </LayoutAuthenticated>
 </template>
