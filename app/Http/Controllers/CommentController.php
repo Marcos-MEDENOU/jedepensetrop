@@ -32,34 +32,33 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         try {
-            // dd($request->all());
             $user = auth()->user();
 
-            // Vérifier si l'utilisateur est connecté
             if ($user) {
-                // Vérifier si l'utilisateur a déjà désaimé le post
-                Comment::create([
+                $comment = Comment::create([
                     'content' => $request->input('content'),
                     'user_id' => $user->id,
                     'post_id' => $request->input('post_id'),
                     'parent_comment_id' => $request->input('parent_comment_id'),
                 ]);
+
+                // Ajouter le nouveau commentaire à la liste des commentaires
+                $comments = self::show($request->input('post_id'));
+
+
                 return response()->json([
                     'errorMessage' => '',
                     'successMessage' => 'Commentaire ajouté avec succès',
-                    'commentaires' => self::show($$request->input('post_id'))
+                    'commentaires' => $comments,
                 ]);
             } else {
-                // L'utilisateur n'est pas connecté, envoyer un message
                 return response()->json([
                     'successMessage' => '',
                     'errorMessage' => 'Veuillez vous connecter pour commenter le post.',
-
                 ]);
             }
-
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -77,24 +76,26 @@ class CommentController extends Controller
                 ->with('user') // Charger les informations de l'utilisateur
                 ->get();
 
+            $commentsCount = Comment::where('post_id', $postId)->count();
+
             // Charger les réponses pour chaque commentaire
             $comments->load('childComments.user'); // Assurez-vous que la relation est définie dans le modèle Comment
 
-            // Formater la date en français
-            // $comments = $comments->map(function ($comment) {
-            //     $comment->created_at =  Carbon::createFromFormat('Y-m-d H:i:s', $comment->created_at->toDateTimeString())->format('d/m/Y H:i:s');
-            //     return $comment;
-            // });
 
-
-
-
-            return response()->json($comments);
+            return response()->json(
+                [
+                    'comments' => $comments,
+                    'count' => $commentsCount,
+                ]
+            );
         } catch (\Exception $th) {
             // Gérer l'exception ici
             return response()->json(['error' => $th->getMessage()], 500);
         }
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.

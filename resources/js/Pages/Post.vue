@@ -159,6 +159,7 @@ const setimgSrc = (htmlContent) => {
 }
 
 let comment = ref('');
+let replyComment = ref('');
 let parent_comment_id = ref('');
 
 const addComment = () => {
@@ -194,8 +195,9 @@ const addComment = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
+            commentaires.value = response.data.commentaires.original
+            comment.value = '';
         }
-        comment.value = '';
 
     })
 }
@@ -217,9 +219,11 @@ const formatCreatedAtDiff = (created_at) => {
 };
 
 let commentaires = ref([])
+let count = ref(null)
 const showComment = () => {
     axios.get(route('comments.show', props.post.id)).then(response => {
-        commentaires.value = response.data;
+        commentaires.value = response.data.comments;
+        count.value = response.data.count
     })
 }
 
@@ -235,14 +239,89 @@ const toggleDropdown = (type, id) => {
 const showReplyForm = ref({});
 
 const toggleReplyForm = (commentId) => {
-   console.log(commentId);
-    showReplyForm[commentId] = !showReplyForm[commentId];
+    console.log(commentId);
+    // Assurez-vous que showReplyForm a une propriété pour chaque commentaire
+    if (!showReplyForm.value[commentId]) {
+        // Si la propriété n'existe pas, initialisez-la à true pour afficher le formulaire
+        showReplyForm.value[commentId] = true;
+    } else {
+        // Sinon, basculez la valeur pour afficher ou masquer le formulaire
+        showReplyForm.value[commentId] = !showReplyForm.value[commentId];
+    }
+
+
+};
+
+const showReplyComments = ref({});
+
+const toggleReplyComments = (commentId) => {
+    console.log(commentId);
+    // Assurez-vous que showReplyComments a une propriété pour chaque commentaire
+    if (!showReplyComments.value[commentId]) {
+        // Si la propriété n'existe pas, initialisez-la à true pour afficher le cshowReplyCommentsulaire
+        showReplyComments.value[commentId] = true;
+    } else {
+        // Sinon, basculez la valeur pour afficher ou masquer le cshowReplyCommentsulaire
+        showReplyComments.value[commentId] = !showReplyComments.value[commentId];
+    }
+
+
 };
 
 
-const submitReply = (commentId) => {
 
-  showReplyForm[commentId] = false;
+const submitReply = async (parentCommentId, commentId) => {
+    console.log(parentCommentId);
+    console.log(commentId);
+    try {
+        // Envoyez les données au serveur pour traitement
+        await axios.post('/comments-reply', {
+            content: replyComment.value,
+            post_id: props.post.id,
+            parent_comment_id: parentCommentId
+        }).then(response => {
+            console.log(response.data);
+
+            if (response.data.errorMessage == 'Veuillez vous connecter pour commenter le post.') {
+                Swal.fire({
+                    title: "Important!",
+                    text: "Veuillez vous connecter pour commenter le post!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "Annuler",
+                    confirmButtonText: "Se connecter"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        router.get(route("login"))
+
+                    }
+                });
+            }
+            if (response.data.successMessage) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.data.successMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                commentaires.value = response.data.commentaires.original
+                replyComment.value = ''
+
+                // Hide the reply form
+                showReplyForm.value[commentId] = false;
+            }
+        });
+
+
+
+    } catch (error) {
+        console.error('Erreur lors de la soumission de la réponse :', error);
+        // Gérez l'erreur (affichage d'un message d'erreur, journalisation, etc.)
+    };
 };
 
 </script>
@@ -267,7 +346,7 @@ const submitReply = (commentId) => {
 
 
             <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
-                <div class="flex items-center justify-between pb-4 border-b italic">
+                <div class="flex items-center justify-between pb-4 italic border-b">
                     <div class="text-gray-700">
                         <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
                         <p class="text-lg font-semibold">Rédigé par : {{ post['author'].name }}</p>
@@ -281,7 +360,7 @@ const submitReply = (commentId) => {
                 <div class="mt-10 mb-10">
                     <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
                     <div class="prose">
-                        <div v-html="setimgSrc(post['content'])"></div>
+                        <div id="editor" v-html="setimgSrc(post['content'])"></div>
                     </div>
                     <div class="flex items-center gap-5 mt-10 space-x-4">
                         <!-- Bouton Like -->
@@ -301,14 +380,14 @@ const submitReply = (commentId) => {
                 <div class="relative flex items-center justify-between pt-8 border-t border-gray-300"
                     :class="{ 'justify-end': !hasPrevious }"> <!-- Ajoutez 'justify-end' si hasPrevious est faux -->
                     <div v-if="hasPrevious" @click="previousPost(props.post.id)"
-                        class="text-gray-700 text-start cursor-pointer left-0">
+                        class="left-0 text-gray-700 cursor-pointer text-start">
                         <span
                             class="p-4 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md hover:scale-50 hover:bg-gray-900">
                             Article précédent
                         </span>
                     </div>
                     <div v-if="hasNext" @click="nextPost(props.post.id)"
-                        class="text-gray-700 cursor-pointer absolute right-0">
+                        class="absolute right-0 text-gray-700 cursor-pointer">
                         <span
                             class="p-4 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg hover:scale-50 hover:bg-gray-900">
                             Article suivant
@@ -322,7 +401,8 @@ const submitReply = (commentId) => {
                 <section class=" dark:bg-gray-900 py-8 lg:py-16 antialiased">
                     <div class=" px-4">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
+                            <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion ({{
+                                count < 10 ? '0' + count : count }})</h2>
                         </div>
                         <form class="mb-6">
                             <div
@@ -351,7 +431,7 @@ const submitReply = (commentId) => {
                                     </p>
                                 </div>
                                 <div class="relative inline-block">
-                                    <span @click="toggleDropdown( commentaire.id)"
+                                    <span @click="toggleDropdown('comment', commentaire.id)"
                                         class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                                         <Icon name="param" />
                                     </span>
@@ -385,71 +465,78 @@ const submitReply = (commentId) => {
                                 <form v-if="showReplyForm[commentaire.id]">
                                     <div
                                         class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-                                        <textarea id="comment" rows="6" v-model="comment"
+                                        <textarea id="comment" rows="6" v-model="replyComment"
                                             class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                             placeholder="Ecrire un commentaire..." required></textarea>
                                     </div>
-                                    <span @click="submitReply(commentaire.id)"
-                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Envoyer</span>
+                                    <span @click="submitReply(commentaire.id)" v-if="replyComment.trim() !== ''"
+                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
                                 </form>
                             </div>
 
-                            <article v-for="(reply) in commentaire.child_comments" :key="reply.id"
-                                class="p-6 mb-3 ml-6 bg-gray-50 lg:ml-12 text-base rounded-lg dark:bg-gray-900 mt-5">
-                                <footer class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <p
-                                            class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                                            {{ reply.user.name }}
-                                        </p>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                                            {{ formatCreatedAtDiff(reply.created_at) }}
-                                        </p>
-                                    </div>
-                                    <div class="relative inline-block">
-                                        <span @click="toggleDropdown('reply', reply.id)"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                                            <Icon name="param" />
-                                        </span>
+                            <div @click="toggleReplyComments(commentaire.id)"
+                                class="cursor-pointer m-2 text-sm text-blue-700 font-semibold hover:underline ">{{
+                                    commentaire.child_comments.length < 10 ? '0' + commentaire.child_comments.length :
+                                    commentaire.child_comments.length }} réponse(s)</div>
 
-                                        <!-- Dropdown menu -->
-                                        <div v-if="isOpen.reply[reply.id]"
-                                            class="absolute left-2 mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
-                                                <li>
-                                                    <a href="#"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </footer>
-                                <p class="text-gray-500 dark:text-gray-400">{{ reply.content }}</p>
-                                <div class="flex flex-col  mt-4 space-x-4">
-                                    <!-- Bouton "Répondre" -->
-                                    <span @click="toggleReplyForm(reply.id)"
-                                        class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium cursor-pointer">
-                                        <Icon name="answers" />
-                                        Répondre
-                                    </span>
+                                    <article v-for="(reply) in commentaire.child_comments" :key="reply.id"
+                                        v-if="showReplyComments[commentaire.id]"
+                                        class="p-6 mb-3 ml-6 bg-gray-50 lg:ml-12 text-base rounded-lg dark:bg-gray-900 mt-5">
+                                        <footer class="flex justify-between items-center mb-2">
+                                            <div class="flex items-center">
+                                                <p
+                                                    class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                                                    {{ reply.user.name }}
+                                                </p>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                    {{ formatCreatedAtDiff(reply.created_at) }}
+                                                </p>
+                                            </div>
+                                            <div class="relative inline-block">
+                                                <span @click="toggleDropdown('reply', reply.id)"
+                                                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                                                    <Icon name="param" />
+                                                </span>
 
-                                    <!-- Formulaire de réponse conditionnel -->
-                                    <form v-if="showReplyForm[reply.id]">
-                                        <div
-                                            class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-                                            <textarea id="comment" rows="6" v-model="comment"
-                                                class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                                                placeholder="Ecrire un commentaire..." required></textarea>
+                                                <!-- Dropdown menu -->
+                                                <div v-if="isOpen.reply[reply.id]"
+                                                    class="absolute left-2 mt-2 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                                        <li>
+                                                            <a href="#"
+                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"
+                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </footer>
+                                        <p class="text-gray-500 dark:text-gray-400">{{ reply.content }}</p>
+                                        <div class="flex flex-col  mt-4 space-x-4">
+                                            <!-- Bouton "Répondre" -->
+                                            <span @click="toggleReplyForm(reply.id)"
+                                                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium cursor-pointer">
+                                                <Icon name="answers" />
+                                                Répondre
+                                            </span>
+
+                                            <!-- Formulaire de réponse conditionnel -->
+                                            <form v-if="showReplyForm[reply.id]">
+                                                <div
+                                                    class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                                                    <textarea id="comment" rows="6" v-model="replyComment"
+                                                        class="px-0 w-full max-h-20 text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                                        placeholder="Ecrire un commentaire..." required></textarea>
+                                                </div>
+                                                <span @click="submitReply(commentaire.id, reply.id)"
+                                                    v-if="replyComment.trim() !== ''"
+                                                    class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+                                            </form>
                                         </div>
-                                        <span @click="submitReply(reply.id)"
-                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Envoyer</span>
-                                    </form>
-                                </div>
-                            </article>
+                                    </article>
                         </article>
 
 
@@ -537,3 +624,50 @@ const submitReply = (commentId) => {
     </MainLayout>
 </template>
 
+<style>
+#editor h1 {
+    font-weight: bold;
+    margin-block: 1rem;
+    font-size: 32pt;
+    line-height: 3.5rem;
+    /* font-family: DMSans; */
+}
+
+#editor h2 {
+    font-weight: bold;
+    margin-block: 1rem;
+    font-size: 24pt;
+}
+
+#editor h3 {
+    text-decoration: underline;
+    font-size: 18pt;
+}
+
+#editor p,
+#editor ul,
+#editor table {
+    font-size: 12pt;
+    /* font-family: DMSans; */
+    padding-block: 5pt;
+}
+
+#editor table.full {
+    display: block;
+    background-color: white;
+}
+
+#editor h3 {
+    text-decoration: underline
+}
+
+#editor ul li {
+    list-style: disc;
+    margin-left: 2.5rem;
+}
+
+#editor ol li {
+    list-style: decimal;
+    margin-left: 2.5rem;
+}
+</style>
