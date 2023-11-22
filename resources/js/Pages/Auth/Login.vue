@@ -47,7 +47,7 @@ const test=()=>{
 
                         <div class="grid space-y-4">
                             <a href="/redirect/google"
-                                class="px-6 py-2 transition duration-300 border-2 border-orange-600 rounded-full hover:border-orange-700 ">
+                                class="px-6 py-2 transition duration-300 border-2 border-gray-600 rounded-full hover:border-gray-700 ">
                                 <div class="relative flex items-center justify-center space-x-4">
                                     <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg"
                                         class="absolute left-0 w-5" alt="google logo">

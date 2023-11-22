@@ -26,4 +26,13 @@ Route::group([
     Route::resource('category', 'CategoryController');
     Route::resource('author', 'AuthorController');
     Route::resource('posts', 'PostController');
+    Route::resource('scrapping', 'ScrapperController');
+});
+Route::group([
+    'namespace' =>'App\Http\Controllers\Admin\Scrapper',
+    'prefix' => config('admin.prefix'),
+    'middleware' => ['auth'],
+], function () {
+
+    Route::resource('scrapping', 'ScrapperController');
 });

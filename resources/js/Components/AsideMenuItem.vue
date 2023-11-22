@@ -50,14 +50,15 @@ const menuClick = event => {
 }
 
 const activeInactiveStyle = computed(
-  () => props.item.route && route().current(props.item.route)
+  () => props.item.uri == route().current(props.item.route)
     ? styleStore.asideMenuItemActiveStyle
     : ''
 )
 </script>
 
 <template>
-  <li>
+  <li> 
+   {{ props.item.uri == route().current(props.item.route) }}
     <component
       :is="itemHref ? Link : 'div'"
       :href="itemHref"
