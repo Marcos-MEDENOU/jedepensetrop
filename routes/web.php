@@ -69,6 +69,7 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comments.st
 Route::post('/comments-reply', [CommentController::class, 'store'])->name('comments.reply');
 Route::post('/comments/update', [CommentController::class, 'update'])->name('comments.update');
 Route::post('/comments/delete', [CommentController::class, 'destroy'])->name('comments.delete');
+Route::get('/comments/edit/{id}', [CommentController::class, 'edit'])->name('comments.edit');
 
 require __DIR__.'/auth.php';
 
