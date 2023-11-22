@@ -3,7 +3,7 @@ export const basic = {
   asideScrollbars: 'aside-scrollbars-gray ',
   asideBrand: 'bg-gray-900 text-white',
   asideMenuItem: 'text-gray-300 hover:text-white',
-  asideMenuItemActive: 'font-bold text-white',
+  asideMenuItemActive: 'font-bold text-white bg-black',
   asideMenuDropdown: 'bg-gray-700/50',
   navBarItemLabel: 'text-black',
   navBarItemLabelHover: 'hover:text-blue-500',

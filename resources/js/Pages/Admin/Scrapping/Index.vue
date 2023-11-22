@@ -168,7 +168,7 @@ function updateFilteredArticles(searchTerm) {
     }))
     : (props.posts.data = original_post);
 
- 
+
 }
 
 // function updatePost() {
@@ -188,7 +188,7 @@ function updateFilteredArticles(searchTerm) {
 <template>
   <LayoutAuthenticated>
 
-    <Head title="Articles" />
+    <Head title="Scrapping" />
     <!-- {{ original_post }} -->
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>

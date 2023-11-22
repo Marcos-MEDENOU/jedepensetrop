@@ -53,7 +53,6 @@ function is_checked($db_value, $html_value){
  
   <LayoutAuthenticated>
     <Head title="Update user" />
-    {{ props.userHasRoles[0] }}
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountGroup"

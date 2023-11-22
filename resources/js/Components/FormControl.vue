@@ -28,6 +28,10 @@ const props = defineProps({
     type: String,
     default: null
   },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
   options: {
     type: [Array, Object],
     default: null
@@ -58,6 +62,7 @@ const computedValue = computed({
     emit('update:modelValue', value)
   }
 })
+const isReadonly = computed(() => props.readonly);
 
 const inputElClass = computed(() => {
   const base = [
@@ -132,6 +137,7 @@ if (props.ctrlKFocus) {
       v-model="computedValue"
       :name="name"
       :class="inputElClass"
+      :readonly="isReadonly"
     >
       <option value="" v-if="placeholder"> {{ placeholder }}</option>
       <option
@@ -150,6 +156,7 @@ if (props.ctrlKFocus) {
       :name="name"
       :placeholder="placeholder"
       :required="required"
+      :readonly="isReadonly"
     />
     <input
       v-else
@@ -163,6 +170,7 @@ if (props.ctrlKFocus) {
       :placeholder="placeholder"
       :type="computedType"
       :class="inputElClass"
+      :readonly="isReadonly"
     >
     <FormControlIcon
       v-if="icon"
