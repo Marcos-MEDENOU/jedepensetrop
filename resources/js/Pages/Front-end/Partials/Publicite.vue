@@ -25,10 +25,6 @@ const publicites = ref([
 ]);
 
 
-onMounted(() => {
-    // Appel de la fonction pour charger la publicité une fois que le composant est monté
-    fetchPubliciteFromAPI();
-});
 </script>
 
 <template>
