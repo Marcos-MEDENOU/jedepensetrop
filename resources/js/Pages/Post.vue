@@ -3,6 +3,7 @@ import axios from 'axios';
 import { computed, ref, onMounted } from 'vue'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
+import Publicite from './Front-end/Partials/Publicite.vue'
 import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import { Head } from '@inertiajs/vue3';
@@ -401,10 +402,14 @@ const deleteComment = (commentId) => {
                 {{ post['category'].name }}
             </span>
         </div>
-        <div class="flex justify-center mt-8 ">
+        <div class="flex justify-center mt-8 mx-40">
+
+            <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
+                <Publicite />
+            </div>
 
 
-            <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
+            <div class="w-[750px]  container mx-auto ">
                 <div class="flex items-center justify-between pb-4 italic border-b">
                     <div class="text-gray-700">
                         <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
