@@ -501,11 +501,11 @@ const deleteComment = (commentId) => {
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                                             <li>
                                                 <a @click="makeCommentUpdate(commentaire.id)"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Modifier</a>
+                                                    class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
                                             </li>
                                             <li>
                                                 <a @click="deleteComment(commentaire.id)"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Supprimer</a>
+                                                    class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -530,10 +530,10 @@ const deleteComment = (commentId) => {
                                     </div>
                                     <div v-if="replyComment.trim() !== ''" class="flex">
                                         <span v-if="!isUpdate" @click="submitReply(commentaire.id, commentaire.id)"
-                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+                                            class="cursor-pointer text-slate-500 hover:text-slate-700">Répondre</span>
 
                                         <span v-if="isUpdate" @click="updateComment(commentaire.id)"
-                                            class="text-slate-500 hover:text-slate-700 cursor-pointer">Enrégistrer</span>
+                                            class="cursor-pointer text-slate-500 hover:text-slate-700">Enrégistrer</span>
                                     </div>
                                 </form>
                             </div>
@@ -568,11 +568,11 @@ const deleteComment = (commentId) => {
                                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                                                         <li>
                                                             <a @click="makeCommentUpdate(reply.id)"
-                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Modifier</a>
+                                                                class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Modifier</a>
                                                         </li>
                                                         <li>
                                                             <a @click="deleteComment(reply.id)"
-                                                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">Supprimer</a>
+                                                                class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -597,10 +597,10 @@ const deleteComment = (commentId) => {
                                                 </div>
                                                 <div v-if="replyComment.trim() !== ''" class="flex">
                                                     <span v-if="!isUpdate" @click="submitReply(commentaire.id, reply.id)"
-                                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Répondre</span>
+                                                        class="cursor-pointer text-slate-500 hover:text-slate-700">Répondre</span>
 
                                                     <span v-if="isUpdate" @click="updateComment(reply.id)"
-                                                        class="text-slate-500 hover:text-slate-700 cursor-pointer">Enrégistrer</span>
+                                                        class="cursor-pointer text-slate-500 hover:text-slate-700">Enrégistrer</span>
                                                 </div>
                                             </form>
                                         </div>

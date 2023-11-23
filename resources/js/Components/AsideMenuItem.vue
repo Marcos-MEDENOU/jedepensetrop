@@ -57,42 +57,20 @@ const activeInactiveStyle = computed(
 </script>
 
 <template>
-  <li> 
-   {{ props.item.uri == route().current(props.item.route) }}
-    <component
-      :is="itemHref ? Link : 'div'"
-      :href="itemHref"
-      :target="item.target ?? null"
-      class="flex cursor-pointer dark:text-slate-300 dark:hover:text-white"
-      :class="componentClass"
-      @click="menuClick"
-    >
-    <!-- :path="mdiIcons[$`item.icon`]" -->
-      <BaseIcon
-        v-if="item.icon"
-        :path="mdiIcons[`${item.icon}`]"
-        class="flex-none text-black dark:text-white"
-        :class="activeInactiveStyle"
-        w="w-16"
-        :size="18"
-      />
-      <span
-        class="text-gray-800 dark:text-gray-100 grow text-ellipsis line-clamp-1"
-        :class="activeInactiveStyle"
-      >{{ item.name }}</span>
-      <BaseIcon
-        v-if="hasDropdown"
-        :path="isDropdownActive ? mdiMinus : mdiPlus"
-        class="flex-none"
-        :class="activeInactiveStyle"
-        w="w-12"
-      />
+  <li>
+    <!-- {{ props.item.uri == route().current(props.item.route) }} -->
+    <component :is="itemHref ? Link : 'div'" :href="itemHref" :target="item.target ?? null"
+      class="flex cursor-pointer dark:text-slate-300 dark:hover:text-white" :class="componentClass" @click="menuClick">
+      <!-- :path="mdiIcons[$`item.icon`]" -->
+      <BaseIcon v-if="item.icon" :path="mdiIcons[`${item.icon}`]" class="flex-none text-black dark:text-white"
+        :class="activeInactiveStyle" w="w-16" :size="18" />
+      <span class="text-gray-800 dark:text-gray-100 grow text-ellipsis line-clamp-1" :class="activeInactiveStyle">{{
+        item.name }}</span>
+      <BaseIcon v-if="hasDropdown" :path="isDropdownActive ? mdiMinus : mdiPlus" class="flex-none"
+        :class="activeInactiveStyle" w="w-12" />
     </component>
-    <AsideMenuList 
-      v-if="hasDropdown"
-      :menu="item.children"
-      :class="[ styleStore.asideMenuDropdownStyle, isDropdownActive ? 'block dark:bg-slate-800/50 ' : 'hidden' ]"
-      is-dropdown-list
-    />
-  </li>
+    <AsideMenuList v-if="hasDropdown" :menu="item.children"
+      :class="[styleStore.asideMenuDropdownStyle, isDropdownActive ? 'block dark:bg-slate-800/50 ' : 'hidden']"
+      is-dropdown-list />
+  </li> 
 </template>

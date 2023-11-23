@@ -191,8 +191,8 @@ function updateFilteredArticles(searchTerm) {
     <Head title="Scrapping" />
     <!-- {{ original_post }} -->
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>
-        <BaseButton v-if="can.create" :route-name="route('posts.create')" :icon="mdiPlus" label="Ajouter un article"
+      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Extraction de donnée" main>
+        <BaseButton v-if="can.create" :route-name="route('scrapping.create')" :icon="mdiPlus" label="Scrapper un article"
           color="info" rounded-full small />
       </SectionTitleLineWithButton>
 
@@ -226,23 +226,22 @@ function updateFilteredArticles(searchTerm) {
           <thead>
             <tr>
               <th>
-                <Sort label="Titre" attribute="name" />
+                <Sort label="Titre de l'article" attribute="name" />
               </th>
               <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur</span>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">URL</span>
               </th>
               <th class="flex items-center justify-center">
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Mot clés</span>
               </th>
               <th class="items-center justify-center">
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Date de publication</span>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Contenu</span>
               </th>
-              <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Catégorie</span>
-              </th>
-              <th class="flex items-center justify-center">
+            
+              <!-- <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Statut</span>
-              </th>
+              </th> -->
+              
               <th>
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Prévisualiser</span>
               </th>
@@ -252,7 +251,7 @@ function updateFilteredArticles(searchTerm) {
 
           <tbody>
 
-            <tr v-for="post in posts.data" :key="post.id">
+            <!-- <tr v-for="post in posts.data" :key="post.id">
 
               <td data-label="title">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
@@ -310,7 +309,7 @@ function updateFilteredArticles(searchTerm) {
                   <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small @click="destroy(post.id)" />
                 </BaseButtons>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
         <div class="py-4">

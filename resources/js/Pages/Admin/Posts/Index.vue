@@ -168,7 +168,7 @@ function updateFilteredArticles(searchTerm) {
     }))
     : (props.posts.data = original_post);
 
- 
+
 }
 
 // function updatePost() {
@@ -281,19 +281,31 @@ function updateFilteredArticles(searchTerm) {
               </td>
 
               <td data-label="categorie" class="text-center">
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'retiré'"
-                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-red-500 rounded-lg">{{
-                    showStatus(post.post_visible, post.published_at) }}</span>
+
                 <span v-if="showStatus(post.post_visible, post.published_at) == 'publié'"
-                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-green-500 rounded-lg ">{{
-                    showStatus(post.post_visible, post.published_at) }}</span>
+                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-green-600 rounded-full bg-green-50">
+                  <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                  {{
+                    showStatus(post.post_visible, post.published_at) }}
+                </span>
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'retiré'"
+                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-red-600 rounded-full bg-red-50">
+                  <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                  {{
+                    showStatus(post.post_visible, post.published_at) }}
+                </span>
                 <span v-if="showStatus(post.post_visible, post.published_at) == 'en cours d\'édition'"
-                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-blue-500 rounded-lg ">{{
-                    showStatus(post.post_visible, post.published_at) }}</span>
+                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-blue-600 rounded-full bg-blue-50">
+                  <span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                  {{
+                    showStatus(post.post_visible, post.published_at) }}
+                </span>
                 <span v-if="showStatus(post.post_visible, post.published_at) == 'publication dans'"
-                  class="px-2 py-1 text-sm font-semibold text-center text-white bg-green-500 rounded-lg ">{{
-                    showStatus(post.post_visible, post.published_at) }} {{ differenceInDays(post.published_at) }}
-                  jour(s)</span>
+                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-yellow-600 rounded-full bg-yellow-50">
+                  <span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>
+                  {{
+                    showStatus(post.post_visible, post.published_at) }} {{ differenceInDays(post.published_at) }} jour(s)
+                </span>
               </td>
               <td data-label="prévisualiser">
                 <Link :href="route('posts.show', post.id)"

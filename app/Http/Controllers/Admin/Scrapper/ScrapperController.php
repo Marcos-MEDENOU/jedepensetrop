@@ -53,7 +53,7 @@ class ScrapperController extends Controller
 
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
 
-        return Inertia::render('Admin/Posts/Index', [
+        return Inertia::render('Admin/Scrapping/Index', [
             'posts' => $posts,
             'filters' => request()->all('search'),
             'can' => [
@@ -70,7 +70,7 @@ class ScrapperController extends Controller
         $categorie = Category::all()
             ->pluck('name', 'id');
 
-        return Inertia::render('Admin/Posts/Create', [
+        return Inertia::render('Admin/Scrapping/Create', [
             'category' => $categorie,
             'visibility' => $visibility,
         ]);
@@ -83,7 +83,7 @@ class ScrapperController extends Controller
 
         $visibility = ['non', 'oui'];
         $categorie = Category::all()->pluck('name', 'id');
-        return Inertia::render('Admin/Posts/Edit', [
+        return Inertia::render('Admin/Scrapping/Edit', [
             'posts' => $post,
             'category' => $categorie,
             'visibility' => $visibility,
@@ -93,7 +93,7 @@ class ScrapperController extends Controller
     public function show(Post $post)
     {
 
-        return Inertia::render('Admin/Posts/Show', [
+        return Inertia::render('Admin/Scrapping/Show', [
             'posts' => $post,
             // 'roles' => $roles,
             // 'userHasRoles' => $userHasRoles,
