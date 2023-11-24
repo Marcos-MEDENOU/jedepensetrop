@@ -19,6 +19,8 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+
+    
 })
 
 let post = ref(props.post)
@@ -390,6 +392,8 @@ const deleteComment = (commentId) => {
 
         <Head :title="props.post.slug" />
 
+       
+
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
@@ -402,7 +406,7 @@ const deleteComment = (commentId) => {
                 {{ post['category'].name }}
             </span>
         </div>
-        <div class="flex justify-center mt-8 mx-40">
+        <div class="flex justify-center mx-40 mt-8">
 
             <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
                 <Publicite />

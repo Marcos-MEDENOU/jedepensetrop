@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div class="bg-left bg-origin-padding bg-clip-content flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0 bg-cover bg-no-repeat dark:bg-gray-900 bg-[url('/images/girafe.jpg')]"
+    <div class="bg-left bg-origin-padding bg-clip-content flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0 bg-cover bg-no-repeat dark:bg-gray-900 bg-[url('https://ik.imagekit.io/q5edmtudmz/peter-lloyd-680526-unsplash_TYZn4kayG.jpg')]"
     >
         
 

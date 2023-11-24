@@ -1,20 +1,21 @@
 <template>
     <div class="relative h-[700px] flex items-center justify-center transition-all ">
+        
         <!-- Fond d'écran en arrière-plan -->
         <transition name="fade" mode="in-out">
             <img :src="currentBackground" :key="currentBackground"
-                class="absolute inset-0 w-full h-full object-cover transition-opacity transition-filter"
+                class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                 style="filter: brightness(0.5);" />
         </transition>
 
 
         <!-- Contenu au centre -->
-        <div class="absolute top-28 text-center flex items-center text-white">
+        <div class="absolute flex items-center text-center text-white top-28">
             <!-- Mascotte avec punchlines -->
             <img src="/images/masso.png" alt="Mascotte" class="floating-image" />
             <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="mb-4 w-96 transition-opacity">
-                    <p class="text-4xl">{{ currentPunchline }}</p>
+                <div :key="currentPunchline" class="mb-4 transition-opacity w-96">
+                    <p class="text-4xl">{{ currentPunchline }} </p>
                 </div>
             </transition>
         </div>
@@ -26,7 +27,12 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-
+const props = defineProps({
+    user:{
+        type: Object,
+        required:true
+    }
+})
 const backgrounds = [
 
     "/images/blogs.jpg",

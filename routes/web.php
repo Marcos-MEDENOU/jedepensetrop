@@ -13,7 +13,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
 use Inertia\Inertia;
-
+use Spatie\Permission\Middlewares\RoleMiddleware;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +32,9 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'user' => Auth::user(), // Informations sur l'utilisateur
     ]);
-});
+})->name('home.index');
 
 Route::get('/contentAi', [ContentAiController::class, 'index'])->name('contentAi.index');
 Route::post('/api', [ContentAiController::class, 'test'])->name('contentAi.test');
@@ -43,9 +45,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
+Route::middleware(['auth', 'verified','super-admin'])->group(function () {
     Route::post('/editorUpload', [PostController::class, 'editorUpload']);
+});
+Route::middleware([ 'auth', 'role:admin|super-admin|ecrivain'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 });
 
 Route::post('/upload', [ImageUploadController::class, 'store']);

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMenuTables extends Migration
 {
@@ -23,7 +23,7 @@ class CreateMenuTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create($tableNames['menu_items'], function (Blueprint $table) use($tableNames) {
+        Schema::create($tableNames['menu_items'], function (Blueprint $table) use ($tableNames) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('menu_id');
@@ -33,6 +33,7 @@ class CreateMenuTables extends Migration
                 ->onDelete('cascade');
 
             $table->string('name');
+            $table->string('icon')->nullable();
             $table->string('uri')->nullable();
             $table->string('description')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
