@@ -201,6 +201,13 @@ class AdminCoreSeeder extends Seeder
                 'weight' => 8,
                 'icon'=>'mdiPlus'
             ],
+            [
+                'name' => 'Catégorie',
+                'uri' => '/<admin>/category',
+                'enabled' => 1,
+                'weight' => 8,
+                'icon'=>'mdiPostageStamp'
+            ],
         ];
 
         $super_admin_menu->menuItems()->createMany($super_admin_menu_items);

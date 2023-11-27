@@ -61,7 +61,7 @@ const activeInactiveStyle = computed(
       class="flex cursor-pointer dark:text-slate-300 dark:hover:text-white" :class="componentClass" @click="menuClick">
       <!-- :path="mdiIcons[$`item.icon`]" -->
       <BaseIcon v-if="item.icon" :path="mdiIcons[`${item.icon}`]" class="flex-none text-black dark:text-white"
-        :class="activeInactiveStyle" w="w-14" :size="18" />
+        :class="activeInactiveStyle" w="w-16" :size="24" />
       <span class="text-gray-800 dark:text-gray-100 grow text-ellipsis line-clamp-1" :class="activeInactiveStyle">{{
         item.name }}</span>
       <BaseIcon v-if="hasDropdown" :path="isDropdownActive ? mdiMinus : mdiPlus" class="flex-none"
