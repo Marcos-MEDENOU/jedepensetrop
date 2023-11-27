@@ -55,20 +55,20 @@ defineProps({
         :trend-type="trendType"
         small
       />
-      <BaseButton
+      <!-- <BaseButton
         :icon="mdiCog"
         icon-w="w-4"
         icon-h="h-4"
         color="white"
         small
-      />
+      /> -->
     </BaseLevel>
     <BaseLevel mobile>
       <div>
         <h3 class="text-lg leading-tight text-gray-500 dark:text-slate-400">
           {{ label }}
         </h3>
-        <h1 class="text-3xl leading-tight font-semibold">
+        <h1 class="text-3xl font-semibold leading-tight">
           <NumberDynamic
             :value="number"
             :prefix="prefix"

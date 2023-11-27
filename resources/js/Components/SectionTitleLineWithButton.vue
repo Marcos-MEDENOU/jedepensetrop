@@ -23,7 +23,7 @@ const hasSlot = computed(() => useSlots().default)
 <template>
   <section 
     :class="{'pt-6':!main}"
-    class="mb-6 flex items-center justify-between"
+    class="flex items-center justify-between mb-6"
   >
     <div class="flex items-center justify-start">
       <IconRounded
@@ -47,10 +47,10 @@ const hasSlot = computed(() => useSlots().default)
       </h1>
     </div>
     <slot v-if="hasSlot" />
-    <BaseButton
+    <!-- <BaseButton
       v-else
       :icon="mdiCog"
       small
-    />
+    /> -->
   </section>
 </template>

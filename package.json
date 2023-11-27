@@ -41,6 +41,7 @@
         "tinymce": "^6.4.2",
         "vue-ckeditor2": "^2.1.5",
         "vue-filepond": "^7.0.3",
-        "vue-router": "^4.2.4"
+        "vue-router": "^4.2.4",
+        "xlsx": "^0.18.5"
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('newsletters', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->text('question')->nullable(); // Ajout du champ "question"
             $table->timestamps();
         });
