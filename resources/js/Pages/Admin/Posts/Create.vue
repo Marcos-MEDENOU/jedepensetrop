@@ -153,7 +153,7 @@ watch(form.title, updateSlug);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="info" label="Submit" :class="{ 'opacity-25': form.processing }"
+            <BaseButton type="submit" color="success" label="Sauvegarder" :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing" />
           </BaseButtons>
         </template>

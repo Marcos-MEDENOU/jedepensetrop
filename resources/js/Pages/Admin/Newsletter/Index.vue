@@ -199,7 +199,7 @@ function exportToExcel() {
     <Head title="Articles" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Newsletters" main>
-        <BaseButton @click="exportToExcel" :icon="mdiExport" label="Exporter" color="success" rounded-full small />
+        <BaseButton @click="exportToExcel" :icon="mdiExport" label="Exporter" color="info" rounded-full small />
       </SectionTitleLineWithButton>
 
 

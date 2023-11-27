@@ -50,22 +50,32 @@ const menuClick = event => {
 }
 
 const activeInactiveStyle = computed(
-  () => props.item.uri == route().current(props.item.route)
+  () => splitGetter( props.item.uri, '/', 2 ) === splitGetter( route().current(props.item.route), '.', 0 ) ||
+  (props.item.uri=="/dashboard" && splitGetter( route().current(props.item.route), '.', 0 )=="dashboard")
     ? styleStore.asideMenuItemActiveStyle : '')
+    
+// const activeInactiveStyle = computed(
+//   () => props.item.uri == route().current(props.item.route)
+//     ? styleStore.asideMenuItemActiveStyle : '')
+
+function splitGetter(string, separator, index){
+  return string.split(separator)[index]
+}
 </script>
 
 <template>
-  <li>
-    <!-- {{ props.item.uri == route().current(props.item.route) }} -->
+  <li :class="activeInactiveStyle">
+
     <component :is="itemHref ? Link : 'div'" :href="itemHref" :target="item.target ?? null"
       class="flex cursor-pointer dark:text-slate-300 dark:hover:text-white" :class="componentClass" @click="menuClick">
       <!-- :path="mdiIcons[$`item.icon`]" -->
-      <BaseIcon v-if="item.icon" :path="mdiIcons[`${item.icon}`]" class="flex-none text-black dark:text-white"
-        :class="activeInactiveStyle" w="w-16" :size="24" />
-      <span class="text-gray-800 dark:text-gray-100 grow text-ellipsis line-clamp-1" :class="activeInactiveStyle">{{
+      <BaseIcon v-if="item.icon" :path="mdiIcons[`${item.icon}`]" class="flex-none mr-3 text-black dark:text-white"
+       :size="20" :class="{ 'text-white': activeInactiveStyle }"/>
+      <span class="text-gray-600 dark:text-gray-100 grow text-ellipsis line-clamp-1"
+      :class="{ 'text-white': activeInactiveStyle }">{{
         item.name }}</span>
       <BaseIcon v-if="hasDropdown" :path="isDropdownActive ? mdiMinus : mdiPlus" class="flex-none"
-        :class="activeInactiveStyle" w="w-12" />
+        w="w-12" />
     </component>
     <AsideMenuList v-if="hasDropdown" :menu="item.children"
       :class="[styleStore.asideMenuDropdownStyle, isDropdownActive ? 'block dark:bg-slate-800/50 ' : 'hidden']"

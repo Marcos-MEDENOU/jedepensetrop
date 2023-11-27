@@ -60,9 +60,9 @@ const test = () => {
                             d="M9.68807 3.85336C11.5073 3.85336 12.7344 4.66168 13.4342 5.33718L16.1684 2.59107C14.4892 0.985496 12.3039 0 9.68807 0C5.89885 0 2.62637 2.23672 1.0332 5.49214L4.16573 7.99466C4.95162 5.59183 7.12608 3.85336 9.68807 3.85336Z"
                             fill="#EB4335" />
                     </svg>
-                    <p class="ml-4 text-base font-medium text-gray-700">Continue with Google</p>
+                    <p class="ml-4 text-base font-medium text-gray-700">Continuer avec Google</p>
                 </a>
-<!-- 
+                <!-- 
                 <div class="grid space-y-4">
                     <a href="/redirect/google"
                         class="px-6 py-2 transition duration-300 border-2 border-gray-600 rounded-full hover:border-gray-700 ">
@@ -115,10 +115,12 @@ const test = () => {
                 </label>
             </div>
 
-            <div class="mt-4 ">
-            <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Se connecter
-            </PrimaryButton>
-        </div>
-    </form>
-</GuestLayout></template>
+            <div class="mt-4">
+                <PrimaryButton class="bg-gradient-to-tr from-blue-600 to-blue-400"
+                    :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Se connecter
+                </PrimaryButton>
+            </div>
+        </form>
+    </GuestLayout>
+</template>
