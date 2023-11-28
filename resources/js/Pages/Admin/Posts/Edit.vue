@@ -15,7 +15,8 @@ import BaseDivider from '@/Components/BaseDivider.vue'
 import BaseButton from '@/Components/BaseButton.vue'
 import BaseButtons from '@/Components/BaseButtons.vue'
 import FormFilePicker from "@/Components/FormFilePicker.vue"
-import { ref, onMounted } from 'vue';
+// import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import fileUploads from '@/Components/FormFilePicker.vue'
@@ -24,7 +25,7 @@ import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import Editor from '@/components/Editor.vue'
-
+import slugify from 'slugify';
 import ckeditor from '@/Components/Ckeditor.vue'
 const props = defineProps({
   posts: {
@@ -61,9 +62,6 @@ const form = useForm({
   image: props.posts.image,
   is_visible: props.posts.post_visible,
   category: props.posts.blog_category_id,
-  // name: props.authors.name,
-  // bio: props.authors.bio,
-  // email: props.authors.email,
 })
 
 
@@ -93,6 +91,23 @@ function formatDateTimeISO(dateISO) {
 
   return `${jour}-${mois}-${annee}`;
 }
+
+const updateSlug = () => {
+  form.slug = generateSlug(form.title);
+  console.log(form.slug);
+};
+
+const generateSlug = (title) => {
+  const trimmedTitle = title.trim();
+  const slug = slugify(trimmedTitle, {
+    lower: true,
+    remove: /[*+~.()'"!:@]/g,
+  });
+  return slug;
+};
+
+watch(form.title, updateSlug);
+
 </script>
 
 <template>
@@ -107,7 +122,7 @@ function formatDateTimeISO(dateISO) {
 
       <CardBox form @submit.prevent="form.post(route('posts.update', props.posts.id))">
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
-          <FormControl v-model="form.title" type="text" required="required"
+          <FormControl v-model="form.title" type="text" required="required" @input="updateSlug"
             placeholder="Entrer un titre pour votre article" :error="form.errors.title">
             <div class="text-sm text-red-400" v-if="form.errors.title">
               {{ form.errors.title }}

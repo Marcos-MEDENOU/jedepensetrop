@@ -6,7 +6,7 @@ import {
   mdiShapePlusOutline,
   mdiSquareEditOutline,
   mdiTrashCan,
-  mdiAlertBoxOutline, mdiEyeCheck,
+  mdiAlertBoxOutline, mdiEyeCheck,mdiCableData
 } from "@mdi/js"
 import { computed, ref, watch } from 'vue'
 import { usePage, router } from '@inertiajs/vue3'
@@ -191,7 +191,7 @@ function updateFilteredArticles(searchTerm) {
     <Head title="Scrapping" />
     <!-- {{ original_post }} -->
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Extraction de donnée" main>
+      <SectionTitleLineWithButton :icon="mdiCableData" title="Extraction de donnée" main>
         <BaseButton v-if="can.create" :route-name="route('scrapping.create')" :icon="mdiPlus" label="Scrapper un article"
           color="info" rounded-full small />
       </SectionTitleLineWithButton>

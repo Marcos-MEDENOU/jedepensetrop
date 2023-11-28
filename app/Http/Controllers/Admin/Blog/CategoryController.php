@@ -127,9 +127,9 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => $request->slug,
             'description' => $request->description,
-            'seo_title' => $request->slug,
-            'seo_description' => $request->seo_description,
-            'is_visible' => ($request->is_visible == "oui") ? true : false
+            // 'seo_title' => $request->slug,
+            // 'seo_description' => $request->seo_description,
+            // 'is_visible' => ($request->is_visible == "oui") ? true : false
         ]);
 
         return redirect()->route('category.index')
@@ -190,9 +190,9 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => $request->slug,
             'description' => $request->description,
-            'seo_title' => $request->slug,
-            'seo_description' => $request->seo_description,
-            'is_visible' => $request->visibility
+            // 'seo_title' => $request->slug,
+            // 'seo_description' => $request->seo_description,
+            // 'is_visible' => $request->visibility
         ]);
 
         return redirect()->route('category.index')

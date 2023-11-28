@@ -115,7 +115,7 @@ const form = useForm({
             </div>
           </FormControl>
         </FormField>
-        <FormField
+        <!-- <FormField
           label="SEO titre"
           :class="{ 'text-red-400': form.errors.seo_title }"
         >
@@ -145,7 +145,7 @@ const form = useForm({
               {{ form.errors.seo_description }}
             </div>
           </FormControl>
-        </FormField>
+        </FormField> -->
 
 
         <!-- <BaseDivider /> -->

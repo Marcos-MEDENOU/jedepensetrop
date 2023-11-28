@@ -64,9 +64,8 @@ const form = useForm({
 
 const updateSlug = () => {
   form.slug = generateSlug(form.title);
-  console.log("value");
 };
-console.log('ez');
+
 const generateSlug = (title) => {
   const trimmedTitle = title.trim();
   const slug = slugify(trimmedTitle, {
@@ -153,7 +152,7 @@ watch(form.title, updateSlug);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="success" label="Sauvegarder" :class="{ 'opacity-25': form.processing }"
+            <BaseButton type="submit" color="info" label="Sauvegarder" :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing" />
           </BaseButtons>
         </template>

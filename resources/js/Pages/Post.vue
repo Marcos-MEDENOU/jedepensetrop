@@ -20,7 +20,7 @@ const props = defineProps({
         required: true,
     },
 
-    
+
 })
 
 let post = ref(props.post)
@@ -392,7 +392,7 @@ const deleteComment = (commentId) => {
 
         <Head :title="props.post.slug" />
 
-       
+
 
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->

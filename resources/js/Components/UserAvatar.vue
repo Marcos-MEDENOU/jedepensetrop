@@ -13,8 +13,11 @@ const props = defineProps({
   api: {
     type: String,
     default: 'avataaars'
-  }
+  },
+
 })
+
+
 
 const avatar = computed(
   () => props.avatar ?? `https://avatars.dicebear.com/api/${props.api}/${props.username.replace(/[^a-z0-9]+/i, '-')}.png`
@@ -25,10 +28,6 @@ const username = computed(() => props.username)
 
 <template>
   <div>
-    <img
-      :src="avatar"
-      :alt="username"
-      class="block w-full h-auto max-w-full bg-gray-100 rounded-full dark:bg-slate-800"
-    >
+    <img :src="avatar" :alt="username" class="block w-full h-auto max-w-full bg-gray-100 rounded-full dark:bg-slate-800">
   </div>
 </template>

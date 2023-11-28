@@ -55,6 +55,8 @@ const logout = () => {
   router.post(route('logout'))
   console.log("logout");
 }
+
+
 </script>
 
 <template>
@@ -133,7 +135,8 @@ const logout = () => {
           </NavBarMenu> -->
           <NavBarMenu>
             <NavBarItemLabel :label="userName">
-              <UserAvatarCurrentUser class="inline-flex w-6 h-6" />
+              <UserAvatarCurrentUser class="inline-flex w-6 h-6"/>
+              
             </NavBarItemLabel>
 
             <template #dropdown>

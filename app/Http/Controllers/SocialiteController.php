@@ -47,7 +47,7 @@ class SocialiteController extends Controller
             # Social login - register
             $email = $data->getEmail(); // L'adresse email
             $name = $data->getName(); // le nom
-
+            $image = $data->getAvatar();
 
             # 1. On récupère l'utilisateur à partir de l'adresse email
             $user = User::where("email", $email)->first();
@@ -66,6 +66,7 @@ class SocialiteController extends Controller
                 $user = User::create([
                     'name' => $name,
                     'email' => $email,
+                    'image'=> $image,
                     'password' => bcrypt($email), // On attribue un mot de passe
                 ]);
 

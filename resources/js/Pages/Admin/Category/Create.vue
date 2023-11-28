@@ -103,7 +103,7 @@ console.log(form.is_visible);
             </div>
           </FormControl>
         </FormField>
-        <FormField
+        <!-- <FormField
           label="SEO titre"
           :class="{ 'text-red-400': form.errors.seo_title }"
         >
@@ -133,7 +133,7 @@ console.log(form.is_visible);
               {{ form.errors.seo_description }}
             </div>
           </FormControl>
-        </FormField>
+        </FormField> -->
 
         <!-- <FormField
           label="Password Confirmation"
@@ -170,7 +170,7 @@ console.log(form.is_visible);
           <BaseButtons>
             <BaseButton
               type="submit"
-              color="success"
+              color="info"
               label="Enrégistrer"
               :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing"

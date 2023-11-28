@@ -19,8 +19,8 @@ class Category extends Model
         'name',
         'slug',
         'description',
-        'seo_title',
-        'seo_description',
+        // 'seo_title',
+        // 'seo_description',
  
     ];
 

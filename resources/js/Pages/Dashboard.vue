@@ -9,7 +9,7 @@ import CardBoxWidget from '@/Components/CardBoxWidget.vue'
 import CardBox from '@/Components/CardBox.vue'
 import TableSampleClients from '@/Components/TableSampleClients.vue'
 import { Head } from '@inertiajs/vue3';
-import { mdiNoteSearch, mdiAccountMultiple,mdiChartTimelineVariant, mdiEyeSettings } from '@mdi/js'
+import { mdiNoteSearch, mdiAccountMultiple, mdiChartTimelineVariant, mdiEyeSettings } from '@mdi/js'
 const mainStore = useMainStore()
 
 const props = defineProps({
@@ -21,10 +21,10 @@ const props = defineProps({
     type: Number,
     default: () => (null),
   },
-  listusers: {
-    type: Array,
-    default: () => ([]),
-  },
+  listusers:{
+    type:Array,
+    default:([])
+  }
 })
 
 </script>
@@ -33,7 +33,7 @@ const props = defineProps({
   <AuthenticatedLayout>
 
     <Head title="Espace d'administration" />
-    
+
     <SectionMain>
 
       <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="Espace d'administration" main>
