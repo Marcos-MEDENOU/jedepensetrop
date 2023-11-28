@@ -1,3 +1,3 @@
 <template>
-    <img src="/images/logojdt.png" alt="" class="flex w-48 h-auto mx-auto ">
+    <img src="/images/logoCharle.png" alt="" class="w-36 h-auto">
 </template>

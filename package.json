@@ -30,6 +30,8 @@
         "@tiptap/starter-kit": "^2.1.12",
         "@tiptap/vue-3": "^2.1.12",
         "@vuepic/vue-datepicker": "^5.2.0",
+        "date-fns": "^2.30.0",
+        "date-fns-tz": "^2.0.0",
         "filepond": "^4.30.4",
         "filepond-plugin-file-validate-type": "^1.2.8",
         "filepond-plugin-image-preview": "^4.6.11",

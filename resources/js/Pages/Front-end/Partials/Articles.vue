@@ -4,6 +4,13 @@ import { onMounted, reactive, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import AsideRight from '../Partials/AsideRight.vue';
+import Icon from '@/Components/Icons/Icon.vue'
+import { format, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import frLocale from 'date-fns/locale/fr';
+
+
+
 
 const latestPost = ref([]);
 const fetchLatestPost = async () => {
@@ -44,10 +51,10 @@ const fetchThreeByCategory = async () => {
     }
 };
 
-onMounted(() => {
-    fetchLatestPost();
-    fetchPreviousThreePosts();
-    fetchThreeByCategory()
+onMounted(async () => {
+    await fetchLatestPost();
+    await fetchPreviousThreePosts();
+    await fetchThreeByCategory()
 });
 
 
@@ -106,15 +113,60 @@ const subscribe = () => {
         });
 }
 
+const formatDate = (inputDate) => {
+  if (!inputDate) {
+    return null; // Ou une autre valeur par défaut appropriée
+  }
+
+  const [day, month, year] = inputDate.split('/').map(Number);
+
+  // Vérifier si la date est valide
+  if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    return null; // Ou une autre valeur par défaut appropriée
+  }
+
+  const dateInUTC = new Date(Date.UTC(year, month - 1, day)); // Note: Month is zero-based
+
+  // Convertir la date à partir de l'UTC vers le fuseau horaire français
+  return new Date(dateInUTC.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+};
+
+const formatRelativeTime = (inputDate) => {
+  const parsedDate = formatDate(inputDate);
+  const currentDate = new Date();
+console.log(parsedDate);
+console.log(currentDate);
+
+  if (!parsedDate) {
+    return 'Date invalide';
+  }
+
+  const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
+  const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
+  const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
+  const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+
+  if (differenceInDaysValue > 1) {
+    return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
+  } else if (differenceInHoursValue > 0) {
+    return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
+  } else if (differenceInMinutesValue > 0) {
+    return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
+  } else {
+    return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
+  }
+};
+
+
 </script>
 
 
 <template>
-    <div class=" flex justify-center mt-8 ml-20">
+    <div class=" 2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
 
-        <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
+        <div class="2xl:w-6/12 lg:12/12  ">
 
-            <h1 class="mb-5 text-3xl font-bold">Derniers Articles</h1>
+            <h1 class="mb-5 text-3xl font-bold">Articles les plus récents</h1>
 
             <div class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 mb-10">
                 <div @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
@@ -132,16 +184,17 @@ const subscribe = () => {
 
                         <div
                             class="flex flex-col justify-center text-white gap-2 mx-auto mt-1 absolute bottom-10 left-14 right-14">
-                            <h1 class="h-20 text-5xl font-bold mb-3">
+                            <h1 class=" text-3xl md:text-5xl font-bold mb-3 my-2 ">
                                 {{ latestPost.title }}
                             </h1>
-                            <p class="text-xl my-2">{{ latestPost.seo_description }}</p>
-                            <div class="mt-5 text-xl">
+                            <!-- <p class="text-xl ">{{ latestPost.seo_description }}</p> -->
+                            <div class="mt-5 text-xl text-white">
                                 <p class="italic">
-                                    Publié le : {{ latestPost.published_at }}
+                                    {{ formatRelativeTime(latestPost.published_at) }}
                                 </p>
-                                <p class="italic">
-                                    Lire en : {{ latestPost.duree }} minutes
+                                <p class="italic flex items-center gap-1">
+                                    <Icon name="clock" /> {{ latestPost.duree ? '0' + latestPost.duree : latestPost.duree }}
+                                    minutes
                                 </p>
                             </div>
                         </div>
@@ -150,14 +203,14 @@ const subscribe = () => {
 
                 <div class="mb-10">
                     <!-- <h1 class="mb-5 text-3xl font-bold">Derniers Articles</h1> -->
-                    <div class="grid grid-cols-3 gap-6  cursor-pointer lg:mx-auto grid-cols-2 ">
+                    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6  cursor-pointer lg:mx-auto grid-cols-1 ">
 
                         <div v-for="(article, index) in data.recentPosts" :key="index"
                             class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg">
                                     <div
-                                        class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                        class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
                                         <!-- Apply fixed width and height to the image -->
                                         <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
                                             class="w-full h-full object-cover">
@@ -172,12 +225,14 @@ const subscribe = () => {
                                     <h1 class="h-20 text-xl font-bold">
                                         {{ article.title }}
                                     </h1>
-                                    <div class="text-red-900 mt-5">
-                                        <p class="italic">
-                                            Publié le : {{ article.published_at }}
+
+                                    <div class="text-gray-500 mt-5 ">
+                                        <p class="italic mb-2">
+                                            {{ formatRelativeTime(article.published_at) }}
                                         </p>
-                                        <p class="italic">
-                                            Lire en : {{ article.duree }} minutes
+                                        <p class="italic flex items-center gap-1">
+                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            minutes
                                         </p>
                                     </div>
                                 </div>
@@ -221,14 +276,14 @@ const subscribe = () => {
                 <div v-for="category, index in categories" :key="index" class="mb-10 mt-10">
 
                     <h1 class="mb-5 text-3xl font-bold">{{ category.category }}</h1>
-                    <div class="grid grid-cols-3 gap-6  cursor-pointer  ">
+                    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6  cursor-pointer  ">
 
                         <div v-for="(article, index) in category.posts" :key="index"
                             class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
-                                        class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                        class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
                                         <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
                                             class="w-full h-full object-cover">
@@ -247,12 +302,13 @@ const subscribe = () => {
                                         {{ article.title }}
                                     </h1>
 
-                                    <div class="text-red-900 mt-5">
+                                    <div class="text-gray-500 mt-5">
                                         <p class="italic">
-                                            Publié le : {{ article.published_at }}
+                                            {{ formatRelativeTime(article.published_at) }}
                                         </p>
-                                        <p class="italic">
-                                            Lire en : {{ article.duree }} minutes
+                                        <p class="italic flex items-center gap-1">
+                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            minutes
                                         </p>
                                     </div>
 
@@ -267,8 +323,7 @@ const subscribe = () => {
             </div>
         </div>
 
-        <div class="w-3/12 ml-20 ">
+        <div class="px-10 2xl:w-3/12 xl:ml-20  ">
             <AsideRight />
         </div>
-    </div>
-</template>
+    </div></template>

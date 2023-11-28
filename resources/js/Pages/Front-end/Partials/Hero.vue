@@ -1,6 +1,6 @@
 <template>
     <div class="relative h-[700px] flex items-center justify-center transition-all ">
-        
+
         <!-- Fond d'écran en arrière-plan -->
         <transition name="fade" mode="in-out">
             <img :src="currentBackground" :key="currentBackground"
@@ -10,12 +10,12 @@
 
 
         <!-- Contenu au centre -->
-        <div class="absolute flex items-center text-center text-white top-28">
+        <div class="absolute md:top-28 justify-center flex md:flex-row px-10 flex-col md:mb-20 items-center text-white">
             <!-- Mascotte avec punchlines -->
-            <img src="/images/masso.png" alt="Mascotte" class="floating-image" />
+            <img src="/images/masso.png" alt="Mascotte" class="floating-image  " />
             <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="mb-4 transition-opacity w-96">
-                    <p class="text-4xl">{{ currentPunchline }} </p>
+                <div :key="currentPunchline" class="mb-4 md:w-96 md:mr-20 flex justify-center text-center transition-opacity">
+                    <p class="md:text-4xl text-3xl ">{{ currentPunchline }}</p>
                 </div>
             </transition>
         </div>
