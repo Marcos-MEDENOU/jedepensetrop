@@ -402,14 +402,17 @@ const deleteComment = (commentId) => {
                 {{ post['category'].name }}
             </span>
         </div>
-        <div class="flex justify-center mt-8 mx-40">
 
-            <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
+
+        <div class="2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
+            <!-- <div class="2xl:flex justify-center mt-8 mx-40"> -->
+
+            <!-- <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
                 <Publicite />
-            </div>
+            </div> -->
+            <!-- 2xl:w-6/12 lg:12/12  -->
 
-
-            <div class="w-[750px]  container mx-auto ">
+            <div class="2xl:w-6/12 lg:w-8/12 md:container  md:mx-auto 2xl:mx-0  ">
                 <div class="flex items-center justify-between pb-4 italic border-b">
                     <div class="text-gray-700">
                         <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
@@ -620,77 +623,86 @@ const deleteComment = (commentId) => {
 
             </div>
 
-            <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
+            <!-- <div class="ml-24 w-3/12 lg:w-3/12 xl:w-3/12 "> -->
+            <div class=" px-10 2xl:w-3/12 xl:ml-20   ">
                 <AsideRight />
+                <!-- <Publicite /> -->
             </div>
 
         </div>
-        <div class="py-8 lg:py-24 dark:bg-gray-800">
-            <div class="max-w-screen-xl px-4 mx-auto">
-                <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Articles Liés</h2>
-                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
-                        <a href="#">
-                            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
-                                class="mb-5 rounded-lg" alt="Image 1">
-                        </a>
-                        <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                            <a href="#">Our first office</a>
-                        </h2>
-                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                            changes! After months of preparation.</p>
-                        <a href="#"
-                            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                            Lire en 2 minutes
-                        </a>
-                    </article>
-                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
-                        <a href="#">
-                            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
-                                class="mb-5 rounded-lg" alt="Image 2">
-                        </a>
-                        <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                            <a href="#">Enterprise design tips</a>
-                        </h2>
-                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                            changes! After months of preparation.</p>
-                        <a href="#"
-                            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                            Lire en 12 minutes
-                        </a>
-                    </article>
-                    <article class="max-w-xs p-4 bg-white rounded-lg shadow-lg">
-                        <a href="#">
-                            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
-                                class="mb-5 rounded-lg" alt="Image 3">
-                        </a>
-                        <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                            <a href="#">We partnered with Google</a>
-                        </h2>
-                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                            changes! After months of preparation.</p>
-                        <a href="#"
-                            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                            Lire en 8 minutes
-                        </a>
-                    </article>
-                    <article class="max-w-xs p-2 bg-white rounded-lg shadow-lg">
-                        <a href="#">
-                            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
-                                class="mb-5 rounded-lg" alt="Image 4">
-                        </a>
-                        <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                            <a href="#">Our first project with React</a>
-                        </h2>
-                        <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                            changes! After months of preparation.</p>
-                        <a href="#"
-                            class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                            Lire en 4 minutes
-                        </a>
-                    </article>
-                </div>
+        <div class="p-10 dark:bg-gray-800 container mx-auto ">
+
+
+            <h2 class="mb-8 text-2xl ml-10 font-bold text-gray-900 dark:text-white">Articles Liés</h2>
+
+            <div class=" grid gap-5 justify-center grid-cols-1 md:grid-cols-2 xl:grid-cols-4  xl:px-0 ">
+
+                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                    <a href="#">
+                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
+                            class="mb-5 rounded-lg w-full h-56" alt="Image 1">
+                    </a>
+                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
+                        <a href="#">Our first office</a>
+                    </h2>
+                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        changes! After months of preparation.</p>
+                    <a href="#"
+                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
+                        Lire en 2 minutes
+                    </a>
+                </article>
+
+                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                    <a href="#">
+                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
+                            class="mb-5 rounded-lg w-full h-56" alt="Image 2">
+                    </a>
+                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
+                        <a href="#">Enterprise design tips</a>
+                    </h2>
+                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        changes! After months of preparation.</p>
+                    <a href="#"
+                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
+                        Lire en 12 minutes
+                    </a>
+                </article>
+
+                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                    <a href="#">
+                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
+                            class="mb-5 rounded-lg w-full h-56" alt="Image 3">
+                    </a>
+                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
+                        <a href="#">We partnered with Google</a>
+                    </h2>
+                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        changes! After months of preparation.</p>
+                    <a href="#"
+                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
+                        Lire en 8 minutes
+                    </a>
+                </article>
+
+                <article class=" p-2 bg-white rounded-lg shadow-lg">
+                    <a href="#">
+                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
+                            class="mb-5 rounded-lg w-full h-56" alt="Image 4">
+                    </a>
+                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
+                        <a href="#">Our first project with React</a>
+                    </h2>
+                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
+                        changes! After months of preparation.</p>
+                    <a href="#"
+                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
+                        Lire en 4 minutes
+                    </a>
+                </article>
+
             </div>
+
         </div>
 
 

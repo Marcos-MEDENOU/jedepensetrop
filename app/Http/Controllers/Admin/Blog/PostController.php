@@ -238,7 +238,8 @@ class PostController extends Controller
 
         $latestPost = Post::where('post_visible', 1)
             ->where('published_at', '<=', $today)
-            ->latest()
+
+            ->orderBy('published_at','DESC')
             ->first();
 
         // Calculer la durée de lecture estimée
@@ -274,12 +275,13 @@ class PostController extends Controller
         // Récupérer les quatre derniers articles publiés
         $recentPosts = Post::where('post_visible', 1)
             ->where('published_at', '<=', $today)
-            ->latest()
+
+            ->orderBy('published_at','desc')
             ->take(4)
             ->get();
 
         // Exclure le dernier article publié
-        $previousThreePosts = $recentPosts->slice(0, 3);
+        $previousThreePosts = $recentPosts->slice(1)->reverse();
 
         $response = $previousThreePosts->map(function ($post) {
 
@@ -323,7 +325,8 @@ class PostController extends Controller
 
             foreach ($categories as $category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
-                    ->where('published_at', '<=', $today)->latest()->take(3)->get();
+                    ->where('published_at', '<=', $today)
+                    ->orderBy('published_at','desc')->take(3)->get();
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
@@ -369,7 +372,7 @@ class PostController extends Controller
             $today = now();
             if ($category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
-                    ->where('published_at', '<=', $today)->get();
+                    ->where('published_at', '<=', $today)->orderBy('published_at','desc')->get();
 
 
                 $formattedCategory = [
@@ -390,7 +393,7 @@ class PostController extends Controller
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
                             'duree' => $estimatedReadingTime,
-                            'published' => Carbon::parse($post->published)->format('d/m/Y'),
+                            'published' => Carbon::parse($post->published_at)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];

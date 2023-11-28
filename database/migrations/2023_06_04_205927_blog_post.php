@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,17 +13,18 @@ return new class extends Migration
         Schema::create('blog_post', function (Blueprint $table) {
 
             $table->id();
-            $table->foreignId('blog_author_id')->nullable()->cascadeOnDelete();
-            $table->foreignId('blog_category_id')->nullable()->nullOnDelete();
+            $table->foreignId('blog_author_id')->nullable()->onDelete('cascade');
+            $table->foreignId('blog_category_id')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
-            $table->date('published_at')->nullable();
-            $table->string('seo_title', 60)->nullable();
+            $table->timestamp('published_at')->nullable();
+            $table->string('seo_title', 160)->nullable();
             $table->string('seo_description', 160)->nullable();
             $table->string('image')->nullable();
             $table->boolean('post_visible')->default(false);
             $table->timestamps();
+
 
             // $table->id();
             // $table->string('title');
@@ -44,7 +44,7 @@ return new class extends Migration
             // $table->string('meta_postkey_seo');
             // $table->string('author')->nullable();
             // $table->timestamps();
-            //Au cas ou l'auteur serait un utilisateur inscrit 
+            //Au cas ou l'auteur serait un utilisateur inscrit
             // $table->foreignId('user_id')
             //     ->constrained()
             //     ->onDelete('cascade')

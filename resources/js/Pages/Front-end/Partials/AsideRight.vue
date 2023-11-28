@@ -83,17 +83,18 @@ const subscribe = () => {
 
 
 <template>
-    <section class="py-10 mr-24  sticky top-20">
+    <section class="py-10   sticky top-20">
         <!-- Articles liés -->
         <h1 class="text-2xl font-bold mb-2">Articles les plus consultés</h1>
-        <div class="my-4">
+        <div class="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+  2xl:grid-cols-1 gap-5 mb-20">
 
             <div v-for="(item, index) in newArticles" :key="index"
-                class="flex gap-2 mb-3 bg-white rounded-md shadow-xl p-5 relative h-32">
-                <div class="absolute -left-6 shadow-xl top-4">
-                    <img :src="item.image" alt="" class="h-24 w-24 rounded-lg">
+                class="flex flex-col gap-2 mb-3 bg-white rounded-md shadow-xl p-5 relative 2xl:h-32 ">
+                <div class="2xl:absolute 2xl:-left-6 shadow-xl 2xl:top-4 ">
+                    <img :src="item.image" alt="" class="2xl:h-24 2xl:w-24  w-full h-36 rounded-lg">
                 </div>
-                <div class="ml-16">
+                <div class="2xl:ml-16 h-28">
                     <span class="italic">-{{ item.category }}-</span>
                     <div class="font-semibold">{{ item.title }}</div>
                     <div class="font-">{{ item.content }}</div>
@@ -191,7 +192,7 @@ const subscribe = () => {
             </form>
         </div>
     </section>
-    <Chatbot  class=" fixed bottom-10 right-20"/>
+    <Chatbot class=" fixed bottom-10 right-20" />
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');

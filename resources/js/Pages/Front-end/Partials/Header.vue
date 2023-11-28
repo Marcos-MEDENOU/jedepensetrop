@@ -34,20 +34,37 @@ const categoryPosts = (slug) => {
 };
 
 
+const menuVisible = ref(false);
+const showClosebtn = ref(false);
+const showMenubtn = ref(true);
+
+const showMenu = () => {
+    console.log('coucou');
+    menuVisible.value = !menuVisible.value
+    showClosebtn.value = true;
+    showMenubtn.value = false;
+}
+
+const closeMenu = () => {
+    console.log('coucou');
+    menuVisible.value = !menuVisible.value
+    showClosebtn.value = false;
+    showMenubtn.value = true;
+}
+
 </script>
 
 <template>
-
-    <div style="background-color: whitesmoke" class="  w-full z-50">
-        <nav class=" flex justify-between items-center mx-auto container py-2">
+    <div style="background-color: whitesmoke" class="  w-full z-50 px-20 md:px-0">
+        <nav class="hidden lg:top-0 lg:z-50 lg:flex gap-5 flex-row justify-between items-center mx-auto container py-2">
 
 
             <!-- Logo Container -->
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="/" class="cursor-pointer">
-                    <h3 class="text-2xl font-medium text-blue-500">
-                        <img class="object-cover h-14" src="/images/logo1.png" alt="BlogLogo">
+                    <h3 class="text-2xl font-medium ">
+                        <img class="w-36 h-10" src="/images/logoCharle.png" alt="BlogLogo">
                     </h3>
                 </a>
             </div>
@@ -55,7 +72,7 @@ const categoryPosts = (slug) => {
 
 
             <!-- Icon Menu Section -->
-            <div class="flex -mx-2">
+            <div class="flex -mx-2 ">
                 <a href="https://www.facebook.com/VIPPInterstis" target="_blank"
                     class="text-gray-500 cursor-pointer hover:scale-105">
                     <svg fill="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -97,7 +114,7 @@ const categoryPosts = (slug) => {
         </nav>
     </div>
 
-    <ul class="sticky top-0 z-50 justify-center flex items-center gap-5 bg-[#ffcd00] h-20 w-full">
+    <ul class="hidden  sticky top-0 z-50 justify-center lg:flex items-center gap-5 bg-[#ffcd00] h-20 w-full px-10">
         <li>
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
@@ -121,4 +138,55 @@ const categoryPosts = (slug) => {
             </div>
         </form>
 
-</ul></template>
+    </ul>
+
+
+    <nav  class="lg:hidden h-18 sticky top-0 z-50 left-0 right-0 bg-gray-50 justify-between py-3 px-8 flex  items-center shadow-lg">
+        <!-- Logo Container -->
+        <div class="flex  items-center">
+            <!-- Logo -->
+            <a href="/" class="cursor-pointer">
+                <h3 class="text-2xl font-medium">
+                    <img class="w-36 h-10" src="/images/logoCharle.png" alt="BlogLogo">
+                </h3>
+            </a>
+        </div>
+        <!-- Bouton hamburger -->
+        <div>
+            <div @click="showMenu" v-if="showClosebtn == false">
+                <Icon name="menubtn"  />
+            </div>
+            <div @click="closeMenu" v-if="showMenubtn == false">
+                <Icon name="closebtn" />
+            </div>
+        </div>
+
+    </nav>
+
+
+    <ul  v-if="menuVisible" class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#ffcd00] h-96 ">
+        <li>
+            <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
+        </li>
+        <li v-for="(categorie, index) in categories" :key="index">
+            <a @click="categoryPosts(categorie.slug)"
+                class="px-3 py-2 text-lg font-semibold hover:underline cursor-pointer">{{ categorie.name }}</a>
+        </li>
+
+        <!-- Formulaire de recherche -->
+
+        <form @submit.prevent="submitForm" class="ml-5">
+
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <Icon name="search" />
+                </div>
+                <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
+                    class="block w-56  h-10  ps-10 text- text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required>
+
+            </div>
+        </form>
+
+    </ul>
+</template>

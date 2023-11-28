@@ -89,11 +89,11 @@ const subscribe = () => {
 <template>
 
 
-    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5">
+    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 px-20 ">
 
-        <div class="container flex  justify-between mx-auto mt-5">
+        <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-between mx-auto mt-5">
             <a href="/">
-                <img class="w-auto h-14" src="/images/logo1.png" alt="">
+                <img class="w-36 h-10" src="/images/logoCharle.png" alt="">
             </a>
 
             <ul class=" flex flex-col   ">

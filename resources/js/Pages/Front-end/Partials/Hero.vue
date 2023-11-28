@@ -9,12 +9,12 @@
 
 
         <!-- Contenu au centre -->
-        <div class="absolute top-28 text-center flex items-center text-white">
+        <div class="absolute md:top-28 justify-center flex md:flex-row px-10 flex-col md:mb-20 items-center text-white">
             <!-- Mascotte avec punchlines -->
-            <img src="/images/masso.png" alt="Mascotte" class="floating-image" />
+            <img src="/images/masso.png" alt="Mascotte" class="floating-image  " />
             <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="mb-4 w-96 transition-opacity">
-                    <p class="text-4xl">{{ currentPunchline }}</p>
+                <div :key="currentPunchline" class="mb-4 md:w-96 md:mr-20 flex justify-center text-center transition-opacity">
+                    <p class="md:text-4xl text-3xl ">{{ currentPunchline }}</p>
                 </div>
             </transition>
         </div>
