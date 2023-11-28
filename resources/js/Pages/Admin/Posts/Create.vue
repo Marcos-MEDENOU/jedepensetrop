@@ -91,6 +91,7 @@ watch(form.title, updateSlug);
           rounded-full small />
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="form.post(route('posts.store'))">
+        
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
           <FormControl v-model="form.title" type="text" required="required"  @input="updateSlug"
             placeholder="Entrer un titre pour votre article" :error="form.errors.title">
@@ -99,6 +100,7 @@ watch(form.title, updateSlug);
             </div>
           </FormControl>
         </FormField>
+        
         <FormField label="slug" :class="{ 'text-red-400': form.errors.slug }">
           <FormControl :readonly="true" v-model="form.slug" type="text" placeholder="un slug pour le referencement"
             :error="form.errors.slug">
