@@ -70,13 +70,15 @@ class NewsletterController extends Controller
     {
         try {
 // dd($request->all());
-            $email = $request->email; // Remplacez ceci par l'e-mail que vous souhaitez enregistrer
-            $question = $request->question; // Remplacez ceci par la question le cas échéant
+            $firstname = $request->firstname;
+            $lastname = $request->lastname;
+            $email = $request->email;
+            $question = $request->question;
 
             // Vérifiez si l'e-mail n'existe pas déjà dans la table
             if (!Newsletter::where('email', $email)->exists()) {
                 // Enregistrez l'e-mail et la question dans la table
-                Newsletter::create(['email' => $email, 'question' => $question]);
+                Newsletter::create(['firstname' => $firstname,'lastname' => $lastname,'email' => $email, 'question' => $question]);
                 return response()->json([
 
                     'errorMessage' => '',

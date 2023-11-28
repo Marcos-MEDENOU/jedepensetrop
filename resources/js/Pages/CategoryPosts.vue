@@ -1,7 +1,8 @@
 <script setup>
 import axios from 'axios';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
@@ -20,6 +21,62 @@ const showArticle = (slug) => {
 
     router.get(route("post.show", slug))
 };
+
+
+const nom = ref('');
+const prenom = ref('');
+const email = ref('');
+const question = ref('');
+
+const subscribe = () => {
+
+    axios.post('/newsletter/store', {
+        lastname: nom.value,
+        firstname: prenom.value,
+        email: email.value,
+        question: question.value,
+    })
+        .then(response => {
+
+            if (response.data.successMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response.data.successMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            if (response.data.errorMessage) {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: response.data.errorMessage,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            nom.value = '';
+            prenom.value = '';
+            email.value = '';
+            question.value = '';
+
+        })
+        .catch(error => {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: error,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            email.value = '';
+            question.value = '';
+        });
+}
 
 </script>
 
@@ -85,23 +142,32 @@ const showArticle = (slug) => {
 
                 <div class="bg-[#ffcd00] p-5 my-10 rounded-lg">
                     <!-- Formulaire -->
-                    <form action="#" method="POST" class=" flex items-center gap-5 ">
-                        <!-- Champ de la question -->
-                        <div class="w-full">
-                            <input type="text" id="question" name="question" placeholder="Posez votre question ici!"
-                                class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
-                        </div>
+                    <form action="#" method="POST" class=" flex flex-col items-center gap-5 ">
+                        <div class="w-full flex flex-col md:flex-row gap-5">
+                            <!-- Champ de la question -->
+                            <div class="w-full flex flex-col gap-2">
+                                <input v-model="nom" type="text" id="nom" name="nom" placeholder="Votre nom"
+                                    class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md ">
+                                <input v-model="prenom" type="text" id="prenom" name="prenom" placeholder="Votre prénom"
+                                    class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md ">
 
-                        <!-- Champ de l'email -->
-                        <div class="w-full">
+                            </div>
 
-                            <input type="email" id="email" name="email" placeholder="Entrez votre adresse email"
-                                class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
+                            <!-- Champ de l'email -->
+                            <div class="w-full flex flex-col gap-2 ">
+
+                                <input v-model="question" type="text" id="question" name="question"
+                                    placeholder="Posez votre question ici!"
+                                    class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
+                                <input v-model="email" type="email" id="email" name="email"
+                                    placeholder="Entrez votre adresse email"
+                                    class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md ">
+                            </div>
                         </div>
 
                         <!-- Bouton Envoyer -->
-                        <button type="submit"
-                            class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition duration-300">Envoyer</button>
+                        <span @click="subscribe()"
+                            class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition duration-300 cursor-pointer">Envoyer</span>
                     </form>
                 </div>
 
