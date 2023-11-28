@@ -28,23 +28,23 @@ const showArticle = (slug) => {
     <MainLayout>
 
         <Head :title="props.formattedCategory.category" />
-        <div class=" flex justify-center mt-8">
+        <div class="  2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
 
-            <div class="w-6/12 lg:w-6/12 xl:w-6/12 ">
+            <div class="2xl:w-6/12 lg:12/12  ">
 
 
 
                 <div class="mb-10">
                     <h1 class="mb-5 text-3xl font-bold">{{ props.formattedCategory.category }}</h1>
 
-                    <div class="grid grid-cols-3 gap-6  cursor-pointer lg:mx-auto grid-cols-2 ">
+                    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6  cursor-pointer ">
 
                         <div v-for="(article, index) in props.formattedCategory.posts" :key="index"
                             class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
-                                        class="h-40 w-96 transition-transform duration-500 ease-in-out transform hover:scale-110">
+                                        class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
                                         <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
                                             class="w-full h-full object-cover">
@@ -108,7 +108,7 @@ const showArticle = (slug) => {
 
             </div>
 
-            <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
+            <div class="px-10 2xl:w-3/12 xl:ml-20  ">
                 <AsideRight />
             </div>
         </div>
