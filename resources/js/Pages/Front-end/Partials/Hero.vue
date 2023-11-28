@@ -1,9 +1,10 @@
 <template>
     <div class="relative h-[700px] flex items-center justify-center transition-all ">
+
         <!-- Fond d'écran en arrière-plan -->
         <transition name="fade" mode="in-out">
             <img :src="currentBackground" :key="currentBackground"
-                class="absolute inset-0 w-full h-full object-cover transition-opacity transition-filter"
+                class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                 style="filter: brightness(0.5);" />
         </transition>
 
@@ -26,7 +27,12 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-
+const props = defineProps({
+    user:{
+        type: Object,
+        required:true
+    }
+})
 const backgrounds = [
 
     "/images/blogs.jpg",

@@ -2,8 +2,7 @@
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import {
   mdiAccountKey,
-  mdiArrowLeftBoldOutline,
-  mdiShapePlusOutline
+  mdiArrowLeftBoldOutline
 } from "@mdi/js"
 import LayoutAuthenticated from "@/Layouts/AuthenticatedLayout.vue"
 import SectionMain from "@/Components/SectionMain.vue"
@@ -16,84 +15,99 @@ import BaseDivider from '@/Components/BaseDivider.vue'
 import BaseButton from '@/Components/BaseButton.vue'
 import BaseButtons from '@/Components/BaseButtons.vue'
 import FormFilePicker from "@/Components/FormFilePicker.vue"
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import fileUploads from '@/Components/FormFilePicker.vue'
 import Tiny from '@/components/TinyImplements.vue';
-import slugify from 'slugify';
 import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
+import Editor from '@/components/Editor.vue'
 
+import ckeditor from '@/Components/Ckeditor.vue'
 const props = defineProps({
+  posts: {
+    type: Object,
+    default: () => ({}),
+  },
+
   visibility: {
     type: Object,
     default: () => ({}),
   },
+
   category: {
     type: Object,
     default: () => ({}),
   },
-  files: {
-    type: Array,
-    default: () => ([])
-  }
-})
-const date = ref(new Date());
 
+  roles: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 const setDate = (value) => {
   date.value = value;
 }
+const form = useForm({
+  _method: 'put',
+  title: props.posts.title,
+  slug: props.posts.slug,
+  content: props.posts.content,
+  published_at: props.posts.published_at,
+  seo_title: props.posts.seo_title,
+  seo_description: props.posts.seo_description,
+  image: props.posts.image,
+  is_visible: props.posts.post_visible,
+  category: props.posts.blog_category_id,
+  // name: props.authors.name,
+  // bio: props.authors.bio,
+  // email: props.authors.email,
+})
+
 
 const handleFileChange = (event) => {
   form.image = event.target.files[0]['name'];
 }
 
-const form = useForm({
-  title: '',
-  slug: '',
-  content: '',
-  published_at: '',
-  seo_title: '',
-  seo_description: '',
-  image: '',
-  is_visible: ['non'],
-  category: [],
-})
 
-const updateSlug = () => {
-  form.slug = generateSlug(form.title);
-  console.log("value");
-};
-console.log('ez');
-const generateSlug = (title) => {
-  const trimmedTitle = title.trim();
-  const slug = slugify(trimmedTitle, {
-    lower: true,
-    remove: /[*+~.()'"!:@]/g,
-  });
-  return slug;
-};
+const date = ref(new Date());
+// In case of a range picker, you'll receive [Date, Date]
+const format = (date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-watch(form.title, updateSlug);
+  return `L'article sera publié le ${day}/${month}/${year}`;
+}
 
+function formatDateTimeISO(dateISO) {
+  const date = new Date(dateISO);
+  const jour = date.getDate().toString().padStart(2, '0');
+  const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont indexés de 0 à 11
+  const annee = date.getFullYear().toString();
+  const heures = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const secondes = date.getSeconds().toString().padStart(2, '0');
+
+  return `${jour}-${mois}-${annee}`;
+}
 </script>
-
 
 <template>
   <LayoutAuthenticated>
 
-    <Head title="Ajouter un article" />
-
+    <Head title="Modifier article" />
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Ajouter un article" main>
+      <SectionTitleLineWithButton :icon="mdiAccountKey" title="Mise a jour article" main>
         <BaseButton :route-name="route('posts.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
           rounded-full small />
       </SectionTitleLineWithButton>
-      <CardBox form @submit.prevent="form.post(route('posts.store'))">
+
+      <CardBox form @submit.prevent="form.post(route('posts.update', props.posts.id))">
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
-          <FormControl v-model="form.title" type="text" required="required"  @input="updateSlug"
+          <FormControl v-model="form.title" type="text" required="required"
             placeholder="Entrer un titre pour votre article" :error="form.errors.title">
             <div class="text-sm text-red-400" v-if="form.errors.title">
               {{ form.errors.title }}
@@ -101,7 +115,7 @@ watch(form.title, updateSlug);
           </FormControl>
         </FormField>
         <FormField label="slug" :class="{ 'text-red-400': form.errors.slug }">
-          <FormControl :readonly="true" v-model="form.slug" type="text" placeholder="un slug pour le referencement"
+          <FormControl v-model="form.slug" :readonly="true" type="text" placeholder="un slug pour le referencement"
             :error="form.errors.slug">
             <div class="text-sm text-red-400" v-if="form.errors.slug">
               {{ form.errors.slug }}
@@ -112,17 +126,23 @@ watch(form.title, updateSlug);
         <FormField label="Contenu de l'article" :class="{ 'text-red-400': form.errors.content }">
           <div class="mt-4"></div>
         </FormField>
-        <Tiny v-model="form.content" />
+        <!-- <editor v-model="form.content" /> -->
+        <Tiny v-model="form.content" class=" max-w-none" />
+
+        <!-- zone editeur -->
+        <!-- <ckeditor v-model="form.content" /> -->
+        <!-- zone editeur -->
+
+        
         <div class="mt-4"></div>
 
         <FormField label="Date de publication" :class="{ 'text-red-400': form.errors.content }">
-          <VueDatePicker v-model="form.published_at" utc position="left" :model-value="form.published_at"
-            @update:model-value="setDate" />
+          <VueDatePicker v-model="form.published_at" date position="left" :format="format"
+            :model-value="form.published_at" utc @update:model-value="setDate" />
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads @change="handleFileChange"></fileUploads>
-
+          <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads>
         </FormField>
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">
@@ -143,7 +163,9 @@ watch(form.title, updateSlug);
         </FormField>
 
         <FormField label="Categories" wrap-body>
-          <FormCheckRadioGroup v-model="form.category" name="category" type="radio" isRow :options="props.category" />
+          <!-- {{ props.posts.blog_category_id}} -->
+          <FormCheckRadioGroup v-model="form.category" aria-checked="true" name="category" type="radio" isRow
+            :options="props.category" />
         </FormField>
 
         <FormField label="Visibilité" wrap-body>
@@ -153,7 +175,7 @@ watch(form.title, updateSlug);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="success" label="Sauvegarder" :class="{ 'opacity-25': form.processing }"
+            <BaseButton type="submit" color="info" label="Submit" :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing" />
           </BaseButtons>
         </template>
@@ -161,4 +183,3 @@ watch(form.title, updateSlug);
     </SectionMain>
   </LayoutAuthenticated>
 </template>
-

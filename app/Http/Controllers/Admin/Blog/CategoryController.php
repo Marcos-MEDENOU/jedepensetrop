@@ -41,7 +41,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categorie = (new Category)->newQuery();
-        ;
 
         if (request()->has('search')) {
             $categorie->where('name', 'Like', '%' . request()->input('search') . '%');

@@ -170,8 +170,8 @@ console.log(form.is_visible);
           <BaseButtons>
             <BaseButton
               type="submit"
-              color="info"
-              label="Submit"
+              color="success"
+              label="Enrégistrer"
               :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing"
             />

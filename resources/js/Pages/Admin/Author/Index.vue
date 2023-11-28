@@ -60,10 +60,6 @@ function destroy(id) {
           rounded-full small />
       </SectionTitleLineWithButton>
 
-
-
-
-
       <CardBox class="mb-6" has-table>
         <form @submit.prevent="form.get(route('author.index'))">
           <div class="flex py-2">
@@ -76,6 +72,7 @@ function destroy(id) {
           </div>
         </form>
       </CardBox>
+      
       <CardBox class="mb-6" has-table>
         <table>
           <thead>

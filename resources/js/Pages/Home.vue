@@ -8,19 +8,23 @@ import Articles from './Front-end/Partials/Articles.vue';
 
 
 const props = defineProps({
-
+    user:{
+        type: Object,
+        required:true
+    }
 })
 
 
 
 </script>
 
-<template>
-    <MainLayout>
+<template >
+    <MainLayout :user="props.user">
 
         <Head title="Accueil" />
 
-        <Hero  />
+        <Hero/>
+        
         <Articles />
 
 

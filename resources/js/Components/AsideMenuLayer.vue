@@ -55,8 +55,8 @@ const menuClick = (event, item) => {
         </button>
       </div>
       <div :class="styleStore.darkMode ? 'aside-scrollbars-[slate] ' : styleStore.asideScrollbarsStyle"
-        class="flex-1 ml-1 overflow-y-auto text-black verflow-x-hidden ">
-        <AsideMenuList :menu="menu" @menu-click="menuClick" />
+        class="flex-1 overflow-y-auto text-black verflow-x-hidden ">
+        <AsideMenuList :menu="menu" @menu-click="menuClick" class="flex flex-col mx-2"/>
       </div>
     </div>
   </aside>

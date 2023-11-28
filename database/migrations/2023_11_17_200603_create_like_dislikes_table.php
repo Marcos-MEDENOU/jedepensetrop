@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->boolean('is_like');
             $table->timestamps();
 
-            $table->foreign('post_id')->references('id')->on('blog_posts')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('blog_post')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

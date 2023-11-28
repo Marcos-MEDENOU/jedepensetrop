@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Socialite;
-// <-- ne pas oublier
+use Illuminate\Support\Facades\DB;
 
 class SocialiteController extends Controller
 {
@@ -67,14 +68,23 @@ class SocialiteController extends Controller
                     'email' => $email,
                     'password' => bcrypt($email), // On attribue un mot de passe
                 ]);
+
+                //attribution d'un role a l'utilisateur
+                DB::table('model_has_roles')->insert([
+                    'role_id' => Role::where('name', 'user')->firstOrFail()['id'], // Remplacez par l'ID du rôle que vous souhaitez attribuer
+                    'model_id' =>  User::where('email', $email)->firstOrFail()['id'], // Remplacez par l'ID de l'entité à laquelle vous attribuez le rôle
+                    'model_type' => 'App\\Model\\User', // Remplacez par le modèle (classe) associé à l'entité
+                ]);
             }
 
             # 4. On connecte l'utilisateur
             auth()->login($user);
 
+           
+
             # 5. On redirige l'utilisateur vers /home
             if (auth()->check()) {
-                return redirect(route('dashboard'));
+                return redirect(route('home.index'));
             }
 
         }

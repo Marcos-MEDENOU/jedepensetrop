@@ -5,6 +5,12 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import { router } from '@inertiajs/vue3'
 
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    }
+})
 
 // Fonction me permettant de récupérer les catégorie dans la base de données
 let categories = ref(null)
@@ -69,6 +75,19 @@ const closeMenu = () => {
                 </a>
             </div>
 
+            <div class=" bottom-4 right-4 xl:right-20" v-if="user && user['roles'][0].name == 'super-admin'">
+                <a href="/dashboard" target="_blank"
+                    class="flex items-center justify-between gap-4 px-4 py-1 font-mono font-semibold duration-500 ease-in-out transform bg-yellow-400 rounded-lg shadow animate-bounce hover:shadow-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Se connecter a l'espace admin
+                </a>
+            </div>
+
+            <!-- {{ user["roles"][0].name == "user" }} -->
 
 
             <!-- Icon Menu Section -->
@@ -170,7 +189,7 @@ const closeMenu = () => {
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
             <a @click="categoryPosts(categorie.slug)"
-                class="px-3 py-2 text-lg font-semibold hover:underline cursor-pointer">{{ categorie.name }}</a>
+                class="px-3 py-2 text-lg font-semibold cursor-pointer hover:underline">{{ categorie.name }}</a>
         </li>
 
         <!-- Formulaire de recherche -->
@@ -178,11 +197,11 @@ const closeMenu = () => {
         <form @submit.prevent="submitForm" class="ml-5">
 
             <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                     <Icon name="search" />
                 </div>
                 <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56  h-10  ps-10 text- text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required>
 
             </div>

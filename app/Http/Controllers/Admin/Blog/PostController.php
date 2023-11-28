@@ -218,7 +218,7 @@ class PostController extends Controller
                 'category' => Category::find($selectedPost->blog_category_id),
                 'image' => $selectedPost->image,
                 'duree' => $estimatedReadingTime,
-                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
+                'published_at' =>($selectedPost->published_at),
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
                 'likes_count' => $likesCount,

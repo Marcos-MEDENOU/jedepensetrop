@@ -6,6 +6,7 @@ import {
   mdiShapePlusOutline,
   mdiSquareEditOutline,
   mdiTrashCan,
+  mdiExport,
   mdiAlertBoxOutline, mdiEyeCheck,
 } from "@mdi/js"
 import { computed, ref, watch } from 'vue'
@@ -17,22 +18,22 @@ import BaseButton from "@/Components/BaseButton.vue"
 import CardBox from "@/Components/CardBox.vue"
 import BaseButtons from "@/Components/BaseButtons.vue"
 import NotificationBar from "@/Components/NotificationBar.vue"
-// import Pagination from "@/Components/Admin/Pagination.vue"
+import * as XLSX from 'xlsx';
 import NavBarItemLabel from '@/Components/NavBarItemLabel.vue'
 import UserAvatarCurrentUser from '@/Components/UserAvatarCurrentUser.vue'
 import Sort from "@/Components/Admin/Sort.vue"
 import Pagination from "@/Components/Admin/Pagination.vue"
 const props = defineProps({
-  posts: {
+  newsletters: {
     type: Object,
     default: () => ({}),
   },
 
 
-  category: {
-    type: String,
-    default: () => ({}),
-  },
+  // category: {
+  //   type: String,
+  //   default: () => ({}),
+  // },
 
   filters: {
     type: Object,
@@ -43,18 +44,13 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const original_post = props.posts.data
 const form = useForm({
   search: props.filters.search,
 })
 const userName = computed(() => usePage().props.authors.name)
 const formDelete = useForm({})
 
-function destroy(id) {
-  if (confirm("Souhaitez-vous vraiment suprimer cet element?")) {
-    formDelete.delete(route("posts.destroy", id))
-  }
-}
+
 
 function postSlicing(string) {
   return string.split(' ').slice(0, 3).join(' ').concat('...')
@@ -171,150 +167,111 @@ function updateFilteredArticles(searchTerm) {
 
 }
 
+
+function destroy(id) {
+  if (confirm("Souhaitez-vous vraiment suprimer cet element?")) {
+    formDelete.delete(route("newsletter.destroy", id))
+  }
+}
+
+function exportToExcel() {
+
+  // Créez une copie des newsletters sans l'ID
+  const newslettersWithoutId = props.newsletters.data.map(({ id,created_at,updated_at, ...rest }) => rest);
+  
+  const ws = XLSX.utils.json_to_sheet(newslettersWithoutId);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Newsletters');
+
+  const date = new Date();
+  const fileName = `newsletters_export_${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.xlsx`;
+
+  XLSX.writeFile(wb, fileName);
+}
+
+
+
 </script>
 
 <template>
   <LayoutAuthenticated>
 
     <Head title="Articles" />
-    <!-- {{ original_post }} -->
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Articles" main>
-        <BaseButton v-if="can.create" :route-name="route('posts.create')" :icon="mdiPlus" label="Ajouter un article"
-          color="info" rounded-full small />
+      <SectionTitleLineWithButton :icon="mdiShapePlusOutline" title="Newsletters" main>
+        <BaseButton @click="exportToExcel" :icon="mdiExport" label="Exporter" color="info" rounded-full small />
       </SectionTitleLineWithButton>
 
+
       <CardBox class="mb-6" has-table>
-        <!-- <form @submit.prevent="form.get(route('posts.index'))"> -->
         <div class="flex py-2">
           <div class="flex pl-2">
             <input type="search" v-model="form.search" @input="updateFilteredArticles(form.search)"
               class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              placeholder="Trouver un article " />
-            <!-- <BaseButton label="Rechercher" type="submit" color="info" class="inline-flex items-center px-4 py-2 ml-4" /> -->
+              placeholder="Trouver une newsletter " />
           </div>
         </div>
-        <!-- </form> -->
       </CardBox>
-      <!-- <CardBox class="mb-6" has-table>
-        <form @submit.prevent="form.get(route('posts.index'))">
-          <div class="flex py-2">
-            <div class="flex pl-4">
-              <input type="search" v-model="form.search"
-                class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                placeholder="Trouver un article " />
-              <BaseButton label="Rechercher" type="submit" color="info" class="inline-flex items-center px-4 py-2 ml-4" />
-            </div>
-          </div>
-        </form>
-      </CardBox> -->
+
 
       <CardBox class="mb-6" has-table>
         <table>
           <thead>
             <tr>
               <th>
-                <Sort label="Titre" attribute="title" />
+                <Sort label="email" attribute="email" />
               </th>
               <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur</span>
+                <Sort label="firstname" attribute="firstname" />
               </th>
-              <th class="flex items-center justify-center">
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
-              </th>
-              <th class="items-center justify-center">
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Date de publication</span>
+
+              <th>
+                <Sort label="lastname" attribute="lastname" />
               </th>
               <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Catégorie</span>
+                <Sort label="question" attribute="question" />
               </th>
-              <th class="flex items-center justify-center">
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Statut</span>
-              </th>
-              <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Prévisualiser</span>
-              </th>
-              <th v-if="can.edit || can.delete">Actions</th>
+              <th v-if="can.delete" class="text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
 
-            <tr v-for="post in posts.data" :key="post.id">
+            <tr v-for="newsletter in newsletters.data" :key="newsletter.id">
 
-              <td data-label="title">
+              <td data-label="email">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
-                  {{ postSlicing(post.title) }}
+                  {{ newsletter.email }}
                 </span>
               </td>
 
-              <td data-label="Name">
+              <td data-label="nom">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
-                  {{ (post.author_name) }}
+                  {{ newsletter.firstname }}
                 </span>
               </td>
 
-              <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`"
-                  class="w-16 rounded-sm lg:mx-auto">
+              <td data-label="prénon" class="">
+                {{ newsletter.lastname }}
               </td>
 
-              <td data-label="Published_at">
-                {{ new Date(post.published_at).toLocaleDateString() }}
+              <td data-label="question">
+                {{ newsletter.question }}
 
               </td>
 
-              <td data-label="categorie">
-                {{ post.category_name }}
-              </td>
-
-              <td data-label="categorie" class="text-center">
-
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'publié'"
-                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-green-600 rounded-full bg-green-50">
-                  <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-                  {{
-                    showStatus(post.post_visible, post.published_at) }}
-                </span>
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'retiré'"
-                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-red-600 rounded-full bg-red-50">
-                  <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
-                  {{
-                    showStatus(post.post_visible, post.published_at) }}
-                </span>
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'en cours d\'édition'"
-                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-blue-600 rounded-full bg-blue-50">
-                  <span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
-                  {{
-                    showStatus(post.post_visible, post.published_at) }}
-                </span>
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'publication dans'"
-                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-yellow-600 rounded-full bg-yellow-50">
-                  <span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>
-                  {{
-                    showStatus(post.post_visible, post.published_at) }} {{ differenceInDays(post.published_at) }} jour(s)
-                </span>
-              </td>
-              <td data-label="prévisualiser">
-                <Link :href="route('posts.show', post.id)"
-                  class="items-center justify-center pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
-                <BaseButtons type="justify-start lg:justify-start lg:ml-6" no-wrap>
-                  <BaseButton color="" class="items-center justify-center" :icon="mdiEyeCheck" small />
-                </BaseButtons>
-                </Link>
-              </td>
-              <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
-                <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                  <BaseButton v-if="can.edit" :route-name="route('posts.edit', post.id)" color="info"
-                    :icon="mdiSquareEditOutline" small />
-                  <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small @click="destroy(post.id)" />
+              <td v-if="can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
+                <BaseButtons type="" no-wrap>
+                  <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small
+                    @click="destroy(newsletter.id)" />
                 </BaseButtons>
               </td>
+
             </tr>
           </tbody>
         </table>
         <div class="py-4">
-          <Pagination :data="posts" />
+          <Pagination :data="newsletters" />
         </div>
       </CardBox>
     </SectionMain>

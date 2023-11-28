@@ -4,15 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\Newsletter;
 use Illuminate\Http\Request;
-
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 class NewsletterController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:newsletters list', ['only' => ['index', 'show']]);
+        $this->middleware('can:newsletters create', ['only' => ['create', 'store']]);
+        $this->middleware('can:newsletters edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:newsletters delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $newsletters = (new Newsletter)->newQuery();
+
+        if (request()->has('search')) {
+            $posts->where('name', 'Like', '%' . request()->input('search') . '%');
+        }
+
+        if (request()->query('sort')) {
+            $attribute = request()->query('sort');
+            $sort_order = 'ASC';
+            if (strncmp($attribute, '-', 1) === 0) {
+                $sort_order = 'DESC';
+                $attribute = substr($attribute, 1);
+            }
+            $newsletters->orderBy($attribute, $sort_order);
+        } else {
+            $newsletters->latest();
+        }
+
+
+
+        $newsletters = $newsletters->paginate(5)->onEachSide(2)->appends(request()->query());
+
+        return Inertia::render('Admin/Newsletter/Index', [
+            'newsletters' => $newsletters,
+            'filters' => request()->all('search'),
+            'can' => [
+                'create' => Auth::user()->can('newsletters create'),
+                'edit' => Auth::user()->can('newsletters edit'),
+                'delete' => Auth::user()->can('newsletters delete'),
+            ],
+        ]);
     }
 
     /**
@@ -86,6 +126,9 @@ class NewsletterController extends Controller
      */
     public function destroy(Newsletter $newsletter)
     {
-        //
+        $newsletter->delete();
+
+        return redirect()->route('newsletter.index')
+            ->with('message', __('Newsletter deleted successfully'));
     }
 }
