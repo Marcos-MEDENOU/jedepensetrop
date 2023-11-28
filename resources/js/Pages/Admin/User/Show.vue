@@ -29,9 +29,9 @@ const props = defineProps({
 <template>
   <LayoutAuthenticated>
 
-    <Head title="View user" />
+    <Head title="Infos utilisateur" />
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiAccountGroup" title="View user" main>
+      <SectionTitleLineWithButton :icon="mdiAccountGroup" title="Infos utilisateur" main>
         <BaseButton :route-name="route('user.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
           rounded-full small />
       </SectionTitleLineWithButton>

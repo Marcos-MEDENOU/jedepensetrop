@@ -47,18 +47,18 @@ function destroy(id) {
 
 <template>
   <LayoutAuthenticated>
-    <Head title="Users" />
+    <Head title="Utilisateurs" />
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountGroup"
-        title="Users"
+        title="Administrateurs"
         main
       >
         <BaseButton
           v-if="can.delete"
           :route-name="route('user.create')"
           :icon="mdiPlus"
-          label="Add"
+          label="Ajouter un administrateur"
           color="info"
           rounded-full
           small
