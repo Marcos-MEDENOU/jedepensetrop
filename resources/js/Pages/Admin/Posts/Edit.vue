@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3"
+import { Head, Link, useForm,usePage } from "@inertiajs/vue3"
+import { computed } from 'vue'
 import {
   mdiAccountKey,
   mdiArrowLeftBoldOutline
@@ -26,7 +27,16 @@ import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import Editor from '@/components/Editor.vue'
 import slugify from 'slugify';
-import ckeditor from '@/Components/Ckeditor.vue'
+import ckeditor from '@/Components/Ckeditor.vue';
+import vueFilePond from "vue-filepond";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js";
+
+
+// Import styles
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
 const props = defineProps({
   posts: {
     type: Object,
@@ -48,6 +58,32 @@ const props = defineProps({
     default: () => ({}),
   },
 })
+
+
+// Create FilePond component
+const FilePond = vueFilePond(
+    FilePondPluginFileValidateType,
+    FilePondPluginImagePreview
+);
+
+function handleFilePondLoad(response){
+  form.image = response
+  return response
+}
+
+
+function handleFilePondRevert(uniqueId, load , error){
+  
+  router.delete('/revert/' + uniqueId);
+  load();
+}
+
+const page = usePage();
+const pond = ref(null);
+const files = ref([]);
+const csrf = computed(() => page.props.csrf_token);
+
+
 const setDate = (value) => {
   date.value = value;
 }
@@ -157,8 +193,32 @@ watch(form.title, updateSlug);
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads>
+          <!-- <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads> -->
+          <file-pond style="width: 100% !important;"
+                    name="image"
+                    ref="pond"
+                    class-name="my-pond"
+                    max-files="1" 
+                    label-idle="Télécharger une nouvelle image principale ici si vous le souhaitez..."
+                    allow-multiple="false"
+                    accepted-file-types="image/jpeg, image/png"
+                    :files="files"
+                    :server="{
+                        process: {
+                          url:'/upload',
+                          method:'POST',
+                          onload:handleFilePondLoad
+                        },
+                        revert: handleFilePondRevert,
+                        // revert: '/revert',
+                        headers: {
+                            'X-CSRF-TOKEN': $page.props.csrf_token,
+                        },
+                    }"
+                />
+
         </FormField>
+       
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">
           <FormControl v-model="form.seo_title" type="text" placeholder="Charger une image principale ici"
@@ -190,7 +250,7 @@ watch(form.title, updateSlug);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="info" label="Submit" :class="{ 'opacity-25': form.processing }"
+            <BaseButton type="submit" color="info" label="Enrégistrer les nouvelles modification" :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing" />
           </BaseButtons>
         </template>

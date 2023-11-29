@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Blog\Category;
 use App\Models\Admin\Blog\Post;
+use App\Models\TemporaryImage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -49,8 +51,6 @@ class PostController extends Controller
             $posts->latest();
         }
 
-
-
         $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
 
         return Inertia::render('Admin/Posts/Index', [
@@ -66,7 +66,7 @@ class PostController extends Controller
 
     public function create()
     {
-        $visibility = ['non', 'oui'];
+        $visibility = ['Mettre l\'article en brouillon', 'Autoriser la publication automatique'];
         $categorie = Category::all()
             ->pluck('name', 'id');
 
@@ -76,12 +76,10 @@ class PostController extends Controller
         ]);
     }
 
-
-
     public function edit(Request $request, Post $post)
     {
 
-        $visibility = ['non', 'oui'];
+        $visibility = ['Mettre l\'article en brouillon', 'Autoriser la publication automatique'];
         $categorie = Category::all()->pluck('name', 'id');
         return Inertia::render('Admin/Posts/Edit', [
             'posts' => $post,
@@ -133,8 +131,27 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        //Récupérer tous les elements de la table temporaryImages
+        $temporaryImages = TemporaryImage::all();
 
-        Post::create([
+        $image = "";
+        foreach ($temporaryImages as $temporaryImage) {
+            if ($temporaryImage->folder == $request->image) {
+                $image = $temporaryImage->file;
+
+                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+                // Image::create([
+                //     'post_id' => $post->id,
+                //     'name' => $temporaryImage->file,
+                //     'path' => $temporaryImage->folder . '/' . $temporaryImage->file,
+                // ]);
+                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                $temporaryImage->delete();
+            }
+
+        }
+
+        $post = Post::create([
             'blog_category_id' => $request->category,
             'blog_author_id' => Auth::user()->id,
             'title' => $request->title,
@@ -143,7 +160,8 @@ class PostController extends Controller
             'published_at' => $request->published_at,
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
-            'image' => $request->image,
+            'image' => $image,
+            'folder' => $request->image,
             'post_visible' => $request->is_visible,
         ]);
 
@@ -171,6 +189,26 @@ class PostController extends Controller
         //     $request->category= Category::where('name', $request->category)->value('id');
         // }
 
+        //Récupérer tous les elements de la table temporaryImages
+        $temporaryImages = TemporaryImage::all();
+
+        $image = "";
+        foreach ($temporaryImages as $temporaryImage) {
+            if ($temporaryImage->folder == $request->image) {
+                $image = $temporaryImage->file;
+
+                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/sell_pictures/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+                // Image::create([
+                //     'post_id' => $post->id,
+                //     'name' => $temporaryImage->file,
+                //     'path' => $temporaryImage->folder . '/' . $temporaryImage->file,
+                // ]);
+                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                $temporaryImage->delete();
+            }
+
+        }
+
         $post->update([
             // 'blog_category_id' =>  $request->category,
             'blog_category_id' => $request->category,
@@ -181,14 +219,14 @@ class PostController extends Controller
             'published_at' => $request->published_at,
             'seo_title' => $request->seo_title,
             'seo_description' => $request->seo_description,
-            'image' => $request->image,
+            'image' => $image,
+            'folder' => $request->image,
             'post_visible' => $request->is_visible,
         ]);
 
         return redirect()->route('posts.index')
             ->with('message', 'post créer avec succes.');
     }
-
 
     // Fonction permettant d'afficher les posts par leur slug
     public function showArticle($slug)
@@ -217,8 +255,9 @@ class PostController extends Controller
                 'author' => User::find($selectedPost->blog_author_id),
                 'category' => Category::find($selectedPost->blog_category_id),
                 'image' => $selectedPost->image,
+                'folder' => $selectedPost->folder,
                 'duree' => $estimatedReadingTime,
-                'published_at' =>($selectedPost->published_at),
+                'published_at' => ($selectedPost->published_at),
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
                 'likes_count' => $likesCount,
@@ -227,7 +266,6 @@ class PostController extends Controller
             ],
         ]);
     }
-
 
     // Fonction permettant de récupérer le dernier post publié du blog
     public function getLatestPost()
@@ -239,7 +277,7 @@ class PostController extends Controller
         $latestPost = Post::where('post_visible', 1)
             ->where('published_at', '<=', $today)
 
-            ->orderBy('published_at','DESC')
+            ->orderBy('published_at', 'DESC')
             ->first();
 
         // Calculer la durée de lecture estimée
@@ -247,7 +285,6 @@ class PostController extends Controller
         $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
         $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
-
 
         $response = [
             'id' => $latestPost->id,
@@ -258,6 +295,7 @@ class PostController extends Controller
             'author' => User::find($latestPost->blog_author_id),
             'category' => Category::find($latestPost->blog_category_id),
             'image' => $latestPost->image,
+            'folder' => $latestPost->folder,
             'duree' => $estimatedReadingTime,
             'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
             'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
@@ -276,7 +314,7 @@ class PostController extends Controller
         $recentPosts = Post::where('post_visible', 1)
             ->where('published_at', '<=', $today)
 
-            ->orderBy('published_at','desc')
+            ->orderBy('published_at', 'desc')
             ->take(4)
             ->get();
 
@@ -299,6 +337,7 @@ class PostController extends Controller
                 'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
                 'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
                 'image' => $post->image,
+                'folder' => $post->folder,
                 'duree' => $estimatedReadingTime,
                 'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
                 'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
@@ -322,11 +361,10 @@ class PostController extends Controller
             $postsByCategory = [];
             $today = now();
 
-
             foreach ($categories as $category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
                     ->where('published_at', '<=', $today)
-                    ->orderBy('published_at','desc')->take(3)->get();
+                    ->orderBy('published_at', 'desc')->take(3)->get();
 
                 if ($posts->isNotEmpty()) {
                     $formattedPosts = $posts->map(function ($post) {
@@ -343,6 +381,7 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
+                            'folder' => $post->folder,
                             'duree' => $estimatedReadingTime,
                             'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
@@ -372,8 +411,7 @@ class PostController extends Controller
             $today = now();
             if ($category) {
                 $posts = Post::where('blog_category_id', $category->id)->where('post_visible', 1)
-                    ->where('published_at', '<=', $today)->orderBy('published_at','desc')->get();
-
+                    ->where('published_at', '<=', $today)->orderBy('published_at', 'desc')->get();
 
                 $formattedCategory = [
                     'category' => $category->name,
@@ -392,6 +430,7 @@ class PostController extends Controller
                             'author' => User::find($post->blog_author_id),
                             'category' => Category::find($post->blog_category_id),
                             'image' => $post->image,
+                            'folder' => $post->folder,
                             'duree' => $estimatedReadingTime,
                             'published' => Carbon::parse($post->published_at)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
@@ -448,6 +487,7 @@ class PostController extends Controller
                     'author' => User::find($previousPost->blog_author_id),
                     'category' => Category::find($previousPost->blog_category_id),
                     'image' => $previousPost->image,
+                    'folder' => $previousPost->folder,
                     'duree' => $estimatedReadingTime,
                     'published_at' => Carbon::parse($previousPost->published_at)->format('d/m/Y'),
                     'created_at' => Carbon::parse($previousPost->created_at)->format('d/m/Y'),
@@ -500,6 +540,7 @@ class PostController extends Controller
                     'author' => User::find($nextPost->blog_author_id),
                     'category' => Category::find($nextPost->blog_category_id),
                     'image' => $nextPost->image,
+                    'folder' => $nextPost->folder,
                     'duree' => $estimatedReadingTime,
                     'published_at' => Carbon::parse($nextPost->published_at)->format('d/m/Y'),
                     'created_at' => Carbon::parse($nextPost->created_at)->format('d/m/Y'),
@@ -548,5 +589,3 @@ class PostController extends Controller
         return response()->json(['hasNext' => $nextPost !== null]);
     }
 }
-
-

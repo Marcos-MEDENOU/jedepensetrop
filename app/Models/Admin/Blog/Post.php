@@ -32,6 +32,7 @@ class Post extends Model
         'seo_title',
         'seo_description',
         'image',
+        'folder',
         'post_visible',
         'category',
     ];

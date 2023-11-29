@@ -397,7 +397,7 @@ const deleteComment = (commentId) => {
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'http://127.0.0.1:8000/storage/uploads/' + post.image" :alt="post.title"
+                <img :src="'http://127.0.0.1:8000/storage/images/sell_pictures/' + post.folder + '/'+ post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>
@@ -408,15 +408,15 @@ const deleteComment = (commentId) => {
         </div>
 
 
-        <div class="2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
-            <!-- <div class="2xl:flex justify-center mt-8 mx-40"> -->
+        <div class="justify-center mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10 px-14">
+            <!-- <div class="justify-center mx-40 mt-8 2xl:flex"> -->
 
             <!-- <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
                 <Publicite />
             </div> -->
             <!-- 2xl:w-6/12 lg:12/12  -->
 
-            <div class="2xl:w-6/12 lg:w-8/12 md:container  md:mx-auto 2xl:mx-0  ">
+            <div class="2xl:w-6/12 lg:w-8/12 md:container md:mx-auto 2xl:mx-0 ">
                 <div class="flex items-center justify-between pb-4 italic border-b">
                     <div class="text-gray-700">
                         <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
@@ -627,24 +627,24 @@ const deleteComment = (commentId) => {
 
             </div>
 
-            <!-- <div class="ml-24 w-3/12 lg:w-3/12 xl:w-3/12 "> -->
-            <div class=" px-10 2xl:w-3/12 xl:ml-20   ">
+            <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
+            <div class="px-10 2xl:w-3/12 xl:ml-20">
                 <AsideRight />
                 <!-- <Publicite /> -->
             </div>
 
         </div>
-        <div class="p-10 dark:bg-gray-800 container mx-auto ">
+        <div class="container p-10 mx-auto dark:bg-gray-800 ">
 
 
-            <h2 class="mb-8 text-2xl ml-10 font-bold text-gray-900 dark:text-white">Articles Liés</h2>
+            <h2 class="mb-8 ml-10 text-2xl font-bold text-gray-900 dark:text-white">Articles Liés</h2>
 
-            <div class=" grid gap-5 justify-center grid-cols-1 md:grid-cols-2 xl:grid-cols-4  xl:px-0 ">
+            <div class="grid justify-center grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 xl:px-0">
 
-                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                <article class="p-4 bg-white rounded-lg shadow-lg ">
                     <a href="#">
                         <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
-                            class="mb-5 rounded-lg w-full h-56" alt="Image 1">
+                            class="w-full h-56 mb-5 rounded-lg" alt="Image 1">
                     </a>
                     <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                         <a href="#">Our first office</a>
@@ -657,10 +657,10 @@ const deleteComment = (commentId) => {
                     </a>
                 </article>
 
-                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                <article class="p-4 bg-white rounded-lg shadow-lg ">
                     <a href="#">
                         <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
-                            class="mb-5 rounded-lg w-full h-56" alt="Image 2">
+                            class="w-full h-56 mb-5 rounded-lg" alt="Image 2">
                     </a>
                     <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                         <a href="#">Enterprise design tips</a>
@@ -673,10 +673,10 @@ const deleteComment = (commentId) => {
                     </a>
                 </article>
 
-                <article class=" p-4 bg-white rounded-lg shadow-lg">
+                <article class="p-4 bg-white rounded-lg shadow-lg ">
                     <a href="#">
                         <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
-                            class="mb-5 rounded-lg w-full h-56" alt="Image 3">
+                            class="w-full h-56 mb-5 rounded-lg" alt="Image 3">
                     </a>
                     <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                         <a href="#">We partnered with Google</a>
@@ -689,10 +689,10 @@ const deleteComment = (commentId) => {
                     </a>
                 </article>
 
-                <article class=" p-2 bg-white rounded-lg shadow-lg">
+                <article class="p-2 bg-white rounded-lg shadow-lg ">
                     <a href="#">
                         <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
-                            class="mb-5 rounded-lg w-full h-56" alt="Image 4">
+                            class="w-full h-56 mb-5 rounded-lg" alt="Image 4">
                     </a>
                     <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
                         <a href="#">Our first project with React</a>

@@ -127,11 +127,11 @@ function showStatus(post_visible, published_at) {
   switch (post_visible) {
     case 0:
       if (providedDate > dateWithoutHours) {
-        return "retiré";
+        return "en brouillon";
       } else if (providedDate < dateWithoutHours) {
-        return "en cours d\'édition";
+        return "en brouillon";
       } else {
-        return "retiré";
+        return "en brouillon";
       }
       break;
 
@@ -255,7 +255,7 @@ function updateFilteredArticles(searchTerm) {
               </td>
 
               <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`"
+                <img v-bind:src="`http://127.0.0.1:8000/storage/images/sell_pictures/${post.folder}/${post.image}`"
                   class="w-16 rounded-sm lg:mx-auto">
               </td>
 
@@ -276,18 +276,18 @@ function updateFilteredArticles(searchTerm) {
                   {{
                     showStatus(post.post_visible, post.published_at) }}
                 </span>
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'retiré'"
+                <span v-if="showStatus(post.post_visible, post.published_at) == 'en brouillon'"
                   class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-red-600 rounded-full bg-red-50">
                   <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
                   {{
                     showStatus(post.post_visible, post.published_at) }}
                 </span>
-                <span v-if="showStatus(post.post_visible, post.published_at) == 'en cours d\'édition'"
+                <!-- <span v-if="showStatus(post.post_visible, post.published_at) == 'en brouillon'"
                   class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-blue-600 rounded-full bg-blue-50">
                   <span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
                   {{
                     showStatus(post.post_visible, post.published_at) }}
-                </span>
+                </span> -->
                 <span v-if="showStatus(post.post_visible, post.published_at) == 'publication dans'"
                   class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-yellow-600 rounded-full bg-yellow-50">
                   <span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>

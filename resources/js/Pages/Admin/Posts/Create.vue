@@ -1,5 +1,7 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3"
+// import { Head, Link, useForm } from "@inertiajs/vue3"
+import { Head, Link, useForm , usePage, router } from "@inertiajs/vue3"
+import { computed } from 'vue'
 import {
   mdiAccountKey,
   mdiArrowLeftBoldOutline,
@@ -26,6 +28,15 @@ import 'tinymce/models/dom';
 import FileUpload from 'primevue/fileupload';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 
+import vueFilePond from "vue-filepond";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js";
+
+
+// Import styles
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
 const props = defineProps({
   visibility: {
     type: Object,
@@ -40,6 +51,19 @@ const props = defineProps({
     default: () => ([])
   }
 })
+
+// Create FilePond component
+const FilePond = vueFilePond(
+    FilePondPluginFileValidateType,
+    FilePondPluginImagePreview
+);
+
+const page = usePage();
+const pond = ref(null);
+const files = ref([]);
+const csrf = computed(() => page.props.csrf_token);
+
+
 const date = ref(new Date());
 
 const setDate = (value) => {
@@ -77,6 +101,17 @@ const generateSlug = (title) => {
 
 watch(form.title, updateSlug);
 
+function handleFilePondLoad(response){
+  form.image = response
+  return response
+}
+
+
+function handleFilePondRevert(uniqueId, load , error){
+  
+  router.delete('/revert/' + uniqueId);
+  load();
+}
 </script>
 
 
@@ -122,7 +157,29 @@ watch(form.title, updateSlug);
         </FormField>
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
-          <fileUploads @change="handleFileChange"></fileUploads>
+          <!-- <fileUploads @change="handleFileChange"></fileUploads> -->
+          <file-pond style="width: 100% !important;"
+                    name="image"
+                    ref="pond"
+                    class-name="my-pond"
+                    max-files="1" 
+                    label-idle="Télécharger une image principale ici..."
+                    allow-multiple="false"
+                    accepted-file-types="image/jpeg, image/png"
+                    :files="files"
+                    :server="{
+                        process: {
+                          url:'/upload',
+                          method:'POST',
+                          onload:handleFilePondLoad
+                        },
+                        revert: handleFilePondRevert,
+                        // revert: '/revert',
+                        headers: {
+                            'X-CSRF-TOKEN': $page.props.csrf_token,
+                        },
+                    }"
+                />
 
         </FormField>
 

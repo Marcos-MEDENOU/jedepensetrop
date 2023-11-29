@@ -162,29 +162,31 @@ console.log(currentDate);
 
 
 <template>
-    <div class=" 2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
+    <div class="justify-center mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10 px-14">
 
-        <div class="2xl:w-6/12 lg:12/12  ">
+        <div class="2xl:w-6/12 lg:12/12 ">
 
             <h1 class="mb-5 text-3xl font-bold">Articles les plus récents</h1>
 
-            <div class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 mb-10">
+            <div class="mb-10 transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                 <div @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
+               
 
-
-                    <div @click="showArticle(latestPost.slug)" class="w-full rounded-lg   relative cursor-pointer">
+                    <div @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                             <div
-                                class="h-96 w-full transition-transform duration-500 ease-in-out transform hover:scale-105">
+                                class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
                                 <!-- Apply fixed width and height to the image -->
-                                <img :src="'http://127.0.0.1:8000/storage/uploads/' + latestPost.image" alt=""
-                                    class="w-full h-full object-cover rounded-lg" style="filter: brightness(0.5);">
+                                <img v-bind:src="`http://127.0.0.1:8000/storage/images/sell_pictures/${latestPost.folder}/${latestPost.image}`" alt=""
+                                    class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);">
+                                <!-- <img :src="'http://127.0.0.1:8000/storage/uploads/' + latestPost.image" alt=""
+                                    class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);"> -->
                             </div>
                         </div>
 
                         <div
-                            class="flex flex-col justify-center text-white gap-2 mx-auto mt-1 absolute bottom-10 left-14 right-14">
-                            <h1 class=" text-3xl md:text-5xl font-bold mb-3 my-2 ">
+                            class="absolute flex flex-col justify-center gap-2 mx-auto mt-1 text-white bottom-10 left-14 right-14">
+                            <h1 class="my-2 mb-3 text-3xl font-bold md:text-5xl">
                                 {{ latestPost.title }}
                             </h1>
                             <!-- <p class="text-xl ">{{ latestPost.seo_description }}</p> -->
@@ -192,7 +194,7 @@ console.log(currentDate);
                                 <p class="italic">
                                     {{ formatRelativeTime(latestPost.published_at) }}
                                 </p>
-                                <p class="italic flex items-center gap-1">
+                                <p class="flex items-center gap-1 italic">
                                     <Icon name="clock" /> {{ latestPost.duree ? '0' + latestPost.duree : latestPost.duree }}
                                     minutes
                                 </p>
@@ -203,17 +205,17 @@ console.log(currentDate);
 
                 <div class="mb-10">
                     <!-- <h1 class="mb-5 text-3xl font-bold">Derniers Articles</h1> -->
-                    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6  cursor-pointer lg:mx-auto grid-cols-1 ">
-
+                    <div class="grid grid-cols-1 gap-6 cursor-pointer lg:grid-cols-3 md:grid-cols-2 lg:mx-auto ">
+                 
                         <div v-for="(article, index) in data.recentPosts" :key="index"
-                            class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
+                            class="transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg">
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
                                         <!-- Apply fixed width and height to the image -->
-                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
-                                            class="w-full h-full object-cover">
+                                        <img :src="'http://127.0.0.1:8000/storage/images/sell_pictures/' + article.folder + '/' + article.image" alt=""
+                                            class="object-cover w-full h-full">
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
@@ -226,11 +228,11 @@ console.log(currentDate);
                                         {{ article.title }}
                                     </h1>
 
-                                    <div class="text-gray-500 mt-5 ">
-                                        <p class="italic mb-2">
+                                    <div class="mt-5 text-gray-500 ">
+                                        <p class="mb-2 italic">
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
-                                        <p class="italic flex items-center gap-1">
+                                        <p class="flex items-center gap-1 italic">
                                             <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
@@ -244,12 +246,12 @@ console.log(currentDate);
 
                 <div class="bg-[#ffcd00] p-5 my-10 rounded-lg">
                     <!-- Formulaire -->
-                    <form action="#" method="POST" class=" flex items-center gap-5 ">
+                    <form action="#" method="POST" class="flex items-center gap-5 ">
                         <!-- Champ de la question -->
                         <div class="w-full">
                             <input v-model="question" type="text" id="question" name="question"
                                 placeholder="Posez votre question ici!"
-                                class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                         </div>
 
                         <!-- Champ de l'email -->
@@ -257,12 +259,12 @@ console.log(currentDate);
 
                             <input v-model="email" type="email" id="email" name="email"
                                 placeholder="Entrez votre adresse email"
-                                class="border w-full border-gray-300 px-3 py-2 focus:outline-none focus:border-blue-500 rounded-md ">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
                         </div>
 
                         <!-- Bouton Envoyer -->
                         <span @click="subscribe()"
-                            class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 transition duration-300 cursor-pointer">Envoyer</span>
+                            class="px-4 py-2 text-white transition duration-300 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-900">Envoyer</span>
                     </form>
                 </div>
 
@@ -273,20 +275,20 @@ console.log(currentDate);
 
 
             <div v-for="categories, index in dataByCategory" :key="index">
-                <div v-for="category, index in categories" :key="index" class="mb-10 mt-10">
+                <div v-for="category, index in categories" :key="index" class="mt-10 mb-10">
 
                     <h1 class="mb-5 text-3xl font-bold">{{ category.category }}</h1>
-                    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6  cursor-pointer  ">
+                    <div class="grid grid-cols-1 gap-6 cursor-pointer lg:grid-cols-3 md:grid-cols-2 ">
 
                         <div v-for="(article, index) in category.posts" :key="index"
-                            class=" transition-transform duration-300 ease-in-out transform hover:-translate-y-2 ">
+                            class="transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/uploads/' + article.image" alt=""
-                                            class="w-full h-full object-cover">
+                                        <img :src="'http://127.0.0.1:8000/storage/images/sell_pictures/' + article.folder + '/'+ article.image" alt=""
+                                            class="object-cover w-full h-full">
 
                                     </div>
                                     <span
@@ -302,11 +304,11 @@ console.log(currentDate);
                                         {{ article.title }}
                                     </h1>
 
-                                    <div class="text-gray-500 mt-5">
+                                    <div class="mt-5 text-gray-500">
                                         <p class="italic">
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
-                                        <p class="italic flex items-center gap-1">
+                                        <p class="flex items-center gap-1 italic">
                                             <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
@@ -323,7 +325,7 @@ console.log(currentDate);
             </div>
         </div>
 
-        <div class="px-10 2xl:w-3/12 xl:ml-20  ">
+        <div class="px-10 2xl:w-3/12 xl:ml-20 ">
             <AsideRight />
         </div>
     </div></template>

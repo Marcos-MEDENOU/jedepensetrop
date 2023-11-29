@@ -22,7 +22,8 @@ return new class extends Migration {
             $table->string('seo_title', 160)->nullable();
             $table->string('seo_description', 160)->nullable();
             $table->string('image')->nullable();
-            $table->boolean('post_visible')->default(false);
+            $table->string('folder')->nullable();
+            $table->boolean('post_visible')->default(true);
             $table->timestamps();
         });
     }

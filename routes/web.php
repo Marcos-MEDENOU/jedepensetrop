@@ -15,6 +15,10 @@ use App\Http\Controllers\SocialiteController;
 use Inertia\Inertia;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
+
+//image 
+use App\Http\Controllers\UploadTemporaryImageController;
+use App\Http\Controllers\DeleteTemporaryImageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -87,3 +91,7 @@ Route::get('login-register', [SocialiteController::class, 'loginRegister']);
 // Route::get("redirect/{provider}", "SocialiteController@redirect")->name('socialite.redirect');
 Route::get('redirect/{provider}/', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
 Route::get('callback/{provider}/', [SocialiteController::class, 'callback'])->name('socialite.callback');
+
+
+Route::post('/upload', UploadTemporaryImageController::class);
+Route::delete('/revert/{folder}', DeleteTemporaryImageController::class);

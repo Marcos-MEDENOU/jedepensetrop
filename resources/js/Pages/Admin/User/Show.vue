@@ -1,5 +1,7 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/vue3"
+import { Head, Link, useForm , usePage, router } from "@inertiajs/vue3"
+import { computed, ref } from 'vue'
+// import { usePage, router } from '@inertiajs/vue3'
 import {
   mdiAccountGroup,
   mdiArrowLeftBoldOutline,
@@ -9,7 +11,7 @@ import SectionMain from "@/Components/SectionMain.vue"
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue"
 import CardBox from "@/Components/CardBox.vue"
 import BaseButton from "@/Components/BaseButton.vue"
-
+// const users = computed(() => usePage().props.auth.user)
 const props = defineProps({
   user: {
     type: Object,
@@ -79,7 +81,9 @@ const props = defineProps({
           <div class="flex flex-wrap justify-center">
             <div class="flex justify-center w-full">
               <div class="relative">
-                <img
+                <img :src="user.image" v-if="user.image"
+                  class="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]" />
+                <img v-else
                   src="/images/user.jpg"
                   class="shadow-xl rounded-full align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px]" />
               </div>
@@ -87,15 +91,15 @@ const props = defineProps({
             <div class="w-full mt-20 text-center">
               <div class="flex justify-center pt-8 pb-0 lg:pt-4">
                 <div class="p-3 text-center">
-                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">564</span>
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">0</span>
                   <span class="text-sm text-slate-400">Commentaires</span>
                 </div>
                 <div class="p-3 text-center">
-                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">3,360</span>
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">0</span>
                   <span class="text-sm text-slate-400">Articles</span>
                 </div>
                 <div class="p-3 text-center">
-                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">2,454</span>
+                  <span class="block text-xl font-bold tracking-wide uppercase text-slate-700">0</span>
                   <span class="text-sm text-slate-400">J'aimes</span>
                 </div>
 
