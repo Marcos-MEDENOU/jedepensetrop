@@ -64,12 +64,16 @@ const showArticle = (slug) => {
     router.get(route("post.show", slug))
 };
 
+const nom = ref('');
+const prenom = ref('');
 const email = ref('');
 const question = ref('');
 
 const subscribe = () => {
 
     axios.post('/newsletter/store', {
+        lastname: nom.value,
+        firstname: prenom.value,
         email: email.value,
         question: question.value,
     })
@@ -96,6 +100,8 @@ const subscribe = () => {
                 });
             }
 
+            nom.value = '';
+            prenom.value = '';
             email.value = '';
             question.value = '';
 
@@ -114,47 +120,47 @@ const subscribe = () => {
 }
 
 const formatDate = (inputDate) => {
-  if (!inputDate) {
-    return null; // Ou une autre valeur par défaut appropriée
-  }
+    if (!inputDate) {
+        return null; // Ou une autre valeur par défaut appropriée
+    }
 
-  const [day, month, year] = inputDate.split('/').map(Number);
+    const [day, month, year] = inputDate.split('/').map(Number);
 
-  // Vérifier si la date est valide
-  if (isNaN(day) || isNaN(month) || isNaN(year)) {
-    return null; // Ou une autre valeur par défaut appropriée
-  }
+    // Vérifier si la date est valide
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return null; // Ou une autre valeur par défaut appropriée
+    }
 
-  const dateInUTC = new Date(Date.UTC(year, month - 1, day)); // Note: Month is zero-based
+    const dateInUTC = new Date(Date.UTC(year, month - 1, day)); // Note: Month is zero-based
 
-  // Convertir la date à partir de l'UTC vers le fuseau horaire français
-  return new Date(dateInUTC.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+    // Convertir la date à partir de l'UTC vers le fuseau horaire français
+    return new Date(dateInUTC.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
 };
 
 const formatRelativeTime = (inputDate) => {
-  const parsedDate = formatDate(inputDate);
-  const currentDate = new Date();
-console.log(parsedDate);
-console.log(currentDate);
+    const parsedDate = formatDate(inputDate);
+    const currentDate = new Date();
+    console.log(parsedDate);
+    console.log(currentDate);
 
-  if (!parsedDate) {
-    return 'Date invalide';
-  }
+    if (!parsedDate) {
+        return 'Date invalide';
+    }
 
-  const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
-  const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
-  const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
-  const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+    const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
+    const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
+    const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
+    const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
 
-  if (differenceInDaysValue > 1) {
-    return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
-  } else if (differenceInHoursValue > 0) {
-    return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
-  } else if (differenceInMinutesValue > 0) {
-    return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
-  } else {
-    return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
-  }
+    if (differenceInDaysValue > 1) {
+        return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
+    } else if (differenceInHoursValue > 0) {
+        return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
+    } else if (differenceInMinutesValue > 0) {
+        return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
+    } else {
+        return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
+    }
 };
 
 
@@ -162,7 +168,7 @@ console.log(currentDate);
 
 
 <template>
-    <div class="justify-center mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10 px-14">
+    <div class="justify-center px-5 mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10 md:">
 
         <div class="2xl:w-6/12 lg:12/12 ">
 
@@ -185,7 +191,7 @@ console.log(currentDate);
                         </div>
 
                         <div
-                            class="absolute flex flex-col justify-center gap-2 mx-auto mt-1 text-white bottom-10 left-14 right-14">
+                            class="absolute flex flex-col justify-center gap-2 mt-1 text-white md:mx-auto bottom-10 md:left-14 md:right-14 left-4 right-4">
                             <h1 class="my-2 mb-3 text-3xl font-bold md:text-5xl">
                                 {{ latestPost.title }}
                             </h1>
@@ -246,20 +252,27 @@ console.log(currentDate);
 
                 <div class="bg-[#ffcd00] p-5 my-10 rounded-lg">
                     <!-- Formulaire -->
-                    <form action="#" method="POST" class="flex items-center gap-5 ">
-                        <!-- Champ de la question -->
-                        <div class="w-full">
-                            <input v-model="question" type="text" id="question" name="question"
-                                placeholder="Posez votre question ici!"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                        </div>
+                    <form action="#" method="POST" class="flex flex-col items-center gap-5 ">
+                        <div class="flex flex-col w-full gap-5 md:flex-row">
+                            <!-- Champ de la question -->
+                            <div class="flex flex-col w-full gap-2">
+                                <input v-model="nom" type="text" id="nom" name="nom" placeholder="Votre nom"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
+                                <input v-model="prenom" type="text" id="prenom" name="prenom" placeholder="Votre prénom"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
 
-                        <!-- Champ de l'email -->
-                        <div class="w-full">
+                            </div>
 
-                            <input v-model="email" type="email" id="email" name="email"
-                                placeholder="Entrez votre adresse email"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
+                            <!-- Champ de l'email -->
+                            <div class="flex flex-col w-full gap-2 ">
+
+                                <input v-model="question" type="text" id="question" name="question"
+                                    placeholder="Posez votre question ici!"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                                <input v-model="email" type="email" id="email" name="email"
+                                    placeholder="Entrez votre adresse email"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
+                            </div>
                         </div>
 
                         <!-- Bouton Envoyer -->
@@ -328,4 +341,5 @@ console.log(currentDate);
         <div class="px-10 2xl:w-3/12 xl:ml-20 ">
             <AsideRight />
         </div>
-    </div></template>
+    </div>
+</template>

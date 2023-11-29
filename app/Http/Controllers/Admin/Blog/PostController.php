@@ -257,7 +257,7 @@ class PostController extends Controller
                 'image' => $selectedPost->image,
                 'folder' => $selectedPost->folder,
                 'duree' => $estimatedReadingTime,
-                'published_at' => ($selectedPost->published_at),
+                'published_at' =>Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
                 'likes_count' => $likesCount,
@@ -432,7 +432,7 @@ class PostController extends Controller
                             'image' => $post->image,
                             'folder' => $post->folder,
                             'duree' => $estimatedReadingTime,
-                            'published' => Carbon::parse($post->published_at)->format('d/m/Y'),
+                            'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
                             'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
                             'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
                         ];

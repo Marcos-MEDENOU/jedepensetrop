@@ -10,7 +10,7 @@ class Newsletter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'question']; // Ajout de 'question' aux champs remplissables
+    protected $fillable = ['firstname','lastname','email', 'question']; // Ajout de 'question' aux champs remplissables
 
     // ...
 }

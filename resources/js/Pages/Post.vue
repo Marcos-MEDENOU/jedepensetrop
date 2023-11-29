@@ -408,7 +408,7 @@ const deleteComment = (commentId) => {
         </div>
 
 
-        <div class="justify-center mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10 px-14">
+        <div class="justify-center px-5 mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10">
             <!-- <div class="justify-center mx-40 mt-8 2xl:flex"> -->
 
             <!-- <div class="w-3/12 lg:w-3/12 xl:w-3/12 ">
@@ -417,19 +417,20 @@ const deleteComment = (commentId) => {
             <!-- 2xl:w-6/12 lg:12/12  -->
 
             <div class="2xl:w-6/12 lg:w-8/12 md:container md:mx-auto 2xl:mx-0 ">
-                <div class="flex items-center justify-between pb-4 italic border-b">
-                    <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Lire en : {{ post['duree'] }} minutes</p>
-                        <p class="text-lg font-semibold">Rédigé par : {{ post['author'].name }}</p>
+                <div class="flex items-center justify-between pb-4 text-sm italic border-b">
+                    <div class="text-gray-500">
+                        <p class="flex items-center gap-1 text-sm">
+                            <Icon name="clock" /> {{ post['duree'] < 10 ? '0' + post['duree'] : post['duree'] }} minutes</p>
+                                <p class="text-sm ">Auteur : {{ post['author'].name }}</p>
                     </div>
-                    <div class="text-gray-700">
-                        <p class="text-lg font-semibold">Publié le : {{ post['published_at'] }}</p>
-                        <p class="text-lg font-semibold">Dernière mise à jour : {{ post['updated_at'] }}</p>
+                    <div class="text-gray-500">
+                        <p class="text-sm ">Publié le : {{ post['published_at'] }}</p>
+                        <p class="text-sm ">Dernière mise à jour : {{ post['updated_at'] }}</p>
                     </div>
                 </div>
 
                 <div class="mt-10 mb-10">
-                    <h1 class="mb-4 text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
+                    <h1 class="mb-4 text-4xl md:text-5xl font-bold text-[#e39a00]">{{ post.title }}</h1>
                     <div class="prose">
                         <div id="editor" v-html="setimgSrc(post['content'])"></div>
                     </div>
@@ -453,14 +454,14 @@ const deleteComment = (commentId) => {
                     <div v-if="hasPrevious" @click="previousPost(props.post.id)"
                         class="left-0 text-gray-700 cursor-pointer text-start">
                         <span
-                            class="p-4 text-lg font-bold text-white bg-gray-800 rounded-lg shadow-md hover:scale-50 hover:bg-gray-900">
+                            class="p-2 text-sm font-bold text-white bg-gray-800 rounded-lg shadow-md md:p-4 md:text-lg hover:scale-50 hover:bg-gray-900">
                             Article précédent
                         </span>
                     </div>
                     <div v-if="hasNext" @click="nextPost(props.post.id)"
                         class="absolute right-0 text-gray-700 cursor-pointer">
                         <span
-                            class="p-4 mb-5 text-lg font-bold text-white bg-gray-800 rounded-md shadow-lg hover:scale-50 hover:bg-gray-900">
+                            class="p-2 mb-5 text-sm font-bold text-white bg-gray-800 rounded-md shadow-lg md:p-4 md:text-lg hover:scale-50 hover:bg-gray-900">
                             Article suivant
                         </span>
                     </div>
@@ -714,12 +715,12 @@ const deleteComment = (commentId) => {
 </template>
 
 <style>
+/* Styles par défaut pour les grands écrans */
 #editor h1 {
     font-weight: bold;
     margin-block: 1rem;
     font-size: 32pt;
     line-height: 3.5rem;
-    /* font-family: DMSans; */
 }
 
 #editor h2 {
@@ -737,7 +738,6 @@ const deleteComment = (commentId) => {
 #editor ul,
 #editor table {
     font-size: 12pt;
-    /* font-family: DMSans; */
     padding-block: 5pt;
 }
 
@@ -758,5 +758,40 @@ const deleteComment = (commentId) => {
 #editor ol li {
     list-style: decimal;
     margin-left: 2.5rem;
+}
+
+/* Styles pour les écrans de petite taille (mobiles) */
+@media only screen and (max-width: 600px) {
+    #editor h1 {
+        font-size: 20pt;
+        line-height: 2.5rem;
+    }
+
+    #editor h2 {
+        font-size: 20pt;
+    }
+
+    #editor h3 {
+        font-size: 16pt;
+    }
+
+
+    #editor p span {
+        font-size: 12pt !important;
+    }
+
+    #editor ul {
+        font-size: 12pt !important;
+    }
+
+    #editor ol {
+        font-size: 12pt !important;
+    }
+
+    #editor table {
+        font-size: 12pt !important;
+    }
+
+
 }
 </style>

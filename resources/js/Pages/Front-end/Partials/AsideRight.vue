@@ -192,7 +192,7 @@ const subscribe = () => {
             </form>
         </div>
     </section>
-    <Chatbot class=" fixed bottom-10 right-20" />
+    <Chatbot class=" fixed bottom-5 right-5   md:bottom-10 md:right-20" />
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
@@ -257,7 +257,7 @@ const subscribe = () => {
 /* Ajouter des media queries pour ajuster la taille sur différents écrans */
 @media screen and (max-width: 768px) {
     .slider {
-        width: 340px;
+        width: 250px;
     }
 
     .slider .slide-track {
