@@ -15,7 +15,7 @@ class DeleteTemporaryImageController extends Controller
 
         $temporaryImage = TemporaryImage::where('folder', $folder)->first();
         if ($temporaryImage) {
-            Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+            Storage::deleteDirectory('public/images/tmp/' . $temporaryImage->folder);
             $temporaryImage->delete();
         }
 

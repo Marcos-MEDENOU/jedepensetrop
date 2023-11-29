@@ -16,7 +16,7 @@ class UploadTemporaryImageController extends Controller
             $image = $request->file('image');
             $fileName = $image->getClientOriginalName();
             $folder = uniqid('image-', true);
-            $image->storeAs('images/tmp/' . $folder, $fileName);
+            $image->storeAs('public/images/tmp/' . $folder, $fileName);
 
             TemporaryImage::create([
                 'folder' => $folder,

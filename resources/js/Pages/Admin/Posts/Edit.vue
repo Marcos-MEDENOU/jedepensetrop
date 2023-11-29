@@ -66,10 +66,6 @@ const FilePond = vueFilePond(
   FilePondPluginImagePreview
 );
 
-function handleFilePondLoad(response) {
-  form.image = response
-  return response
-}
 
 
 function handleFilePondRevert(uniqueId, load, error) {
@@ -102,20 +98,24 @@ const form = useForm({
   category: props.posts.blog_category_id,
 })
 
+function handleFilePondLoad(response) {
+  form.image = response
+  return response
+}
+
 
 const files = ref([
   {
     // the server file reference
-    source: `http://127.0.0.1:8000/storage/images/sell_pictures/${form.folder}/${form.image}`,
+    source: `/storage/images/${form.folder}/${form.image}`,
 
     // set type to limbo to tell FilePond this is a temp file
     options: {
-      type: 'limbo'
+      type: 'local',
     }
   }
 ],);
 
-console.log(`/storage/images/sell_pictures/${form.folder}/${form.image}`)
 const handleFileChange = (event) => {
   form.image = event.target.files[0]['name'];
 }
@@ -218,11 +218,12 @@ watch(form.title, updateSlug);
                 onload: handleFilePondLoad
               },
               revert: handleFilePondRevert,
-              // revert: '/revert',
+              
               headers: {
                 'X-CSRF-TOKEN': $page.props.csrf_token,
               },
-            }" />
+            }" 
+          />
         </FormField>
 
 

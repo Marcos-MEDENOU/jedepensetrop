@@ -61,8 +61,8 @@ const closeMenu = () => {
 </script>
 
 <template>
-    <div style="background-color: whitesmoke" class="  w-full z-50 px-20 md:px-0">
-        <nav class="hidden lg:top-0 lg:z-50 lg:flex gap-5 flex-row justify-between items-center mx-auto container 2xl:px-10 py-2">
+    <div style="background-color: whitesmoke" class="z-50 w-full px-20 md:px-0">
+        <nav class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
 
 
             <!-- Logo Container -->
@@ -70,7 +70,7 @@ const closeMenu = () => {
                 <!-- Logo -->
                 <a href="/" class="cursor-pointer">
                     <h3 class="text-2xl font-medium ">
-                        <img class="w-36 h-10" src="/images/logoCharle.png" alt="BlogLogo">
+                        <img class="h-10 w-36" src="/images/logoCharle.png" alt="BlogLogo">
                     </h3>
                 </a>
             </div>
@@ -124,7 +124,7 @@ const closeMenu = () => {
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
             <a @click="categoryPosts(categorie.slug)"
-                class="px-3 py-2 text-lg font-semibold hover:underline cursor-pointer">{{ categorie.name }}</a>
+                class="px-3 py-2 text-lg font-semibold cursor-pointer hover:underline">{{ categorie.name }}</a>
         </li>
 
         <!-- Formulaire de recherche -->
@@ -132,11 +132,11 @@ const closeMenu = () => {
         <form @submit.prevent="submitForm" class="ml-5">
 
             <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                     <Icon name="search" />
                 </div>
                 <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56  h-10  ps-10 text- text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required>
 
             </div>
@@ -145,13 +145,13 @@ const closeMenu = () => {
     </ul>
 
 
-    <nav  class="lg:hidden h-18 sticky top-0 z-50 left-0 right-0 bg-gray-50 justify-between py-3 px-8 flex  items-center shadow-lg">
+    <nav  class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-gray-50">
         <!-- Logo Container -->
-        <div class="flex  items-center">
+        <div class="flex items-center">
             <!-- Logo -->
             <a href="/" class="cursor-pointer">
                 <h3 class="text-2xl font-medium">
-                    <img class="w-36 h-10" src="/images/logoCharle.png" alt="BlogLogo">
+                    <img class="h-10 w-36" src="/images/logoCharle.png" alt="BlogLogo">
                 </h3>
             </a>
         </div>
@@ -173,6 +173,7 @@ const closeMenu = () => {
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
+            {{ categorie }}
             <a @click="categoryPosts(categorie.slug)"
                 class="px-3 py-2 text-lg font-semibold cursor-pointer hover:underline">{{ categorie.name }}</a>
         </li>

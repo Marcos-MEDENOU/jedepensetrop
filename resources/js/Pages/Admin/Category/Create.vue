@@ -25,84 +25,51 @@ const props = defineProps({
 
 const form = useForm({
   name: '',
-  // slug: '',
+  slug: '',
   description: '',
   // seo_title: '',
   // seo_description: '',
   // is_visible: [],
 })
-console.log(form.is_visible);
+
+
 </script>
 
 <template>
   <LayoutAuthenticated>
+
     <Head title="Ajouter une catégorie" />
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiPostageStamp"
-        title="Ajouter une catégorie"
-        main
-      >
-        <BaseButton
-          :route-name="route('user.index')"
-          :icon="mdiArrowLeftBoldOutline"
-          label="Back"
-          color="white"
-          rounded-full
-          small
-        />
+      <SectionTitleLineWithButton :icon="mdiPostageStamp" title="Ajouter une catégorie" main>
+        <BaseButton :route-name="route('user.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
+          rounded-full small />
       </SectionTitleLineWithButton>
-      <CardBox
-        form
-        @submit.prevent="form.post(route('category.store'))"
-      >
-        <FormField
-          label="Nom de la catégorie"
-          :class="{ 'text-red-400': form.errors.name }"
-        >
-          <FormControl
-            v-model="form.name"
-            type="text"
-            required="required"
-            placeholder="Entrer une nouvelle catégorie d'article"
-            :error="form.errors.name"
-          >
+      <CardBox form @submit.prevent="form.post(route('category.store'))">
+        <FormField label="Nom de la catégorie" :class="{ 'text-red-400': form.errors.name }">
+          <FormControl v-model="form.name" type="text" required="required"
+            placeholder="Entrer une nouvelle catégorie d'article" :error="form.errors.name">
             <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
             </div>
           </FormControl>
         </FormField>
-        <FormField
-          label="Description"
-          :class="{ 'text-red-400': form.errors.description }"
-        >
-          <FormControl
-            v-model="form.description"
-            type="text"
-            placeholder="Mettez une petite description"
-            :error="form.errors.description"
-          >
+        <FormField label="Description" :class="{ 'text-red-400': form.errors.description }">
+          <FormControl v-model="form.description" type="text" placeholder="Mettez une petite description"
+            :error="form.errors.description">
             <div class="text-sm text-red-400" v-if="form.errors.description">
               {{ form.errors.description }}
             </div>
           </FormControl>
         </FormField>
 
-        <!-- <FormField
-          label="slug"
-          :class="{ 'text-red-400': form.errors.slug }"
-        >
-          <FormControl
-            v-model="form.slug"
-            type="text"
-            placeholder="Un slug pour le reférencement"
-            :error="form.errors.slug"
-          >
+        <FormField label="slug" :class="{ 'text-red-400': form.errors.slug }">
+          <FormControl v-model="form.slug" type="text" placeholder="Un slug pour le reférencement"
+            :error="form.errors.slug">
             <div class="text-sm text-red-400" v-if="form.errors.slug">
               {{ form.errors.slug }}
             </div>
           </FormControl>
-        </FormField> -->
+        </FormField>
         <!-- <FormField
           label="SEO titre"
           :class="{ 'text-red-400': form.errors.seo_title }"
@@ -168,13 +135,8 @@ console.log(form.is_visible);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton
-              type="submit"
-              color="info"
-              label="Enrégistrer"
-              :class="{ 'opacity-25': form.processing }"
-              :disabled="form.processing"
-            />
+            <BaseButton type="submit" color="info" label="Enrégistrer" :class="{ 'opacity-25': form.processing }"
+              :disabled="form.processing" />
           </BaseButtons>
         </template>
       </CardBox>

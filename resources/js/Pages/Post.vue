@@ -397,7 +397,7 @@ const deleteComment = (commentId) => {
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'http://127.0.0.1:8000/storage/images/sell_pictures/' + post.folder + '/'+ post.image" :alt="post.title"
+                <img :src="'http://127.0.0.1:8000/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>

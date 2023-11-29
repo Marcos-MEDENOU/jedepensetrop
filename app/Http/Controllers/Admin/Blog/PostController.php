@@ -139,13 +139,13 @@ class PostController extends Controller
             if ($temporaryImage->folder == $request->image) {
                 $image = $temporaryImage->file;
 
-                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+                Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, 'public/images/' . $temporaryImage->folder . '/' . $temporaryImage->file);
                 // Image::create([
                 //     'post_id' => $post->id,
                 //     'name' => $temporaryImage->file,
                 //     'path' => $temporaryImage->folder . '/' . $temporaryImage->file,
                 // ]);
-                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                Storage::deleteDirectory('public/images/tmp/' . $temporaryImage->folder);
                 $temporaryImage->delete();
             }
 
@@ -172,7 +172,6 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-      
         // if(is_int((int)($request->is_visible))){
         //     $request->is_visible = $request->is_visible;
         // }elseif($request->is_visible = "oui"){
@@ -198,7 +197,7 @@ class PostController extends Controller
             if ($temporaryImage->folder == $request->image) {
                 $image = $temporaryImage->file;
 
-                Storage::copy('images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/sell_pictures/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+                Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/' . $temporaryImage->folder . '/' . $temporaryImage->file);
                 // Image::create([
                 //     'post_id' => $post->id,
                 //     'name' => $temporaryImage->file,

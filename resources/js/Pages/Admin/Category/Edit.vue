@@ -39,7 +39,7 @@ const form = useForm({
   _method: 'put',
   name: props.categorie.name,
   description: props.categorie.description,
-  // slug: props.categorie.slug,
+  slug: props.categorie.slug,
   // seo_title: props.categorie.seo_title,
   // seo_description: props.categorie.seo_description,
   // visibility:props.visibility,
@@ -100,7 +100,7 @@ const form = useForm({
           </FormControl>
         </FormField>
 
-        <!-- <FormField
+        <FormField
           label="slug"
           :class="{ 'text-red-400': form.errors.slug }"
         >
@@ -114,7 +114,7 @@ const form = useForm({
               {{ form.errors.slug }}
             </div>
           </FormControl>
-        </FormField> -->
+        </FormField>
         <!-- <FormField
           label="SEO titre"
           :class="{ 'text-red-400': form.errors.seo_title }"
