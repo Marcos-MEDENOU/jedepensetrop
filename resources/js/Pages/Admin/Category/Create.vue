@@ -25,10 +25,10 @@ const props = defineProps({
 
 const form = useForm({
   name: '',
-  slug: '',
+  // slug: '',
   description: '',
-  seo_title: '',
-  seo_description: '',
+  // seo_title: '',
+  // seo_description: '',
   // is_visible: [],
 })
 console.log(form.is_visible);
@@ -88,7 +88,7 @@ console.log(form.is_visible);
           </FormControl>
         </FormField>
 
-        <FormField
+        <!-- <FormField
           label="slug"
           :class="{ 'text-red-400': form.errors.slug }"
         >
@@ -102,7 +102,7 @@ console.log(form.is_visible);
               {{ form.errors.slug }}
             </div>
           </FormControl>
-        </FormField>
+        </FormField> -->
         <!-- <FormField
           label="SEO titre"
           :class="{ 'text-red-400': form.errors.seo_title }"

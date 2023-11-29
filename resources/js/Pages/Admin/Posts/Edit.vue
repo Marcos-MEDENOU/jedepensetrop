@@ -79,8 +79,9 @@ function handleFilePondRevert(uniqueId, load, error) {
 }
 
 const page = usePage();
-const pond = ref(null);
-const files = ref([]);
+
+
+
 const csrf = computed(() => page.props.csrf_token);
 
 
@@ -96,11 +97,25 @@ const form = useForm({
   seo_title: props.posts.seo_title,
   seo_description: props.posts.seo_description,
   image: props.posts.image,
+  folder: props.posts.folder,
   is_visible: props.posts.post_visible,
   category: props.posts.blog_category_id,
 })
 
 
+const files = ref([
+  {
+    // the server file reference
+    source: `http://127.0.0.1:8000/storage/images/sell_pictures/${form.folder}/${form.image}`,
+
+    // set type to limbo to tell FilePond this is a temp file
+    options: {
+      type: 'limbo'
+    }
+  }
+],);
+
+console.log(`/storage/images/sell_pictures/${form.folder}/${form.image}`)
 const handleFileChange = (event) => {
   form.image = event.target.files[0]['name'];
 }
@@ -208,7 +223,6 @@ watch(form.title, updateSlug);
                 'X-CSRF-TOKEN': $page.props.csrf_token,
               },
             }" />
-
         </FormField>
 
 

@@ -1,6 +1,6 @@
 <script setup>
 // import { Head, Link, useForm } from "@inertiajs/vue3"
-import { Head, Link, useForm , usePage, router } from "@inertiajs/vue3"
+import { Head, Link, useForm, usePage, router } from "@inertiajs/vue3"
 import { computed } from 'vue'
 import {
   mdiAccountKey,
@@ -54,8 +54,8 @@ const props = defineProps({
 
 // Create FilePond component
 const FilePond = vueFilePond(
-    FilePondPluginFileValidateType,
-    FilePondPluginImagePreview
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
 );
 
 const page = usePage();
@@ -101,14 +101,14 @@ const generateSlug = (title) => {
 
 watch(form.title, updateSlug);
 
-function handleFilePondLoad(response){
+function handleFilePondLoad(response) {
   form.image = response
   return response
 }
 
 
-function handleFilePondRevert(uniqueId, load , error){
-  
+function handleFilePondRevert(uniqueId, load, error) {
+
   router.delete('/revert/' + uniqueId);
   load();
 }
@@ -126,16 +126,16 @@ function handleFilePondRevert(uniqueId, load , error){
           rounded-full small />
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="form.post(route('posts.store'))">
-        
+
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
-          <FormControl v-model="form.title" type="text" required="required"  @input="updateSlug"
+          <FormControl v-model="form.title" type="text" required="required" @input="updateSlug"
             placeholder="Entrer un titre pour votre article" :error="form.errors.title">
             <div class="text-sm text-red-400" v-if="form.errors.title">
               {{ form.errors.title }}
             </div>
           </FormControl>
         </FormField>
-        
+
         <FormField label="slug" :class="{ 'text-red-400': form.errors.slug }">
           <FormControl :readonly="true" v-model="form.slug" type="text" placeholder="un slug pour le referencement"
             :error="form.errors.slug">
@@ -158,28 +158,21 @@ function handleFilePondRevert(uniqueId, load , error){
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
           <!-- <fileUploads @change="handleFileChange"></fileUploads> -->
-          <file-pond style="width: 100% !important;"
-                    name="image"
-                    ref="pond"
-                    class-name="my-pond"
-                    max-files="1" 
-                    label-idle="Télécharger une image principale ici..."
-                    allow-multiple="false"
-                    accepted-file-types="image/jpeg, image/png"
-                    :files="files"
-                    :server="{
-                        process: {
-                          url:'/upload',
-                          method:'POST',
-                          onload:handleFilePondLoad
-                        },
-                        revert: handleFilePondRevert,
-                        // revert: '/revert',
-                        headers: {
-                            'X-CSRF-TOKEN': $page.props.csrf_token,
-                        },
-                    }"
-                />
+          
+          <file-pond style="width: 100% !important;" name="image" ref="pond" class-name="my-pond" max-files="1"
+            label-idle="Télécharger une image principale ici..." allow-multiple="false"
+            accepted-file-types="image/jpeg, image/png" :files="files" :server="{
+              process: {
+                url: '/upload',
+                method: 'POST',
+                onload: handleFilePondLoad
+              },
+              revert: handleFilePondRevert,
+              // revert: '/revert',
+              headers: {
+                'X-CSRF-TOKEN': $page.props.csrf_token,
+              },
+            }" />
 
         </FormField>
 

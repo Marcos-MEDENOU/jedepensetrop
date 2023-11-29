@@ -78,7 +78,7 @@ class PostController extends Controller
 
     public function edit(Request $request, Post $post)
     {
-
+       
         $visibility = ['Mettre l\'article en brouillon', 'Autoriser la publication automatique'];
         $categorie = Category::all()->pluck('name', 'id');
         return Inertia::render('Admin/Posts/Edit', [
@@ -172,6 +172,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
+      
         // if(is_int((int)($request->is_visible))){
         //     $request->is_visible = $request->is_visible;
         // }elseif($request->is_visible = "oui"){

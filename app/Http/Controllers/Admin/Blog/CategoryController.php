@@ -125,7 +125,7 @@ class CategoryController extends Controller
     {
         Category::create([
             'name' => $request->name,
-            'slug' => $request->slug,
+            // 'slug' => $request->slug,
             'description' => $request->description,
             // 'seo_title' => $request->slug,
             // 'seo_description' => $request->seo_description,
@@ -189,7 +189,7 @@ class CategoryController extends Controller
         $category->update([
             'name' => $request->name,
             'slug' => $request->slug,
-            'description' => $request->description,
+            // 'description' => $request->description,
             // 'seo_title' => $request->slug,
             // 'seo_description' => $request->seo_description,
             // 'is_visible' => $request->visibility
