@@ -168,7 +168,7 @@ const formatRelativeTime = (inputDate) => {
 
 
 <template>
-    <div class=" 2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
+    <div class=" 2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-5 md:">
 
         <div class="2xl:w-6/12 lg:12/12  ">
 
@@ -189,7 +189,7 @@ const formatRelativeTime = (inputDate) => {
                         </div>
 
                         <div
-                            class="flex flex-col justify-center text-white gap-2 mx-auto mt-1 absolute bottom-10 left-14 right-14">
+                            class="flex flex-col justify-center text-white gap-2 md:mx-auto mt-1 absolute bottom-10 md:left-14 md:right-14  left-4 right-4">
                             <h1 class=" text-3xl md:text-5xl font-bold mb-3 my-2 ">
                                 {{ latestPost.title }}
                             </h1>

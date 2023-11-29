@@ -2,10 +2,14 @@
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
+import Icon from '@/Components/Icons/Icon.vue'
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 import MainLayout from './Front-end/Layouts/MainLayout.vue';
 import AsideRight from './Front-end/Partials/AsideRight.vue';
+import { format, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import frLocale from 'date-fns/locale/fr';
 
 const props = defineProps({
     formattedCategory: {
@@ -78,6 +82,51 @@ const subscribe = () => {
         });
 }
 
+const formatDate = (inputDate) => {
+    if (!inputDate) {
+        return null; // Ou une autre valeur par défaut appropriée
+    }
+
+    const [day, month, year] = inputDate.split('/').map(Number);
+
+    // Vérifier si la date est valide
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return null; // Ou une autre valeur par défaut appropriée
+    }
+
+    const dateInUTC = new Date(Date.UTC(year, month - 1, day)); // Note: Month is zero-based
+
+    // Convertir la date à partir de l'UTC vers le fuseau horaire français
+    return new Date(dateInUTC.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+};
+
+const formatRelativeTime = (inputDate) => {
+    const parsedDate = formatDate(inputDate);
+    const currentDate = new Date();
+    console.log(parsedDate);
+    console.log(currentDate);
+
+    if (!parsedDate) {
+        return 'Date invalide';
+    }
+
+    const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
+    const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
+    const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
+    const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+
+    if (differenceInDaysValue > 1) {
+        return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
+    } else if (differenceInHoursValue > 0) {
+        return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
+    } else if (differenceInMinutesValue > 0) {
+        return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
+    } else {
+        return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
+    }
+};
+
+
 </script>
 
 
@@ -85,7 +134,7 @@ const subscribe = () => {
     <MainLayout>
 
         <Head :title="props.formattedCategory.category" />
-        <div class="  2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-14">
+        <div class="  2xl:flex justify-center mt-8 xl:mx-0 md:px-20 xl:px-10 px-5">
 
             <div class="2xl:w-6/12 lg:12/12  ">
 
@@ -119,12 +168,14 @@ const subscribe = () => {
                                     <h1 class="h-20 text-xl font-bold">
                                         {{ article.title }}
                                     </h1>
-                                    <div class="text-red-900 mt-5">
+
+                                    <div class="mt-5  text-gray-500">
                                         <p class="italic">
-                                            Publié le : {{ article.published_at }}
+                                            {{ formatRelativeTime(article.published_at) }}
                                         </p>
-                                        <p class="italic">
-                                            Lire en : {{ article.duree }} minutes
+                                        <p class="italic flex items-center gap-1">
+                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            minutes
                                         </p>
                                     </div>
 

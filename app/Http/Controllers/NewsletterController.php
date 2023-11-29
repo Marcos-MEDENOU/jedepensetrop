@@ -6,6 +6,7 @@ use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+
 class NewsletterController extends Controller
 {
 
@@ -69,7 +70,7 @@ class NewsletterController extends Controller
     public function store(Request $request)
     {
         try {
-// dd($request->all());
+            // dd($request->all());
             $firstname = $request->firstname;
             $lastname = $request->lastname;
             $email = $request->email;
@@ -78,7 +79,7 @@ class NewsletterController extends Controller
             // Vérifiez si l'e-mail n'existe pas déjà dans la table
             if (!Newsletter::where('email', $email)->exists()) {
                 // Enregistrez l'e-mail et la question dans la table
-                Newsletter::create(['firstname' => $firstname,'lastname' => $lastname,'email' => $email, 'question' => $question]);
+                Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
                 return response()->json([
 
                     'errorMessage' => '',

@@ -1,8 +1,14 @@
 <template>
-    <svg v-if="name === 'facebook'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="facebook">
-        <path
-            d="M14 0H2C.897 0 0 .897 0 2v12c0 1.103.897 2 2 2h6v-5.5H6V8h2V6a3 3 0 0 1 3-3h2v2.5h-1c-.552 0-1-.052-1 .5v2h2.5l-1 2.5H11V16h3c1.103 0 2-.897 2-2V2c0-1.103-.897-2-2-2z">
-        </path>
+    <svg v-if="name === 'instagram'" fill="none" stroke="#82672c" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="2" class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+    </svg>
+
+
+    <svg v-else-if="name === 'facebook'" fill="#82672c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-10 h-10 rounded-full border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
     </svg>
 
     <svg v-else-if="name === 'search'" class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -11,11 +17,11 @@
             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
     </svg>
 
-    <svg v-else-if="name === 'linkedin'" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"
-        id="linkedin">
-        <path
-            d="M417.2 64H96.8C79.3 64 64 76.6 64 93.9V415c0 17.4 15.3 32.9 32.8 32.9h320.3c17.6 0 30.8-15.6 30.8-32.9V93.9C448 76.6 434.7 64 417.2 64zM183 384h-55V213h55v171zm-25.6-197h-.4c-17.6 0-29-13.1-29-29.5 0-16.7 11.7-29.5 29.7-29.5s29 12.7 29.4 29.5c0 16.4-11.4 29.5-29.7 29.5zM384 384h-55v-93.5c0-22.4-8-37.7-27.9-37.7-15.2 0-24.2 10.3-28.2 20.3-1.5 3.6-1.9 8.5-1.9 13.5V384h-55V213h55v23.8c8-11.4 20.5-27.8 49.6-27.8 36.1 0 63.4 23.8 63.4 75.1V384z">
+    <svg v-else-if="name === 'linkedin'" fill="#82672c" stroke="#82672c" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="0" class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+        <path stroke="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
         </path>
+        <circle cx="4" cy="4" r="2" stroke="2"></circle>
     </svg>
 
 
@@ -29,7 +35,7 @@
         </path>
     </svg>
 
-    <svg v-else-if="name === 'bot'" xmlns="http://www.w3.org/2000/svg" width="30" fill="white" fill-rule="evenodd"
+    <svg v-else-if="name === 'bot'" xmlns="http://www.w3.org/2000/svg" width="30" fill="#4f46e5" fill-rule="evenodd"
         stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 32 32" id="robot">
         <path
             d="M27 18a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v11a2.998 2.998 0 0 0 3 3h16c.796 0 1.56-.317 2.12-.88.563-.561.88-1.325.88-2.12V18ZM27 3c0-.796-.316-1.559-.879-2.121A2.996 2.996 0 0 0 24 0H8c-.796 0-1.559.316-2.121.879A2.996 2.996 0 0 0 5 3v9c0 .796.316 1.559.879 2.121A2.996 2.996 0 0 0 8 15h16c.796 0 1.559-.316 2.121-.879A2.996 2.996 0 0 0 27 12V3zM12 4a3.001 3.001 0 0 0 0 6 3.001 3.001 0 0 0 0-6zm8 0a3.001 3.001 0 0 0 0 6 3.001 3.001 0 0 0 0-6zm8.829 13H29c.796 0 1.559.316 2.121.879.563.562.879 1.325.879 2.121v6c0 .796-.316 1.559-.879 2.121A2.996 2.996 0 0 1 29 29V18c0-.351-.06-.687-.171-1zM3.171 17H3c-.796 0-1.559.316-2.121.879A2.996 2.996 0 0 0 0 20v6c0 .796.316 1.559.879 2.121A2.996 2.996 0 0 0 3 29V18c0-.351.06-.687.171-1Z">
@@ -51,17 +57,21 @@
     </svg>
 
 
-    <svg v-else-if="name === 'clock'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="clock" class="h-5 w-5" fill="#898f9a">
+    <svg v-else-if="name === 'clock'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="clock" class="h-5 w-5"
+        fill="#898f9a">
         <g data-name="Layer 2">
             <path d="M16,31A15,15,0,1,1,31,16,15,15,0,0,1,16,31ZM16,3A13,13,0,1,0,29,16,13,13,0,0,0,16,3Z"></path>
             <path d="M17,17H9a1,1,0,0,1-1-1H8a1,1,0,0,1,1-1h6V7a1,1,0,0,1,1-1h0a1,1,0,0,1,1,1Z"></path>
         </g>
     </svg>
 
-    <svg v-else-if="name === 'twitter'" xmlns="http://www.w3.org/2000/svg" width="512" height="512" id="twitter">
-        <path fill="#1A1A1A" fill-rule="evenodd"
-            d="M434.478 16H77.519C43.718 16 16 43.719 16 77.521v356.957C16 468.282 43.718 496 77.519 496h356.959C468.281 496 496 468.282 496 434.479V77.521C496 43.719 468.281 16 434.478 16zM383.41 191.673a208.1 208.1 0 0 1 .167 8.385c0 12.851-1.517 25.989-4.462 39.035-16.657 73.858-79.8 145.029-182.544 145.029-37.094 0-71.649-10.701-100.767-29.07a133.6 133.6 0 0 0 15.707.914c30.789 0 59.12-10.327 81.621-27.71-28.762-.505-53.016-19.215-61.391-44.915 4.022.754 8.132 1.183 12.354 1.183 6.032 0 11.808-.81 17.347-2.282-22.142-4.414-40.068-19.729-48.088-40.025-2.884-7.262-4.355-15.155-4.355-23.444v-.815c9 4.855 18.869 7.766 29.625 8.107-17.619-11.608-29.309-31.42-29.309-53.848 0-11.854 3.22-22.971 8.857-32.535 32.408 39.143 80.815 64.911 135.437 67.618a65.645 65.645 0 0 1-1.688-14.746c0-35.729 29.414-64.699 65.717-64.699 18.913 0 35.985 7.841 47.944 20.421a132.144 132.144 0 0 0 41.759-15.722c-4.93 15.13-15.322 27.809-28.904 35.811 13.306-1.563 25.957-5.031 37.739-10.166-8.784 12.964-19.947 24.361-32.766 33.474z"
-            clip-rule="evenodd"></path>
+
+
+    <svg v-else-if="name === 'twitter'" fill="#82672c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2 " viewBox="0 0 24 24">
+        <path
+            d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
+        </path>
     </svg>
 
 
@@ -78,15 +88,18 @@
         </path>
     </svg>
 
- <svg v-if="name === 'menubtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30" viewBox="0 0 92 92" id="menu">
+    <svg v-if="name === 'menubtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30"
+        viewBox="0 0 92 92" id="menu">
         <path
             d="M78 23.5H14c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5h64c3.6 0 6.5 2.9 6.5 6.5s-2.9 6.5-6.5 6.5zM84.5 46c0-3.6-2.9-6.5-6.5-6.5H14c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5h64c3.6 0 6.5-2.9 6.5-6.5zm0 29c0-3.6-2.9-6.5-6.5-6.5H14c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5h64c3.6 0 6.5-2.9 6.5-6.5z">
         </path>
     </svg>
 
 
-    <svg v-else-if="name === 'closebtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30" viewBox="0 0 512 512"
-        id="close">
+
+
+    <svg v-else-if="name === 'closebtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30"
+        viewBox="0 0 512 512" id="close">
         <path
             d="M437.5 386.6L306.9 256l130.6-130.6c14.1-14.1 14.1-36.8 0-50.9-14.1-14.1-36.8-14.1-50.9 0L256 205.1 125.4 74.5c-14.1-14.1-36.8-14.1-50.9 0-14.1 14.1-14.1 36.8 0 50.9L205.1 256 74.5 386.6c-14.1 14.1-14.1 36.8 0 50.9 14.1 14.1 36.8 14.1 50.9 0L256 306.9l130.6 130.6c14.1 14.1 36.8 14.1 50.9 0 14-14.1 14-36.9 0-50.9z">
         </path>
