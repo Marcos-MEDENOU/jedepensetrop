@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm,usePage } from "@inertiajs/vue3"
+import { Head, Link, useForm, usePage } from "@inertiajs/vue3"
 import { computed } from 'vue'
 import {
   mdiAccountKey,
@@ -62,18 +62,18 @@ const props = defineProps({
 
 // Create FilePond component
 const FilePond = vueFilePond(
-    FilePondPluginFileValidateType,
-    FilePondPluginImagePreview
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
 );
 
-function handleFilePondLoad(response){
+function handleFilePondLoad(response) {
   form.image = response
   return response
 }
 
 
-function handleFilePondRevert(uniqueId, load , error){
-  
+function handleFilePondRevert(uniqueId, load, error) {
+
   router.delete('/revert/' + uniqueId);
   load();
 }
@@ -184,7 +184,7 @@ watch(form.title, updateSlug);
         <!-- <ckeditor v-model="form.content" /> -->
         <!-- zone editeur -->
 
-        
+
         <div class="mt-4"></div>
 
         <FormField label="Date de publication" :class="{ 'text-red-400': form.errors.content }">
@@ -194,31 +194,23 @@ watch(form.title, updateSlug);
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
           <!-- <fileUploads @change="handleFileChange" v-model="form.image"></fileUploads> -->
-          <file-pond style="width: 100% !important;"
-                    name="image"
-                    ref="pond"
-                    class-name="my-pond"
-                    max-files="1" 
-                    label-idle="Télécharger une nouvelle image principale ici si vous le souhaitez..."
-                    allow-multiple="false"
-                    accepted-file-types="image/jpeg, image/png"
-                    :files="files"
-                    :server="{
-                        process: {
-                          url:'/upload',
-                          method:'POST',
-                          onload:handleFilePondLoad
-                        },
-                        revert: handleFilePondRevert,
-                        // revert: '/revert',
-                        headers: {
-                            'X-CSRF-TOKEN': $page.props.csrf_token,
-                        },
-                    }"
-                />
+          <file-pond style="width: 100% !important;" name="image" ref="pond" class-name="my-pond" max-files="1"
+            label-idle="Télécharger une nouvelle image principale ici si vous le souhaitez..." allow-multiple="false"
+            accepted-file-types="image/jpeg, image/png" :files="files" :server="{
+              process: {
+                url: '/upload',
+                method: 'POST',
+                onload: handleFilePondLoad
+              },
+              revert: handleFilePondRevert,
+              // revert: '/revert',
+              headers: {
+                'X-CSRF-TOKEN': $page.props.csrf_token,
+              },
+            }" />
 
         </FormField>
-       
+
 
         <FormField label="Seo titre" :class="{ 'text-red-400': form.errors.seo_title }">
           <FormControl v-model="form.seo_title" type="text" placeholder="Charger une image principale ici"
@@ -250,8 +242,8 @@ watch(form.title, updateSlug);
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="info" label="Enrégistrer les nouvelles modification" :class="{ 'opacity-25': form.processing }"
-              :disabled="form.processing" />
+            <BaseButton type="submit" color="info" label="Enrégistrer les nouvelles modification"
+              :class="{ 'opacity-25': form.processing }" :disabled="form.processing" />
           </BaseButtons>
         </template>
       </CardBox>
