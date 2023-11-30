@@ -41,7 +41,7 @@ const question = ref('');
 
 const subscribe = () => {
 
-    axios.post('/newsletter/store', {
+    axios.post('/newsletters/store', {
         email: email.value,
         question: question.value,
     })
@@ -90,40 +90,40 @@ const subscribe = () => {
 <template>
     <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 px-20 ">
 
-        <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-between mx-auto mt-5">
+        <div class="container grid justify-between grid-cols-1 gap-10 mx-auto mt-5 md:grid-cols-2 lg:grid-cols-4">
             <a href="/">
-                <img class="w-36 h-10" src="/images/logoCharle.png" alt="">
+                <img class="h-10 w-36" src="/images/logoCharle.png" alt="">
             </a>
 
-            <ul class=" flex flex-col   ">
-                <li class="font-bold text-2xl mb-5">Menu</li>
+            <ul class="flex flex-col ">
+                <li class="mb-5 text-2xl font-bold">Menu</li>
                 <li v-for="(categorie, index) in categories" :key="index">
-                    <a @click="categoryPosts(categorie.slug)" class="font-semibold hover:underline cursor-pointer">{{
+                    <a @click="categoryPosts(categorie.slug)" class="font-semibold cursor-pointer hover:underline">{{
                         categorie.name }}</a>
                 </li>
             </ul>
 
-            <ul class=" flex flex-col   ">
-                <li class="font-bold text-2xl mb-5">Entreprise</li>
-                <li><a href="" class="font-semibold hover:underline cursor-pointer">A propos</a></li>
-                <li><a href="" class="font-semibold hover:underline cursor-pointer">Politique de Confidentialité</a></li>
-                <li><a href="" class="font-semibold hover:underline cursor-pointer">Termes et Services</a></li>
+            <ul class="flex flex-col ">
+                <li class="mb-5 text-2xl font-bold">Entreprise</li>
+                <li><a href="" class="font-semibold cursor-pointer hover:underline">A propos</a></li>
+                <li><a href="" class="font-semibold cursor-pointer hover:underline">Politique de Confidentialité</a></li>
+                <li><a href="" class="font-semibold cursor-pointer hover:underline">Termes et Services</a></li>
             </ul>
 
             <div class="flex flex-col gap-2">
 
-                <h1 class="font-bold text-2xl ">Newsletters</h1>
+                <h1 class="text-2xl font-bold ">Newsletters</h1>
                 <div class="mb-5">
                     <form>
 
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-600">Adresse e-mail:</label>
                             <input v-model="email" type="email" id="email" placeholder="Votre email" name="email"
-                                class="mt-1 p-2 w-60  rounded-md shadow-lg border-0">
+                                class="p-2 mt-1 border-0 rounded-md shadow-lg w-60">
                         </div>
 
                         <span @click="subscribe()"
-                            class="bg-gray-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer">S'abonner</span>
+                            class="p-2 text-white bg-gray-800 rounded-md cursor-pointer hover:bg-gray-900">S'abonner</span>
                     </form>
                 </div>
 
@@ -152,8 +152,8 @@ const subscribe = () => {
                 </div>
             </div>
         </div>
-        <hr class="mt-5 border-t-2 border-black container mx-auto">
-        <div class="container mx-auto text-center text-xl pt-5">
+        <hr class="container mx-auto mt-5 border-t-2 border-black">
+        <div class="container pt-5 mx-auto text-xl text-center">
             &copy; 2023 jedepensetrop.fr
         </div>
 

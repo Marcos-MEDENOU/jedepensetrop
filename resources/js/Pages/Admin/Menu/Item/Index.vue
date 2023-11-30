@@ -51,7 +51,7 @@ function destroy(id) {
         <BaseButtons type="justify-start lg:justify-end" no-wrap>
           <BaseButton :route-name="route('menu.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
             rounded-full small />
-          <BaseButton v-if="can.delete" :route-name="route('menu.item.create', menu.id)" :icon="mdiPlus" label="Add"
+          <BaseButton v-if="can.delete" :route-name="route('menu.item.create', menu.id)" :icon="mdiPlus" label="Ajouter"
             color="info" rounded-full small />
         </BaseButtons>
       </SectionTitleLineWithButton>
@@ -64,17 +64,10 @@ function destroy(id) {
       </NotificationBar> -->
       <CardBox class="mb-6" has-table>
         <table
-          class="border-collapse w-full border border-slate-400 dark:border-slate-500 bg-white dark:bg-slate-800 text-sm shadow-sm">
+          class="w-full text-sm bg-white border border-collapse shadow-sm border-slate-400 dark:border-slate-500 dark:bg-slate-800">
           <tbody>
             <tr>
-              <td class="
-                  p-4
-                  pl-8
-                  text-slate-500
-                  dark:text-slate-400
-                  hidden
-                  lg:block
-                ">
+              <td class="hidden p-4 pl-8  text-slate-500 dark:text-slate-400 lg:block">
                 Name
               </td>
               <td data-label="Name">
@@ -82,14 +75,7 @@ function destroy(id) {
               </td>
             </tr>
             <tr>
-              <td class="
-                  p-4
-                  pl-8
-                  text-slate-500
-                  dark:text-slate-400
-                  hidden
-                  lg:block
-                ">
+              <td class="hidden p-4 pl-8  text-slate-500 dark:text-slate-400 lg:block">
                 Machine name
               </td>
               <td data-label="Machine Name">

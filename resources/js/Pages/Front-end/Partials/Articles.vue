@@ -69,55 +69,7 @@ const prenom = ref('');
 const email = ref('');
 const question = ref('');
 
-const subscribe = () => {
 
-    axios.post('/newsletter/store', {
-        lastname: nom.value,
-        firstname: prenom.value,
-        email: email.value,
-        question: question.value,
-    })
-        .then(response => {
-
-            if (response.data.successMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: response.data.successMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            if (response.data.errorMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: response.data.errorMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-
-            nom.value = '';
-            prenom.value = '';
-            email.value = '';
-            question.value = '';
-
-        })
-        .catch(error => {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: error,
-                showConfirmButton: false,
-                timer: 1500
-            });
-            email.value = '';
-            question.value = '';
-        });
-}
 
 const formatDate = (inputDate) => {
     if (!inputDate) {
@@ -164,6 +116,87 @@ const formatRelativeTime = (inputDate) => {
 };
 
 
+const subscribe = () => {
+
+    //Vérifier si un des élément est vide
+    if (nom.value.trim() == "" || prenom.value.trim() == "" || email.value.trim() == "" || question.value.trim() == "") {
+        console.log("kljhgl");
+        Swal.fire({
+            title: 'Attention',
+            text: 'Veuillez remplir tous les champs du formulaire.',
+            icon: 'warning',
+        });
+    } else {
+        //verifier si email entrer est valide 
+        // Expression régulière pour vérifier une adresse e-mail simple
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        // Teste la chaîne de caractères avec l'expression régulière
+        if (regexEmail.test(email.value)) {
+            //
+            axios.post('/newsletters/store', {
+                lastname: nom.value,
+                firstname: prenom.value,
+                email: email.value,
+                question: question.value,
+            })
+                .then(response => {
+
+                    if (response.data.successMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: response.data.successMessage,
+                            showConfirmButton: true,
+
+                        });
+                    }
+                    if (response.data.errorMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: response.data.errorMessage,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+
+                    nom.value = '';
+                    prenom.value = '';
+                    email.value = '';
+                    question.value = '';
+
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: error,
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                    email.value = '';
+                    question.value = '';
+                });
+
+        } else {
+            Swal.fire({
+                title: 'Erreur',
+                text: 'Email incorrecte',
+                icon: 'error',
+            });
+        };
+
+    }
+
+}
+
+
+
+
 </script>
 
 
@@ -176,16 +209,17 @@ const formatRelativeTime = (inputDate) => {
 
             <div class="mb-10 transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                 <div @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
-               
+
 
                     <div @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                             <div
                                 class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
                                 <!-- Apply fixed width and height to the image -->
-                                <img v-bind:src="`http://127.0.0.1:8000/storage/images/${latestPost.folder}/${latestPost.image}`" alt=""
+
+                                <img v-bind:src="`/storage/images/${latestPost.folder}/${latestPost.image}`" alt=""
                                     class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);">
-                                <!-- <img :src="'http://127.0.0.1:8000/storage/uploads/' + latestPost.image" alt=""
+                                <!-- <img :src="'/storage/uploads/' + latestPost.image" alt=""
                                     class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);"> -->
                             </div>
                         </div>
@@ -212,7 +246,7 @@ const formatRelativeTime = (inputDate) => {
                 <div class="mb-10">
                     <!-- <h1 class="mb-5 text-3xl font-bold">Derniers Articles</h1> -->
                     <div class="grid grid-cols-1 gap-6 cursor-pointer lg:grid-cols-3 md:grid-cols-2 lg:mx-auto ">
-                 
+
                         <div v-for="(article, index) in data.recentPosts" :key="index"
                             class="transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
@@ -220,12 +254,12 @@ const formatRelativeTime = (inputDate) => {
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
                                         <!-- Apply fixed width and height to the image -->
-                                        <img :src="'http://127.0.0.1:8000/storage/images/' + article.folder + '/' + article.image" alt=""
+                                        <img :src="'/storage/images/' + article.folder + '/' + article.image" alt=""
                                             class="object-cover w-full h-full">
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                                        {{ article.category.name }}
+                                        {{ (article.category).name }}
                                     </span>
                                 </div>
 
@@ -266,12 +300,13 @@ const formatRelativeTime = (inputDate) => {
                             <!-- Champ de l'email -->
                             <div class="flex flex-col w-full gap-2 ">
 
-                                <input v-model="question" type="text" id="question" name="question"
-                                    placeholder="Posez votre question ici!"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                                 <input v-model="email" type="email" id="email" name="email"
                                     placeholder="Entrez votre adresse email"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
+                                <input v-model="question" type="text" id="question" name="question"
+                                    placeholder="Posez votre question ici!"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+
                             </div>
                         </div>
 
@@ -300,7 +335,7 @@ const formatRelativeTime = (inputDate) => {
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/images/' + article.folder + '/'+ article.image" alt=""
+                                        <img :src="'/storage/images/' + article.folder + '/' + article.image" alt=""
                                             class="object-cover w-full h-full">
 
                                     </div>

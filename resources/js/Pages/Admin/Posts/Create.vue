@@ -31,7 +31,8 @@ import 'primevue/resources/themes/lara-light-teal/theme.css'
 import vueFilePond from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js";
-
+import Swal from 'sweetalert2';
+import axios from "axios"
 
 // Import styles
 import "filepond/dist/filepond.min.css";
@@ -112,8 +113,28 @@ function handleFilePondRevert(uniqueId, load, error) {
   router.delete('/revert/' + uniqueId);
   load();
 }
-</script>
 
+function addPost() {
+  try {
+    form.post(route('posts.store'))
+
+    // Si la suppression réussit, afficher une notification
+    Swal.fire({
+      title: "Du contenu!",
+      text: "L'article a été ajouté avec succès",
+      icon: "success"
+    });
+  } catch (error) {
+    // En cas d'erreur, afficher une notification d'erreur ou effectuer une autre gestion d'erreur
+    Swal.fire({
+      title: "Erreur",
+      text: "Une erreur s'est produite lors de l'ajout' de la l'article.",
+      icon: "error"
+    });
+  }
+}
+</script>
+<!-- form.post(route('posts.store')) -->
 
 <template>
   <LayoutAuthenticated>
@@ -125,7 +146,7 @@ function handleFilePondRevert(uniqueId, load, error) {
         <BaseButton :route-name="route('posts.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
           rounded-full small />
       </SectionTitleLineWithButton>
-      <CardBox form @submit.prevent="form.post(route('posts.store'))">
+      <CardBox form @submit.prevent="addPost()">
 
         <FormField label="Titre de l'article" :class="{ 'text-red-400': form.errors.title }">
           <FormControl v-model="form.title" type="text" required="required" @input="updateSlug"
@@ -158,7 +179,7 @@ function handleFilePondRevert(uniqueId, load, error) {
 
         <FormField label="Mettre une image en avant" :class="{ 'text-red-400': form.errors.content }">
           <!-- <fileUploads @change="handleFileChange"></fileUploads> -->
-          
+
           <file-pond style="width: 100% !important;" name="image" ref="pond" class-name="my-pond" max-files="1"
             label-idle="Télécharger une image principale ici..." allow-multiple="false"
             accepted-file-types="image/jpeg, image/png" :files="files" :server="{
