@@ -19,11 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000', 'http://127.0.0.1:8000/', 'http://localhost/'],
+    'allowed_origins' => ['*'],
 
-    'Access-Control-Allow-Origin'=>['*'],
-
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
@@ -32,5 +30,6 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => false,
+
 
 ];

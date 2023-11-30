@@ -68,7 +68,7 @@ const upload = event => {
     })
     .then(r => {
      formData.append('image_crypt', r.data)
-     imagePreview.src = 'http://127.0.0.1:8000/storage/uploads/'+ file.value
+     imagePreview.src = '/storage/uploads/'+ file.value
     })
     .catch(err => {
       // console.error("Une erreur s'est produite");
