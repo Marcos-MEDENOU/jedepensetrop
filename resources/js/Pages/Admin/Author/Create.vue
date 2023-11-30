@@ -76,7 +76,7 @@ const form = useForm({
           <FormControl
             v-model="form.email"
             type="email"
-            placeholder="Adresse électronique *ex:marcosmedenou@gmail.com*"
+            placeholder="Adresse électronique *ex:jedepensetrop@exemple.com*"
             :error="form.errors.email"
           >
             <div class="text-sm text-red-400" v-if="form.errors.email">

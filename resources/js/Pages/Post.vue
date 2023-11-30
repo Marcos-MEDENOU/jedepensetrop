@@ -142,7 +142,7 @@ const setimgSrc = (htmlContent) => {
             x.splice(0, 1);
             //Supresion det remplacement du 1er element du nouveau tableau par l'adresse localhost du serveur
             // x.splice(0, 1, "http://interstis.com/backend/public");
-            x.splice(0, 2, "http://127.0.0.1:8000");
+            x.splice(0, 2, "");
             //Association des elements tableau avec pour indice '/'
             let y = x.join("/");
             //Remplacement du src du code html actuelle par le nouveau
@@ -397,7 +397,7 @@ const deleteComment = (commentId) => {
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'http://127.0.0.1:8000/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
+                <img :src="'/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>

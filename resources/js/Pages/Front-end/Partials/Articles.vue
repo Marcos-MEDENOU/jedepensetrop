@@ -183,9 +183,9 @@ const formatRelativeTime = (inputDate) => {
                             <div
                                 class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
                                 <!-- Apply fixed width and height to the image -->
-                                <img v-bind:src="`http://127.0.0.1:8000/storage/images/${latestPost.folder}/${latestPost.image}`" alt=""
+                                <img v-bind:src="` /storage/images/${latestPost.folder}/${latestPost.image}`" alt=""
                                     class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);">
-                                <!-- <img :src="'http://127.0.0.1:8000/storage/uploads/' + latestPost.image" alt=""
+                                <!-- <img :src="' /storage/uploads/' + latestPost.image" alt=""
                                     class="object-cover w-full h-full rounded-lg" style="filter: brightness(0.5);"> -->
                             </div>
                         </div>
@@ -220,7 +220,7 @@ const formatRelativeTime = (inputDate) => {
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
                                         <!-- Apply fixed width and height to the image -->
-                                        <img :src="'http://127.0.0.1:8000/storage/images/' + article.folder + '/' + article.image" alt=""
+                                        <img :src="' /storage/images/' + article.folder + '/' + article.image" alt=""
                                             class="object-cover w-full h-full">
                                     </div>
                                     <span
@@ -300,7 +300,7 @@ const formatRelativeTime = (inputDate) => {
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'http://127.0.0.1:8000/storage/images/' + article.folder + '/'+ article.image" alt=""
+                                        <img :src="' /storage/images/' + article.folder + '/'+ article.image" alt=""
                                             class="object-cover w-full h-full">
 
                                     </div>
