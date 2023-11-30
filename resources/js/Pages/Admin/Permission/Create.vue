@@ -24,7 +24,7 @@ const form = useForm({
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountEye"
-        title="Add permission"
+        title="Ajouter permission"
         main
       >
         <BaseButton
@@ -50,7 +50,7 @@ const form = useForm({
             placeholder="Enter Name"
             :error="form.errors.name"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.name">
+            <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
             </div>
           </FormControl>

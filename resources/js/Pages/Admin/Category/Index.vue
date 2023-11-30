@@ -17,7 +17,8 @@ import BaseButtons from "@/Components/BaseButtons.vue"
 import NotificationBar from "@/Components/NotificationBar.vue"
 import Pagination from "@/Components/Admin/Pagination.vue"
 import Sort from "@/Components/Admin/Sort.vue"
-
+import Swal from 'sweetalert2';
+import axios from "axios"
 const props = defineProps({
   categorie: {
     type: Object,
@@ -39,11 +40,49 @@ const form = useForm({
 
 const formDelete = useForm({})
 
-function destroy(id) {
-  if (confirm("Are you sure you want to delete?")) {
-    formDelete.delete(route("category.destroy", id))
-  }
+// function destroy(id) {
+//   if (confirm("Are you sure you want to delete?")) {
+//     formDelete.delete(route("category.destroy", id))
+//   }
+// }
+
+
+
+function destroy(id, name) {
+  Swal.fire({
+    title: "Êtes-vous sur de vouloir suprimer la catégorie " + name + " ?",
+    text: "Cette action est irréversible",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Oui, je confirme!",
+    cancelButtonText: "Non"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      try {
+        formDelete.delete(route("category.destroy", id));
+
+        // Si la suppression réussit, afficher une notification
+        Swal.fire({
+          title: "Supprimer",
+          text: "La catégorie a été supprimée avec succès",
+          icon: "success"
+        });
+      } catch (error) {
+        // En cas d'erreur, afficher une notification d'erreur ou effectuer une autre gestion d'erreur
+        Swal.fire({
+          title: "Erreur",
+          text: "Une erreur s'est produite lors de la suppression de la categorie.",
+          icon: "error"
+        });
+      }
+
+    }
+  });
+ 
 }
+
 </script>
 
 <template>
@@ -137,7 +176,7 @@ function destroy(id) {
                     color="danger"
                     :icon="mdiTrashCan"
                     small
-                    @click="destroy(category.id)"
+                    @click="destroy(category.id, category.name)"
                   />
                 </BaseButtons>
               </td>

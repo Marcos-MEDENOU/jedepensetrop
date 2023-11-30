@@ -58,7 +58,7 @@ function destroy(id) {
           v-if="can.delete"
           :route-name="route('role.create')"
           :icon="mdiPlus"
-          label="Add"
+          label="Ajouter"
           color="info"
           rounded-full
           small
@@ -75,7 +75,7 @@ function destroy(id) {
               <input
                 type="search"
                 v-model="form.search"
-                class="border-gray-300 rounded-md shadow-sm  focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="Search"
               />
               <BaseButton
@@ -104,7 +104,7 @@ function destroy(id) {
               <td data-label="Name">
                 <Link
                   :href="route('role.show', role.id)"
-                  class="no-underline  hover:underline text-cyan-600 dark:text-cyan-400"
+                  class="no-underline hover:underline text-cyan-600 dark:text-cyan-400"
                 >
                   {{ role.name }}
                 </Link>

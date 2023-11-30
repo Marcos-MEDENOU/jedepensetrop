@@ -41,11 +41,11 @@ const props = defineProps({
       </SectionTitleLineWithButton>
 
       <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
-        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple" :number="users"
-          label="Total Adminis" />
-        <CardBoxWidget trend="12%" trend-type="down" color="text-red-500" :icon="mdiNoteSearch" :number="posts" prefix=""
+        <CardBoxWidget trend="Gestionnaire" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple" :number="users"
+          label="Total Administrateurs" />
+        <CardBoxWidget trend="Contenus publié" trend-type="down" color="text-red-500" :icon="mdiNoteSearch" :number="posts" prefix=""
           label="Total Articles" />
-        <CardBoxWidget trend="Overflow" trend-type="alert" color="text-yellow-600" :icon="mdiEyeSettings" :number="256"
+        <CardBoxWidget trend="visteurs" trend-type="alert" color="text-yellow-600" :icon="mdiEyeSettings" :number="256"
           suffix="" label="Total vues" />
       </div>
       <CardBox :icon="mdiMonitorCellphone" title="Liste des Admins du site" has-table>

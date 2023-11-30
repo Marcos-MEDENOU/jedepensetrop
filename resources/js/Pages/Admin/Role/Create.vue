@@ -30,11 +30,11 @@ const form = useForm({
 
 <template>
   <LayoutAuthenticated>
-    <Head title="Add role" />
+    <Head title="Ajouter role" />
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiRobot"
-        title="Add role"
+        title="Ajouter role"
         main
       >
         <BaseButton
@@ -60,7 +60,7 @@ const form = useForm({
             placeholder="Enter Name"
             :error="form.errors.name"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.name">
+            <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
             </div>
           </FormControl>

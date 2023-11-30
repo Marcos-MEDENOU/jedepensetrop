@@ -33,11 +33,11 @@ const form = useForm({
 
 <template>
   <LayoutAuthenticated>
-    <Head title="Add user" />
+    <Head title="Ajouter user" />
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiAccountGroup"
-        title="Add user"
+        title="Ajouter user"
         main
       >
         <BaseButton
@@ -63,7 +63,7 @@ const form = useForm({
             placeholder="Enter Name"
             :error="form.errors.name"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.name">
+            <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
             </div>
           </FormControl>
@@ -79,7 +79,7 @@ const form = useForm({
             placeholder="Enter Email"
             :error="form.errors.email"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.email">
+            <div class="text-sm text-red-400" v-if="form.errors.email">
               {{ form.errors.email }}
             </div>
           </FormControl>
@@ -95,7 +95,7 @@ const form = useForm({
             placeholder="Enter Password"
             :error="form.errors.password"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.password">
+            <div class="text-sm text-red-400" v-if="form.errors.password">
               {{ form.errors.password }}
             </div>
           </FormControl>
@@ -111,7 +111,7 @@ const form = useForm({
             placeholder="Enter Password Confirmation"
             :error="form.errors.password"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.password">
+            <div class="text-sm text-red-400" v-if="form.errors.password">
               {{ form.errors.password }}
             </div>
           </FormControl>

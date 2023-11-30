@@ -34,52 +34,80 @@ const question = ref('');
 
 const subscribe = () => {
 
-    axios.post('/newsletter/store', {
-        lastname: nom.value,
-        firstname: prenom.value,
-        email: email.value,
-        question: question.value,
-    })
-        .then(response => {
-
-            if (response.data.successMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: response.data.successMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            if (response.data.errorMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: response.data.errorMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-
-            nom.value = '';
-            prenom.value = '';
-            email.value = '';
-            question.value = '';
-
-        })
-        .catch(error => {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: error,
-                showConfirmButton: false,
-                timer: 1500
-            });
-            email.value = '';
-            question.value = '';
+    //Vérifier si un des élément est vide
+    if (nom.value.trim() == "" || prenom.value.trim() == "" || email.value.trim() == "" || question.value.trim() == "") {
+        console.log("kljhgl");
+        Swal.fire({
+            title: 'Attention',
+            text: 'Veuillez remplir tous les champs du formulaire.',
+            icon: 'warning',
         });
+    } else {
+        //verifier si email entrer est valide 
+        // Expression régulière pour vérifier une adresse e-mail simple
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        // Teste la chaîne de caractères avec l'expression régulière
+        if (regexEmail.test(email.value)) {
+            //
+            axios.post('/newsletters/store', {
+                lastname: nom.value,
+                firstname: prenom.value,
+                email: email.value,
+                question: question.value,
+            })
+                .then(response => {
+
+                    if (response.data.successMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: response.data.successMessage,
+                            showConfirmButton: true,
+                        
+                        });
+                    }
+                    if (response.data.errorMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: response.data.errorMessage,
+                            showConfirmButton: false,
+                            timer:1500
+                        });
+                    }
+
+                    nom.value = '';
+                    prenom.value = '';
+                    email.value = '';
+                    question.value = '';
+
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: error,
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                    email.value = '';
+                    question.value = '';
+                });
+
+        } else {
+            Swal.fire({
+                title: 'Erreur',
+                text: 'Email incorrecte',
+                icon: 'error',
+            });
+        };
+
+    }
+
 }
 
 const formatDate = (inputDate) => {
@@ -152,7 +180,7 @@ const formatRelativeTime = (inputDate) => {
                                     <div
                                         class="h-40 w-full xl:w-[50rem] transition-transform duration-500 ease-in-out transform hover:scale-110">
 
-                                        <img :src="'/storage/image/' + article.folder + '/'+article.image" alt=""
+                                        <img :src="'/storage/images/' + article.folder + '/' + article.image" alt=""
                                             class="object-cover w-full h-full">
 
                                     </div>
@@ -206,13 +234,13 @@ const formatRelativeTime = (inputDate) => {
 
                             <!-- Champ de l'email -->
                             <div class="flex flex-col w-full gap-2 ">
+                                <input v-model="email" type="email" id="email" name="email" required
+                                    placeholder="Entrez votre adresse email"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
 
                                 <input v-model="question" type="text" id="question" name="question"
                                     placeholder="Posez votre question ici!"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-                                <input v-model="email" type="email" id="email" name="email"
-                                    placeholder="Entrez votre adresse email"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 ">
                             </div>
                         </div>
 

@@ -15,7 +15,8 @@ import FormCheckRadioGroup from '@/Components/FormCheckRadioGroup.vue'
 import BaseDivider from '@/Components/BaseDivider.vue'
 import BaseButton from '@/Components/BaseButton.vue'
 import BaseButtons from '@/Components/BaseButtons.vue'
-
+import { ref, onMounted, watch } from 'vue';
+import slugify from 'slugify';
 const props = defineProps({
   visibility: {
     type: Object,
@@ -33,6 +34,22 @@ const form = useForm({
 })
 
 
+const updateSlug = () => {
+  form.slug = generateSlug(form.name);
+};
+
+const generateSlug = (title) => {
+  const trimmedTitle = title.trim();
+  const slug = slugify(trimmedTitle, {
+    lower: true,
+    remove: /[*+~.()'"!:@]/g,
+  });
+  return slug;
+};
+
+watch(form.title, updateSlug);
+
+
 </script>
 
 <template>
@@ -46,7 +63,7 @@ const form = useForm({
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="form.post(route('category.store'))">
         <FormField label="Nom de la catégorie" :class="{ 'text-red-400': form.errors.name }">
-          <FormControl v-model="form.name" type="text" required="required"
+          <FormControl v-model="form.name" @input="updateSlug" type="text" required="required"
             placeholder="Entrer une nouvelle catégorie d'article" :error="form.errors.name">
             <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
@@ -54,7 +71,7 @@ const form = useForm({
           </FormControl>
         </FormField>
         <FormField label="Description" :class="{ 'text-red-400': form.errors.description }">
-          <FormControl v-model="form.description" type="text" placeholder="Mettez une petite description"
+          <FormControl v-model="form.description"  type="text" placeholder="Mettez une petite description"
             :error="form.errors.description">
             <div class="text-sm text-red-400" v-if="form.errors.description">
               {{ form.errors.description }}
@@ -63,7 +80,7 @@ const form = useForm({
         </FormField>
 
         <FormField label="slug" :class="{ 'text-red-400': form.errors.slug }">
-          <FormControl v-model="form.slug" type="text" placeholder="Un slug pour le reférencement"
+          <FormControl v-model="form.slug" :readonly="true"  type="text" placeholder="Un slug pour le reférencement"
             :error="form.errors.slug">
             <div class="text-sm text-red-400" v-if="form.errors.slug">
               {{ form.errors.slug }}

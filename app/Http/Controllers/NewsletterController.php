@@ -56,6 +56,8 @@ class NewsletterController extends Controller
         ]);
     }
 
+  
+
     /**
      * Show the form for creating a new resource.
      */
@@ -68,9 +70,12 @@ class NewsletterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+
+    
     {
+        
         try {
-            // dd($request->all());
+        
             $firstname = $request->firstname;
             $lastname = $request->lastname;
             $email = $request->email;
@@ -85,12 +90,59 @@ class NewsletterController extends Controller
                     'errorMessage' => '',
                     'successMessage' => 'Email enrégistrer avec succès'
                 ]);
+            }else{
+                Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
+                return response()->json([
+                    'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter, nous vous reviendrons pour vore nouvelle préoccupation.',
+                    'errorMessage' => ''
+                ]);
             }
 
+            
+
+        } catch (\Exception $th) {
             return response()->json([
+
                 'successMessage' => '',
-                'errorMessage' => 'Email déjà enrégistré.'
+                'errorMessage' => 'Error' . $th->getMessage()
             ]);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeViaHome(Request $request)
+
+    
+    {
+        
+        try {
+        
+            $firstname = $request->firstname;
+            $lastname = $request->lastname;
+            $email = $request->email;
+            $question = $request->question;
+
+            // Vérifiez si l'e-mail n'existe pas déjà dans la table
+            if (!Newsletter::where('email', $email)->exists()) {
+                // Enregistrez l'e-mail et la question dans la table
+                Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
+                return response()->json([
+
+                    'errorMessage' => '',
+                    'successMessage' => 'Email enrégistrer avec succès'
+                ]);
+            }else{
+                Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
+                return response()->json([
+                    'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter, nous vous reviendrons pour vore nouvelle préoccupation',
+                    'errorMessage' => ''
+                ]);
+            }
+
+            
+
         } catch (\Exception $th) {
             return response()->json([
 

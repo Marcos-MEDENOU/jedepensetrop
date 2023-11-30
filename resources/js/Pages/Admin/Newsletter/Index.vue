@@ -23,6 +23,8 @@ import NavBarItemLabel from '@/Components/NavBarItemLabel.vue'
 import UserAvatarCurrentUser from '@/Components/UserAvatarCurrentUser.vue'
 import Sort from "@/Components/Admin/Sort.vue"
 import Pagination from "@/Components/Admin/Pagination.vue"
+import Swal from 'sweetalert2';
+import axios from "axios"
 const props = defineProps({
   newsletters: {
     type: Object,
@@ -168,17 +170,48 @@ function updateFilteredArticles(searchTerm) {
 }
 
 
-function destroy(id) {
-  if (confirm("Souhaitez-vous vraiment suprimer cet element?")) {
-    formDelete.delete(route("newsletter.destroy", id))
-  }
+function destroy(id, email) {
+  Swal.fire({
+    title: "Êtes-vous sur de vouloir suprimer la newsletter de " + email + " ?",
+    text: "Cette action est irréversible",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Oui, je confirme!",
+    cancelButtonText: "Non"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      try {
+        formDelete.delete(route("newsletter.destroy", id));
+
+        // Si la suppression réussit, afficher une notification
+        Swal.fire({
+          title: "Supprimer",
+          text: "La newsletter a été supprimée avec succès",
+          icon: "success"
+        });
+      } catch (error) {
+        // En cas d'erreur, afficher une notification d'erreur ou effectuer une autre gestion d'erreur
+        Swal.fire({
+          title: "Erreur",
+          text: "Une erreur s'est produite lors de la suppression de la newsletter.",
+          icon: "error"
+        });
+      }
+
+    }
+  });
+  // if (confirm("Souhaitez-vous vraiment suprimer cet element?")) {
+  //   formDelete.delete(route("newsletter.destroy", id))
+  // }
 }
 
 function exportToExcel() {
 
   // Créez une copie des newsletters sans l'ID
-  const newslettersWithoutId = props.newsletters.data.map(({ id,created_at,updated_at, ...rest }) => rest);
-  
+  const newslettersWithoutId = props.newsletters.data.map(({ id, created_at, updated_at, ...rest }) => rest);
+
   const ws = XLSX.utils.json_to_sheet(newslettersWithoutId);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Newsletters');
@@ -263,7 +296,7 @@ function exportToExcel() {
               <td v-if="can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
                 <BaseButtons type="" no-wrap>
                   <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small
-                    @click="destroy(newsletter.id)" />
+                    @click="destroy(newsletter.id, newsletter.email)" />
                 </BaseButtons>
               </td>
 

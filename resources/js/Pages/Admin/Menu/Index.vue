@@ -59,7 +59,7 @@ function destroy(id) {
           v-if="can.delete"
           :route-name="route('menu.create')"
           :icon="mdiPlus"
-          label="Add"
+          label="Ajouter"
           color="info"
           rounded-full
           small
@@ -74,27 +74,19 @@ function destroy(id) {
       </NotificationBar> -->
       <CardBox class="mb-6" has-table>
         <form @submit.prevent="form.get(route('menu.index'))">
-          <div class="py-2 flex">
+          <div class="flex py-2">
             <div class="flex pl-4">
               <input
                 type="search"
                 v-model="form.search"
-                class="
-                  rounded-md
-                  shadow-sm
-                  border-gray-300
-                  focus:border-indigo-300
-                  focus:ring
-                  focus:ring-indigo-200
-                  focus:ring-opacity-50
-                "
+                class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="Search"
               />
               <BaseButton
                 label="Search"
                 type="submit"
                 color="info"
-                class="ml-4 inline-flex items-center px-4 py-2"
+                class="inline-flex items-center px-4 py-2 ml-4"
               />
             </div>
           </div>

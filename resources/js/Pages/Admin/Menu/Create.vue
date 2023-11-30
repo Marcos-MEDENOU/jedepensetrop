@@ -27,7 +27,7 @@ const form = useForm({
     <SectionMain>
       <SectionTitleLineWithButton
         :icon="mdiMenu"
-        title="Add menu"
+        title="Ajouter menu"
         main
       >
         <BaseButton
@@ -53,7 +53,7 @@ const form = useForm({
             placeholder="Enter Name"
             :error="form.errors.name"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.name">
+            <div class="text-sm text-red-400" v-if="form.errors.name">
               {{ form.errors.name }}
             </div>
           </FormControl>
@@ -68,7 +68,7 @@ const form = useForm({
             placeholder="Enter Machine Name"
             :error="form.errors.name"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.machine_name">
+            <div class="text-sm text-red-400" v-if="form.errors.machine_name">
               {{ form.errors.machine_name }}
             </div>
           </FormControl>
@@ -83,7 +83,7 @@ const form = useForm({
             placeholder="Enter Description"
             :error="form.errors.description"
           >
-            <div class="text-red-400 text-sm" v-if="form.errors.description">
+            <div class="text-sm text-red-400" v-if="form.errors.description">
               {{ form.errors.description }}
             </div>
           </FormControl>

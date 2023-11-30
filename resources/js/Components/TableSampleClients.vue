@@ -68,6 +68,19 @@ const checked = (isChecked, client) => {
     checkedRows.value = remove(checkedRows.value, row => row.id === client.id)
   }
 }
+
+function formatDateTimeISO(dateISO) {
+  const date = new Date(dateISO);
+  const jour = date.getDate().toString().padStart(2, '0');
+  const mois = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois sont indexés de 0 à 11
+  const annee = date.getFullYear().toString();
+  const heures = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const secondes = date.getSeconds().toString().padStart(2, '0');
+
+  return `${jour}-${mois}-${annee} ~ ${heures}:${minutes}:${secondes}`;
+}
+
 </script>
 
 <template>
@@ -96,7 +109,7 @@ const checked = (isChecked, client) => {
     <span
       v-for="checkedRow in checkedRows"
       :key="checkedRow.id"
-      class="inline-block px-2 py-1 rounded-sm mr-2 text-sm bg-gray-100 dark:bg-slate-700"
+      class="inline-block px-2 py-1 mr-2 text-sm bg-gray-100 rounded-sm dark:bg-slate-700"
     >
       {{ checkedRow.name }}
     </span>
@@ -105,8 +118,8 @@ const checked = (isChecked, client) => {
   <table>
     <thead>
       <tr>
-        <!-- <th v-if="checkable" /> -->
-        <!-- <th: /> -->
+        <th v-if="checkable" />
+        <th: />
         <th>Nom d'utilisateur</th>
         <th>Adresse électronique</th>
         
@@ -121,16 +134,18 @@ const checked = (isChecked, client) => {
         v-for="listuser in list"
         :key="listuser.id"
       >
-        <TableCheckboxCell
+        <TableCheckboxCell 
           v-if="checkable"
           @checked="checked($event, client)"
         />
-        <!-- <td class="border-b-0 lg:w-6 before:hidden">
+        <td class="border-b-0 lg:w-6 before:hidden">
+         
           <UserAvatar
-            :username="client"
+            :avatar="listuser.image"
+            :username="listuser.name"
             class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
           />
-        </td> -->
+        </td>
         <td data-label="Name">
           {{ listuser.name }}
         </td>
@@ -140,25 +155,19 @@ const checked = (isChecked, client) => {
       
         <td 
           data-label="Created"
-          class="lg:w-1 whitespace-nowrap"
+         
         >
-          <small
-            class="text-gray-500 dark:text-slate-400"
-            :title="client"
-          >
-          {{ listuser.created_at }}
-        </small>
+          
+          {{ formatDateTimeISO(listuser.created_at) }}
+       
         </td>
         <td 
           data-label="Created"
-          class="lg:w-1 whitespace-nowrap"
+         
         >
-          <small
-            class="text-gray-500 dark:text-slate-400"
-            :title="client"
-          >
-          {{ listuser.updated_at }}
-        </small>
+         
+          {{ formatDateTimeISO(listuser.updated_at) }}
+     
         </td>
         <!-- <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons
@@ -183,7 +192,7 @@ const checked = (isChecked, client) => {
     </tbody>
   </table>
   <div
-    class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800"
+    class="p-3 border-t border-gray-100 lg:px-6 dark:border-slate-800"
   >
     <BaseLevel>
       <BaseButtons>
