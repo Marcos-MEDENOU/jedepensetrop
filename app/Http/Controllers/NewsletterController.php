@@ -43,7 +43,7 @@ class NewsletterController extends Controller
 
 
 
-        $newsletters = $newsletters->paginate(5)->onEachSide(2)->appends(request()->query());
+        $newsletters = $newsletters->paginate(10)->onEachSide(2)->appends(request()->query());
 
         return Inertia::render('Admin/Newsletter/Index', [
             'newsletters' => $newsletters,

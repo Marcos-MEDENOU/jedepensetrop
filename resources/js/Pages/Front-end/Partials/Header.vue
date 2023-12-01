@@ -173,7 +173,7 @@ const closeMenu = () => {
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
-            {{ categorie }}
+
             <a @click="categoryPosts(categorie.slug)"
                 class="px-3 py-2 text-lg font-semibold cursor-pointer hover:underline">{{ categorie.name }}</a>
         </li>

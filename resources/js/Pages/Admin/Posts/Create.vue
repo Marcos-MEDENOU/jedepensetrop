@@ -95,7 +95,7 @@ const generateSlug = (title) => {
   const trimmedTitle = title.trim();
   const slug = slugify(trimmedTitle, {
     lower: true,
-    remove: /[*+~.()'"!:@]/g,
+    remove: /[*+~.()'"!:@?]/g,
   });
   return slug;
 };
@@ -111,6 +111,11 @@ function handleFilePondLoad(response) {
 function handleFilePondRevert(uniqueId, load, error) {
 
   router.delete('/revert/' + uniqueId);
+  load();
+}
+
+function handleFilePondRemove(source, load, error) {
+  form.image = '';
   load();
 }
 
@@ -189,7 +194,7 @@ function addPost() {
                 onload: handleFilePondLoad
               },
               revert: handleFilePondRevert,
-              // revert: '/revert',
+              remove: handleFilePondRemove,
               headers: {
                 'X-CSRF-TOKEN': $page.props.csrf_token,
               },
