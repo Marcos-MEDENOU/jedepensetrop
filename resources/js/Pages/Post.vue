@@ -627,7 +627,7 @@ const deleteComment = (commentId) => {
             </div>
 
             <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
-            <div class="px-10 2xl:w-3/12 xl:ml-20">
+            <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20">
                 <AsideRight />
                 <!-- <Publicite /> -->
             </div>

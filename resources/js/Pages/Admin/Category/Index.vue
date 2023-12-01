@@ -152,11 +152,11 @@ function destroy(id, name) {
                   :href="route('category.show', category.id)"
                   class="no-underline hover:underline text-cyan-600 dark:text-cyan-400"
                 >
-                  {{ (category.name).slice(0,20)+'...' }}
+                  {{ (category.name) }}
                 </Link>
               </td>
               <td data-label="Description">
-                {{ (category.description).slice(0,20)+'...' }}
+                {{ (category.description) }}
               </td>
            
               <td
