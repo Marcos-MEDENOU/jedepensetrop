@@ -129,7 +129,7 @@ const setimgSrc = (htmlContent) => {
     //ajoute le code htmml a l'intérieur de la div
     tempElement.innerHTML = htmlContent;
     //Expression réguliere qui détecte les attributs src a modifier
-    let regex = /^http:\/\/127.0.0.1:8000\/post/;
+    let regex = /^https:\/\/jedepensetrop.fr/\/post/;
     //Vérification et execution d'un bloc de code pour chacune des attributs src des images
     tempElement.querySelectorAll("img").forEach(function (imgTag) {
         //Cas ou une image verifiant la regex a été détectée

@@ -78,7 +78,7 @@ class PostController extends Controller
 
     public function edit(Request $request, Post $post)
     {
-       
+
         $visibility = ['Mettre l\'article en brouillon', 'Autoriser la publication automatique'];
         $categorie = Category::all()->pluck('name', 'id');
         return Inertia::render('Admin/Posts/Edit', [
@@ -172,23 +172,6 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-        // if(is_int((int)($request->is_visible))){
-        //     $request->is_visible = $request->is_visible;
-        // }elseif($request->is_visible = "oui"){
-        //     dd($request->is_visible);
-        //     $request->is_visible=true;
-        // }else{
-        //     $request->is_visible=false;
-        // }
-
-        // if(is_int((int)($request->category))){
-        //     $request->category = $request->category;
-
-        // }else{
-
-        //     $request->category= Category::where('name', $request->category)->value('id');
-        // }
-
         //Récupérer tous les elements de la table temporaryImages
         $temporaryImages = TemporaryImage::all();
 
@@ -198,11 +181,7 @@ class PostController extends Controller
                 $image = $temporaryImage->file;
 
                 Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/' . $temporaryImage->folder . '/' . $temporaryImage->file);
-                // Image::create([
-                //     'post_id' => $post->id,
-                //     'name' => $temporaryImage->file,
-                //     'path' => $temporaryImage->folder . '/' . $temporaryImage->file,
-                // ]);
+
                 Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
                 $temporaryImage->delete();
             }
@@ -257,7 +236,7 @@ class PostController extends Controller
                 'image' => $selectedPost->image,
                 'folder' => $selectedPost->folder,
                 'duree' => $estimatedReadingTime,
-                'published_at' =>Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
+                'published_at' => Carbon::parse($selectedPost->published_at)->format('d/m/Y'),
                 'created_at' => Carbon::parse($selectedPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($selectedPost->updated_at)->format('d/m/Y'),
                 'likes_count' => $likesCount,
