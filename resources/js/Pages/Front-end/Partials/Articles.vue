@@ -5,9 +5,8 @@ import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import AsideRight from '../Partials/AsideRight.vue';
 import Icon from '@/Components/Icons/Icon.vue'
-import { format, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import frLocale from 'date-fns/locale/fr';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 
 const props = defineProps({
@@ -41,6 +40,7 @@ const data = reactive({
     recentPosts: props.PreviousThreePosts,
 });
 
+console.log(data.recentPosts);
 
 const dataByCategory = reactive({
     recentPosts: props.ThreeByCategory,
@@ -80,30 +80,15 @@ const formatDate = (inputDate) => {
 
 const formatRelativeTime = (inputDate) => {
     const parsedDate = formatDate(inputDate);
-    const currentDate = new Date();
-    console.log(parsedDate);
-    console.log(currentDate);
 
     if (!parsedDate) {
         return 'Date invalide';
     }
 
-    const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
-    const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
-    const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
-    const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+    const formattedDate = format(parsedDate, 'dd MMMM yyyy', { locale: fr });
 
-    if (differenceInDaysValue > 1) {
-        return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
-    } else if (differenceInHoursValue > 0) {
-        return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
-    } else if (differenceInMinutesValue > 0) {
-        return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
-    } else {
-        return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
-    }
+    return formattedDate;
 };
-
 
 const subscribe = () => {
 
@@ -169,6 +154,8 @@ const subscribe = () => {
                     });
                     email.value = '';
                     question.value = '';
+                    nom.value = '';
+                    prenom.value = '';
                 });
 
         } else {
@@ -248,7 +235,7 @@ const subscribe = () => {
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                                        {{ (article.category).name }}
+                                        <!-- {{ (article.category).name }} -->
                                     </span>
                                 </div>
 

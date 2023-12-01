@@ -88,7 +88,7 @@ class NewsletterController extends Controller
                 return response()->json([
 
                     'errorMessage' => '',
-                    'successMessage' => 'Email enrégistrer avec succès'
+                    'successMessage' => 'Newsletter enrégistrer avec succès'
                 ]);
             }else{
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
@@ -131,7 +131,7 @@ class NewsletterController extends Controller
                 return response()->json([
 
                     'errorMessage' => '',
-                    'successMessage' => 'Email enrégistrer avec succès'
+                    'successMessage' => 'Newsletter enrégistrer avec succès'
                 ]);
             }else{
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
@@ -151,6 +151,50 @@ class NewsletterController extends Controller
             ]);
         }
     }
+
+     /**
+     * Store a newly created resource in storage.
+     */
+    public function storeViaHomeEmail(Request $request)
+    {
+
+        try {
+            $email = $request->email;
+
+            if (!empty($email)) {
+                // Vérifiez si l'e-mail n'existe pas déjà dans la table
+                if (!Newsletter::where('email', $email)->exists()) {
+                    // Enregistrez l'e-mail et la question dans la table
+                    Newsletter::create(['email' => $email]);
+                    return response()->json([
+
+                        'errorMessage' => '',
+                        'successMessage' => 'Newsletter enrégistrer avec succès',
+                    ]);
+                } else {
+                    Newsletter::create(['email' => $email]);
+                    return response()->json([
+                        'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter',
+                        'errorMessage' => '',
+                    ]);
+                }
+
+            }else{
+                return response()->json([
+                    'successMessage' => 'Vous n\'avez renseigner aucune addresse électronique',
+                    'errorMessage' => '',
+                ]);
+            }
+
+        } catch (\Exception $th) {
+            return response()->json([
+
+                'successMessage' => '',
+                'errorMessage' => 'Error' . $th->getMessage(),
+            ]);
+        }
+    }
+
 
     /**
      * Display the specified resource.
