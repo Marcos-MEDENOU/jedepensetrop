@@ -9,6 +9,7 @@ use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\LikeDislikeController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
@@ -16,7 +17,7 @@ use Inertia\Inertia;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
 
-//image 
+//image
 use App\Http\Controllers\UploadTemporaryImageController;
 use App\Http\Controllers\DeleteTemporaryImageController;
 /*
@@ -30,15 +31,8 @@ use App\Http\Controllers\DeleteTemporaryImageController;
 |
  */
 
-Route::get('/', function () {
-    return Inertia::render('Home', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'user' => Auth::user(), // Informations sur l'utilisateur
-    ]);
-})->name('home.index');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+
 
 Route::get('/contentAi', [ContentAiController::class, 'index'])->name('contentAi.index');
 Route::post('/api', [ContentAiController::class, 'test'])->name('contentAi.test');
@@ -58,7 +52,7 @@ Route::middleware([ 'auth', 'role:admin|super-admin|ecrivain'])->group(function 
 });
 
 Route::post('/upload', [ImageUploadController::class, 'store']);
-Route::get('/getcategories', [CategoryController::class, 'getCategories'])->name('getcategories');
+Route::get('/getcategories', [CategoryController::class, 'fetchCategories'])->name('getcategories');
 Route::get('/latestPost', [PostController::class, 'getLatestPost'])->name('latestPost');
 Route::get('/previousThreePosts', [PostController::class, 'getPreviousThreePosts'])->name('previousThreePosts');
 Route::get('/post/{slug}', [PostController::class, 'showArticle'])->name('post.show');

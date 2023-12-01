@@ -8,10 +8,30 @@ import Articles from './Front-end/Partials/Articles.vue';
 
 
 const props = defineProps({
-    user:{
+    user: {
         type: Object,
-        required:true
-    }
+        required: true
+    },
+
+    categories: {
+        type: Object,
+        required: true
+    },
+
+    LatestPost: {
+        type: Object,
+        required: true
+    },
+
+    PreviousThreePosts: {
+        type: Object,
+        required: true
+    },
+
+    ThreeByCategory: {
+        type: Object,
+        required: true
+    },
 })
 
 
@@ -19,13 +39,14 @@ const props = defineProps({
 </script>
 
 <template >
-    <MainLayout :user="props.user">
+    <MainLayout :user="props.user" :categories="props.categories">
 
         <Head title="Accueil" />
 
-        <Hero/>
-        
-        <Articles />
+        <Hero />
+
+        <Articles :LatestPost="props.LatestPost" :PreviousThreePosts="props.PreviousThreePosts"
+            :ThreeByCategory="props.ThreeByCategory" />
 
 
     </MainLayout>

@@ -281,7 +281,7 @@ class PostController extends Controller
             'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
         ];
 
-        return response()->json($response);
+        return $response;
     }
 
     /// Fonction permettant de récupérer les 3 articles les plus récents, sauf le dernier
@@ -325,7 +325,7 @@ class PostController extends Controller
             ];
         });
 
-        return response()->json($response);
+        return $response;
     }
 
     // Fonction permettant de recupérer trois articles par catégorie.
@@ -375,12 +375,13 @@ class PostController extends Controller
                 }
             }
 
-            return response()->json($postsByCategory);
+            return $postsByCategory;
         } catch (\Exception $th) {
             // Gérez les erreurs
             return response()->json($th);
         }
     }
+
 
     public function getCategoryWithPosts($slug)
     {
@@ -418,7 +419,12 @@ class PostController extends Controller
                     }),
                 ];
 
+                $categories = new CategoryController();
+                $catego = $categories->getCategories();
+                // dd($categories);
+
                 return Inertia::render('CategoryPosts', [
+                    'catego ' => $catego,
                     'formattedCategory' => $formattedCategory,
                 ]);
             } else {
@@ -568,3 +574,4 @@ class PostController extends Controller
         return response()->json(['hasNext' => $nextPost !== null]);
     }
 }
+

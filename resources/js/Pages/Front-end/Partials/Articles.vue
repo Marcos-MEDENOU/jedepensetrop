@@ -10,51 +10,40 @@ import { utcToZonedTime } from 'date-fns-tz';
 import frLocale from 'date-fns/locale/fr';
 
 
+const props = defineProps({
+    user:{
+        type: Object,
+        required:true
+    },
+
+    LatestPost:{
+        type: Array,
+        required:true
+    },
+
+    PreviousThreePosts:{
+        type: Array,
+        required:true
+    },
+
+    ThreeByCategory:{
+        type: Object,
+        required:true
+    },
+
+})
 
 
-const latestPost = ref([]);
-const fetchLatestPost = async () => {
-    try {
-        const response = await axios.get('/latestPost');
-        latestPost.value = response.data;
-        console.log(latestPost.value)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
+const latestPost = ref(props.LatestPost);
+
 
 const data = reactive({
-    recentPosts: [],
+    recentPosts: props.PreviousThreePosts,
 });
 
-const fetchPreviousThreePosts = async () => {
-    try {
-        const response = await axios.get('/previousThreePosts');
-        data.recentPosts = response.data;
-        console.log(data.recentPosts)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
 
 const dataByCategory = reactive({
-    recentPosts: [],
-});
-
-const fetchThreeByCategory = async () => {
-    try {
-        const response = await axios.get('/showThreeByCategory');
-        dataByCategory.recentPosts = response.data;
-        console.log(dataByCategory.recentPosts)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
-
-onMounted(async () => {
-    await fetchLatestPost();
-    await fetchPreviousThreePosts();
-    await fetchThreeByCategory()
+    recentPosts: props.ThreeByCategory,
 });
 
 
@@ -127,7 +116,7 @@ const subscribe = () => {
             icon: 'warning',
         });
     } else {
-        //verifier si email entrer est valide 
+        //verifier si email entrer est valide
         // Expression régulière pour vérifier une adresse e-mail simple
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -208,10 +197,10 @@ const subscribe = () => {
             <h1 class="mb-5 text-3xl font-bold">Articles les plus récents</h1>
 
             <div class="mb-10 transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
-                <div @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
+                <div v-if="latestPost"  @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
 
 
-                    <div @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
+                    <div  @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                             <div
                                 class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
@@ -235,7 +224,7 @@ const subscribe = () => {
                                     {{ formatRelativeTime(latestPost.published_at) }}
                                 </p>
                                 <p class="flex items-center gap-1 italic">
-                                    <Icon name="clock" /> {{ latestPost.duree ? '0' + latestPost.duree : latestPost.duree }}
+                                    <Icon name="clock" /> {{ latestPost.duree < 10 ? '0' + latestPost.duree : latestPost.duree }}
                                     minutes
                                 </p>
                             </div>
@@ -273,7 +262,7 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
                                     </div>
@@ -357,7 +346,7 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
                                     </div>
@@ -373,7 +362,7 @@ const subscribe = () => {
             </div>
         </div>
 
-        <div class="px-10 2xl:w-3/12 xl:ml-20 ">
+        <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
             <AsideRight />
         </div>
     </div>

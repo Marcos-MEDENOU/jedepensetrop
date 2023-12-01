@@ -12,6 +12,11 @@ import { utcToZonedTime } from 'date-fns-tz';
 import frLocale from 'date-fns/locale/fr';
 
 const props = defineProps({
+    catego: {
+        type: Array,
+        required: true,
+    },
+
     formattedCategory: {
         type: Object,
         required: true,
@@ -19,6 +24,9 @@ const props = defineProps({
 })
 
 console.log(props.formattedCategory);
+onMounted(() => {
+    console.log(props.catego);
+})
 
 const showArticle = (slug) => {
     console.log(slug);
@@ -43,7 +51,7 @@ const subscribe = () => {
             icon: 'warning',
         });
     } else {
-        //verifier si email entrer est valide 
+        //verifier si email entrer est valide
         // Expression régulière pour vérifier une adresse e-mail simple
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -66,7 +74,7 @@ const subscribe = () => {
                             icon: "success",
                             title: response.data.successMessage,
                             showConfirmButton: true,
-                        
+
                         });
                     }
                     if (response.data.errorMessage) {
@@ -76,7 +84,7 @@ const subscribe = () => {
                             icon: "error",
                             title: response.data.errorMessage,
                             showConfirmButton: false,
-                            timer:1500
+                            timer: 1500
                         });
                     }
 
@@ -159,7 +167,7 @@ const formatRelativeTime = (inputDate) => {
 
 
 <template>
-    <MainLayout>
+    <MainLayout :categories="props.categories">
 
         <Head :title="props.formattedCategory.category" />
         <div class="justify-center px-5 mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10">
@@ -253,7 +261,7 @@ const formatRelativeTime = (inputDate) => {
 
             </div>
 
-            <div class="px-10 2xl:w-3/12 xl:ml-20 ">
+            <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
                 <AsideRight />
             </div>
         </div>

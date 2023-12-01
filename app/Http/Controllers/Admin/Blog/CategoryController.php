@@ -74,12 +74,26 @@ class CategoryController extends Controller
     public function getCategories()
     {
         try {
-             $categories = Category::whereHas('posts')
-        ->get();
+            $categories = Category::whereHas('posts')
+                ->get();
 
-            return response()->json(['categories' => $categories]);
+            return $categories;
         } catch (\Exception $th) {
-            return response()->json(['message'=> $th->getMessage()]);
+            dd($th);
+        }
+
+    }
+
+    public function fetchCategories()
+    {
+        try {
+            $categories = Category::whereHas('posts')
+                ->get();
+
+
+            return response()->json( $categories);
+        } catch (\Exception $th) {
+            dd($th);
         }
 
     }
