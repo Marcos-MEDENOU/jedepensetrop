@@ -79,7 +79,7 @@ const format = (date) => {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  return `L'article sera publié le ${day}/${month}/${year}`;
+  return `${day}/${month}/${year}`;
 }
 
 function formatDateTimeISO(dateISO) {

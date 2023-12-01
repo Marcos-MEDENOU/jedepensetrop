@@ -9,18 +9,25 @@ const props = defineProps({
     user: {
         type: Object,
         required: true
-    }
+    },
+
+    categories: {
+        type: Object,
+        required: true
+    },
+
+
 })
 
+console.log(props.categories);
 // Fonction me permettant de récupérer les catégorie dans la base de données
-let categories = ref(null)
+let categories = ref(props.categories)
 
-const getCategories = () => {
+const getCategories = async () => {
     axios.get('/getcategories')
         .then(response => {
             // Gérer la réponse ici
-            console.log(response.data.categories);
-            categories.value = response.data.categories;
+            categories.value = response.data;
         })
         .catch(error => {
             // Gérer les erreurs ici
@@ -28,8 +35,8 @@ const getCategories = () => {
         });
 };
 
-onMounted(() => {
-    getCategories();
+onMounted( async () => {
+    await getCategories();
 });
 
 
@@ -61,6 +68,7 @@ const closeMenu = () => {
 </script>
 
 <template>
+
     <div style="background-color: whitesmoke" class="z-50 w-full px-20 md:px-0">
         <nav class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
 
@@ -155,6 +163,7 @@ const closeMenu = () => {
                 </h3>
             </a>
         </div>
+<div>{{ props.user }}</div>
         <!-- Bouton hamburger -->
         <div>
             <div class="cursor-pointer" @click="showMenu" v-if="showClosebtn == false">
@@ -173,7 +182,7 @@ const closeMenu = () => {
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
         <li v-for="(categorie, index) in categories" :key="index">
-          
+
             <a @click="categoryPosts(categorie.slug)"
                 class="px-3 py-2 text-lg font-semibold cursor-pointer hover:underline">{{ categorie.name }}</a>
         </li>
