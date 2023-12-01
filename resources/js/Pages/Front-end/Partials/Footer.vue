@@ -5,17 +5,30 @@ import axios from "axios";
 import Icon from '@/Components/Icons/Icon.vue'
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true
+    },
+
+    categories: {
+        type: Object,
+        required: true
+    },
+
+
+})
 
 
 // Fonction me permettant de récupérer les catégorie dans la base de données
-let categories = ref(null)
+let categories = ref(props.categories)
 
-const getCategories = () => {
+
+const getCategories = async () => {
     axios.get('/getcategories')
         .then(response => {
             // Gérer la réponse ici
-            console.log(response.data.categories);
-            categories.value = response.data.categories;
+            categories.value = response.data;
         })
         .catch(error => {
             // Gérer les erreurs ici
@@ -23,9 +36,10 @@ const getCategories = () => {
         });
 };
 
-onMounted(() => {
-    getCategories();
+onMounted( async () => {
+    await getCategories();
 });
+
 
 
 const categoryPosts = (slug) => {
@@ -88,7 +102,7 @@ const subscribe = () => {
 </script>
 
 <template>
-    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 px-20 ">
+    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 md:px-20 px-5">
 
         <div class="container grid justify-between grid-cols-1 gap-10 mx-auto mt-5 md:grid-cols-2 lg:grid-cols-4">
             <a href="/">
