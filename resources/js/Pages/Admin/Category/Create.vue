@@ -18,7 +18,7 @@ import BaseButtons from '@/Components/BaseButtons.vue'
 import { ref, onMounted, watch } from 'vue';
 import slugify from 'slugify';
 
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import axios from "axios"
 
 const props = defineProps({
@@ -67,11 +67,11 @@ function addCategory() {
     });
   } catch (error) {
     // En cas d'erreur, afficher une notification d'erreur ou effectuer une autre gestion d'erreur
-    Swal.fire({
-      title: "Erreur",
-      text: "Une erreur s'est produite lors de l'ajout' de la catégorie.",
-      icon: "error"
-    });
+    // Swal.fire({
+    //   title: "Erreur",
+    //   text: "Une erreur s'est produite lors de l'ajout' de la catégorie.",
+    //   icon: "error"
+    // });
   }
 }
 
