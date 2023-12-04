@@ -10,7 +10,7 @@
 
 
         <!-- Contenu au centre -->
-        <div class="absolute md:top-28 justify-center flex md:flex-row px-10 flex-col md:mb-20 items-center text-white">
+        <div class="absolute md:top-28 top-24 justify-center flex md:flex-row px-10 flex-col md:mb-20 items-center text-white">
             <!-- Mascotte avec punchlines -->
             <img src="/images/masso.png" alt="Mascotte" class="floating-image  " />
             <transition name="fade" mode="out-in">

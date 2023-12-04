@@ -395,7 +395,7 @@ const deleteComment = (commentId) => {
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
+                <img :src="'/storage/images/' + post.folder + '/' + post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>
@@ -483,7 +483,7 @@ const deleteComment = (commentId) => {
                                     placeholder="Ecrire un commentaire..." required></textarea>
                             </div>
                             <span @click="addComment()" v-if="comment.trim() !== ''"
-                                class="inline-flex items-center px-4 py-2 font-medium text-center rounded-full cursor-pointer bg-primary-700 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 hover:bg-black hover:text-white">
+                                class="inline-flex items-center shadow-lg px-4 py-2 font-medium text-center rounded-full cursor-pointer bg-primary-700 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 hover:bg-black hover:text-white">
                                 Ajouter un commentaire
                             </span>
                         </form>
@@ -736,6 +736,7 @@ const deleteComment = (commentId) => {
 #editor ul,
 #editor table {
     font-size: 12pt;
+font-weight: lighter;
     padding-block: 5pt;
 }
 
@@ -788,6 +789,11 @@ const deleteComment = (commentId) => {
 
     #editor table {
         font-size: 12pt !important;
+    }
+
+    #editor > div >  iframe {
+        width: 100% !important;
+        height: 300px !important;
     }
 
 
