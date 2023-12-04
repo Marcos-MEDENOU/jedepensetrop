@@ -31,7 +31,7 @@ use App\Http\Controllers\DeleteTemporaryImageController;
 |
  */
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home.index');
 
 
 Route::get('/contentAi', [ContentAiController::class, 'index'])->name('contentAi.index');
@@ -59,6 +59,7 @@ Route::get('/post/{slug}', [PostController::class, 'showArticle'])->name('post.s
 Route::get('/showThreeByCategory', [PostController::class, 'showThreeByCategory'])->name('showThreeByCategory');
 Route::get('/category_posts/{slug}', [PostController::class, 'getCategoryWithPosts'])->name('category_posts');
 Route::post('/newsletters/store', [NewsletterController::class, 'storeViaHome'])->name('newsletters.store');
+Route::post('/newslettersHome/store', [NewsletterController::class, 'storeViaHomeEmail'])->name('newslettersHome.store');
 Route::get('/post/previous/{id}', [PostController::class, 'getPreviousPost'])->name('previous.post');;
 Route::get('/post/next/{id}', [PostController::class, 'getNextPost'])->name('next.post');;
 Route::get('/posts/has-previous/{postId}', [PostController::class, 'hasPreviousPost'])->name('has-previous.post');

@@ -129,7 +129,7 @@ const setimgSrc = (htmlContent) => {
     //ajoute le code htmml a l'intérieur de la div
     tempElement.innerHTML = htmlContent;
     //Expression réguliere qui détecte les attributs src a modifier
-    let regex = /^https:\/\/jedepensetrop.fr/\/post/;
+    let regex = /^https:\/\/jedepensetrop.fr\/post/;
     //Vérification et execution d'un bloc de code pour chacune des attributs src des images
     tempElement.querySelectorAll("img").forEach(function (imgTag) {
         //Cas ou une image verifiant la regex a été détectée
@@ -392,8 +392,6 @@ const deleteComment = (commentId) => {
 
         <Head :title="props.post.slug" />
 
-
-
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
@@ -629,7 +627,7 @@ const deleteComment = (commentId) => {
             </div>
 
             <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
-            <div class="px-10 2xl:w-3/12 xl:ml-20">
+            <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20">
                 <AsideRight />
                 <!-- <Publicite /> -->
             </div>

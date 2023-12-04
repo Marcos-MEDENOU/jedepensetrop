@@ -51,7 +51,7 @@ class PostController extends Controller
             $posts->latest();
         }
 
-        $posts = $posts->paginate(5)->onEachSide(2)->appends(request()->query());
+        $posts = $posts->paginate(8)->onEachSide(2)->appends(request()->query());
 
         return Inertia::render('Admin/Posts/Index', [
             'posts' => $posts,
@@ -131,6 +131,8 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+
+        // dd($request);
         //Récupérer tous les elements de la table temporaryImages
         $temporaryImages = TemporaryImage::all();
 
@@ -175,10 +177,19 @@ class PostController extends Controller
         //Récupérer tous les elements de la table temporaryImages
         $temporaryImages = TemporaryImage::all();
 
-        $image = "";
-        foreach ($temporaryImages as $temporaryImage) {
-            if ($temporaryImage->folder == $request->image) {
-                $image = $temporaryImage->file;
+        $folderChecker = TemporaryImage::where('folder', $request->folder)->first();
+
+        if ($folderChecker) {
+            $image = "";
+            foreach ($temporaryImages as $temporaryImage) {
+                if ($temporaryImage->folder == $request->folder) {
+                    $image = $temporaryImage->file;
+
+                    Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+                    Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                    $temporaryImage->delete();
+                }
 
                 Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/' . $temporaryImage->folder . '/' . $temporaryImage->file);
 
@@ -186,25 +197,39 @@ class PostController extends Controller
                 $temporaryImage->delete();
             }
 
+            $post->update([
+                'blog_category_id' => $request->category,
+                'blog_author_id' => Auth::user()->id,
+                'title' => $request->title,
+                'slug' => $request->slug,
+                'content' => $request->content,
+                'published_at' => $request->published_at,
+                'seo_title' => $request->seo_title,
+                'seo_description' => $request->seo_description,
+                'image' => $image,
+                'folder' => $request->folder,
+                'post_visible' => $request->is_visible,
+            ]);
+            return redirect()->route('posts.index')
+                ->with('message', 'post mis a jour avec succes.');
+        } else {
+            $post->update([
+                'blog_category_id' => $request->category,
+                'blog_author_id' => Auth::user()->id,
+                'title' => $request->title,
+                'slug' => $request->slug,
+                'content' => $request->content,
+                'published_at' => $request->published_at,
+                'seo_title' => $request->seo_title,
+                'seo_description' => $request->seo_description,
+                'image' => $request->image,
+                'folder' => $request->folder,
+                'post_visible' => $request->is_visible,
+            ]);
+            return redirect()->route('posts.index')
+                ->with('message', 'Aucune modification apporté');
         }
 
-        $post->update([
-            // 'blog_category_id' =>  $request->category,
-            'blog_category_id' => $request->category,
-            'blog_author_id' => Auth::user()->id,
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'content' => $request->content,
-            'published_at' => $request->published_at,
-            'seo_title' => $request->seo_title,
-            'seo_description' => $request->seo_description,
-            'image' => $image,
-            'folder' => $request->image,
-            'post_visible' => $request->is_visible,
-        ]);
-
-        return redirect()->route('posts.index')
-            ->with('message', 'post créer avec succes.');
     }
 
     // Fonction permettant d'afficher les posts par leur slug
@@ -258,13 +283,12 @@ class PostController extends Controller
 
             ->orderBy('published_at', 'DESC')
             ->first();
-
-        // Calculer la durée de lecture estimée
-        if ($latestPost->content) {
+        if ($latestPost) {
             $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
             $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
             $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
             $response = [
                 'id' => $latestPost->id,
                 'title' => $latestPost->title,
@@ -280,10 +304,16 @@ class PostController extends Controller
                 'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
                 'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
             ];
+
+            return $response;
         }
+        // Calculer la durée de lecture estimée
+        // $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
+        // $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+
+        // $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
 
 
-        return $response;
     }
 
     /// Fonction permettant de récupérer les 3 articles les plus récents, sauf le dernier
@@ -385,7 +415,6 @@ class PostController extends Controller
             return response()->json($th);
         }
     }
-
 
     public function getCategoryWithPosts($slug)
     {
@@ -578,4 +607,3 @@ class PostController extends Controller
         return response()->json(['hasNext' => $nextPost !== null]);
     }
 }
-

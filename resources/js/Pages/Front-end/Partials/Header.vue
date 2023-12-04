@@ -35,7 +35,7 @@ const getCategories = async () => {
         });
 };
 
-onMounted( async () => {
+onMounted(async () => {
     await getCategories();
 });
 
@@ -68,9 +68,9 @@ const closeMenu = () => {
 </script>
 
 <template>
-
     <div style="background-color: whitesmoke" class="z-50 w-full px-20 md:px-0">
-        <nav class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
+        <nav
+            class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
 
 
             <!-- Logo Container -->
@@ -83,7 +83,8 @@ const closeMenu = () => {
                 </a>
             </div>
 
-            <div class=" bottom-4 right-4 xl:right-20" v-if="user && user['roles'][0].name == 'super-admin'">
+            <div class=" bottom-4 right-4 xl:right-20"
+                v-if="user && ((user['roles'][0].name == 'super-admin' || user['roles'][0].name == 'writer'))">
                 <a href="/dashboard" target="_blank"
                     class="flex items-center justify-between gap-4 px-4 py-1 font-mono font-semibold duration-500 ease-in-out transform bg-yellow-400 rounded-lg shadow animate-bounce hover:shadow-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -102,23 +103,23 @@ const closeMenu = () => {
             <div class="flex -mx-2 ">
                 <a href="https://www.facebook.com/VIPPInterstis" target="_blank"
                     class="text-gray-500 cursor-pointer hover:scale-105">
-                   <Icon name="facebook"/>
+                    <Icon name="facebook" />
 
                 </a>
 
                 <a href="https://twitter.com/vipp_groupe" target="_blank"
                     class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
-                   <Icon name="twitter"/>
+                    <Icon name="twitter" />
 
                 </a>
                 <a href="https://www.instagram.com/vipp_________/?hl=am-et" target="_blank"
                     class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
-                   <Icon name="instagram"/>
+                    <Icon name="instagram" />
 
                 </a>
                 <a href="https://www.linkedin.com/company/groupe-vipp" target="_blank"
                     class="ml-3 text-gray-500 cursor-pointer hover:scale-105">
-                   <Icon name="linkedin"/>
+                    <Icon name="linkedin" />
                 </a>
             </div>
 
@@ -153,7 +154,8 @@ const closeMenu = () => {
     </ul>
 
 
-    <nav  class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-gray-50">
+    <nav
+        class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-gray-50">
         <!-- Logo Container -->
         <div class="flex items-center">
             <!-- Logo -->
@@ -163,11 +165,11 @@ const closeMenu = () => {
                 </h3>
             </a>
         </div>
-<div>{{ props.user }}</div>
+
         <!-- Bouton hamburger -->
         <div>
             <div class="cursor-pointer" @click="showMenu" v-if="showClosebtn == false">
-                <Icon name="menubtn"  />
+                <Icon name="menubtn" />
             </div>
             <div class="cursor-pointer" @click="closeMenu" v-if="showMenubtn == false">
                 <Icon name="closebtn" />
@@ -177,7 +179,8 @@ const closeMenu = () => {
     </nav>
 
 
-    <ul  v-if="menuVisible" class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#ffcd00] h-96 ">
+    <ul v-if="menuVisible"
+        class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#ffcd00] h-96 ">
         <li>
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
@@ -202,5 +205,4 @@ const closeMenu = () => {
             </div>
         </form>
 
-    </ul>
-</template>
+    </ul></template>

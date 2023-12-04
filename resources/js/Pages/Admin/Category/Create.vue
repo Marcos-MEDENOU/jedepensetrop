@@ -17,6 +17,10 @@ import BaseButton from '@/Components/BaseButton.vue'
 import BaseButtons from '@/Components/BaseButtons.vue'
 import { ref, onMounted, watch } from 'vue';
 import slugify from 'slugify';
+
+// import Swal from 'sweetalert2';
+import axios from "axios"
+
 const props = defineProps({
   visibility: {
     type: Object,
@@ -42,7 +46,7 @@ const generateSlug = (title) => {
   const trimmedTitle = title.trim();
   const slug = slugify(trimmedTitle, {
     lower: true,
-    remove: /[*+~.()'"!:@]/g,
+    remove: /[*+~.()'"!:@?]/g,
   });
   return slug;
 };
@@ -50,18 +54,39 @@ const generateSlug = (title) => {
 watch(form.title, updateSlug);
 
 
+
+function addCategory() {
+  try {
+    form.post(route('category.store'))
+
+    // Si la suppression réussit, afficher une notification
+    Swal.fire({
+      title: "Une nouvelle catégorie!",
+      text: "Catégorie a été ajouté avec succès",
+      icon: "success"
+    });
+  } catch (error) {
+    // En cas d'erreur, afficher une notification d'erreur ou effectuer une autre gestion d'erreur
+    // Swal.fire({
+    //   title: "Erreur",
+    //   text: "Une erreur s'est produite lors de l'ajout' de la catégorie.",
+    //   icon: "error"
+    // });
+  }
+}
+
 </script>
 
 <template>
   <LayoutAuthenticated>
-
+    
     <Head title="Ajouter une catégorie" />
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiPostageStamp" title="Ajouter une catégorie" main>
-        <BaseButton :route-name="route('user.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
+        <BaseButton :route-name="route('category.index')" :icon="mdiArrowLeftBoldOutline" label="Back" color="white"
           rounded-full small />
       </SectionTitleLineWithButton>
-      <CardBox form @submit.prevent="form.post(route('category.store'))">
+      <CardBox form @submit.prevent="addCategory()">
         <FormField label="Nom de la catégorie" :class="{ 'text-red-400': form.errors.name }">
           <FormControl v-model="form.name" @input="updateSlug" type="text" required="required"
             placeholder="Entrer une nouvelle catégorie d'article" :error="form.errors.name">

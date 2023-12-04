@@ -40,6 +40,7 @@ const data = reactive({
     recentPosts: props.PreviousThreePosts,
 });
 
+console.log(data.recentPosts);
 
 const dataByCategory = reactive({
     recentPosts: props.ThreeByCategory,
@@ -87,7 +88,6 @@ const formatRelativeTime = (inputDate) => {
 
     return formattedDate;
 };
-
 
 const subscribe = () => {
 
@@ -153,6 +153,8 @@ const subscribe = () => {
                     });
                     email.value = '';
                     question.value = '';
+                    nom.value = '';
+                    prenom.value = '';
                 });
 
         } else {
@@ -232,7 +234,7 @@ const subscribe = () => {
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                                        {{ (article.category).name }}
+                                        <!-- {{ (article.category).name }} -->
                                     </span>
                                 </div>
 
