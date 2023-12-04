@@ -260,26 +260,28 @@ class PostController extends Controller
             ->first();
 
         // Calculer la durée de lecture estimée
-        $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
-        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+        if ($latestPost->content) {
+            $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
+            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
-        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+            $response = [
+                'id' => $latestPost->id,
+                'title' => $latestPost->title,
+                'slug' => $latestPost->slug,
+                'seo_description' => $latestPost->seo_description,
+                'content' => $latestPost->content,
+                'author' => User::find($latestPost->blog_author_id),
+                'category' => Category::find($latestPost->blog_category_id),
+                'image' => $latestPost->image,
+                'folder' => $latestPost->folder,
+                'duree' => $estimatedReadingTime,
+                'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
+            ];
+        }
 
-        $response = [
-            'id' => $latestPost->id,
-            'title' => $latestPost->title,
-            'slug' => $latestPost->slug,
-            'seo_description' => $latestPost->seo_description,
-            'content' => $latestPost->content,
-            'author' => User::find($latestPost->blog_author_id),
-            'category' => Category::find($latestPost->blog_category_id),
-            'image' => $latestPost->image,
-            'folder' => $latestPost->folder,
-            'duree' => $estimatedReadingTime,
-            'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
-            'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
-            'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
-        ];
 
         return $response;
     }
@@ -301,28 +303,30 @@ class PostController extends Controller
         $previousThreePosts = $recentPosts->slice(1)->reverse();
 
         $response = $previousThreePosts->map(function ($post) {
+            if ($post) {
 
-            // Calculer la durée de lecture estimée
-            $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
-            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+                // Calculer la durée de lecture estimée
+                $wordCount = str_word_count(strip_tags($post->content)); // Compter les mots dans le contenu
+                $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
-            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+                $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
 
-            return [
-                'id' => $post->id,
-                'title' => $post->title,
-                'slug' => $post->slug,
-                'content' => $post->content,
-                'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
-                'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
-                'image' => $post->image,
-                'folder' => $post->folder,
-                'duree' => $estimatedReadingTime,
-                'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
-                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
-                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'slug' => $post->slug,
+                    'content' => $post->content,
+                    'author' => User::find($post->blog_author_id), // Utilisez $post au lieu de $recentPosts
+                    'category' => Category::find($post->blog_category_id), // Utilisez $post au lieu de $recentPosts
+                    'image' => $post->image,
+                    'folder' => $post->folder,
+                    'duree' => $estimatedReadingTime,
+                    'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'), // Format français
+                    'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'), // Format français
+                    'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'), // Format français
 
-            ];
+                ];
+            }
         });
 
         return $response;

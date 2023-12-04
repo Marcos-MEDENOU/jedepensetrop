@@ -5,9 +5,8 @@ import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import AsideRight from '../Partials/AsideRight.vue';
 import Icon from '@/Components/Icons/Icon.vue'
-import { format, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import frLocale from 'date-fns/locale/fr';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 
 const props = defineProps({
@@ -59,7 +58,6 @@ const email = ref('');
 const question = ref('');
 
 
-
 const formatDate = (inputDate) => {
     if (!inputDate) {
         return null; // Ou une autre valeur par défaut appropriée
@@ -80,28 +78,14 @@ const formatDate = (inputDate) => {
 
 const formatRelativeTime = (inputDate) => {
     const parsedDate = formatDate(inputDate);
-    const currentDate = new Date();
-    console.log(parsedDate);
-    console.log(currentDate);
 
     if (!parsedDate) {
         return 'Date invalide';
     }
 
-    const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
-    const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
-    const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
-    const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+    const formattedDate = format(parsedDate, 'dd MMMM yyyy', { locale: fr });
 
-    if (differenceInDaysValue > 1) {
-        return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
-    } else if (differenceInHoursValue > 0) {
-        return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
-    } else if (differenceInMinutesValue > 0) {
-        return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
-    } else {
-        return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
-    }
+    return formattedDate;
 };
 
 
