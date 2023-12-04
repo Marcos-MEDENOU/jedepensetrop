@@ -22,13 +22,9 @@ const props = defineProps({
     },
 })
 
-console.log(props.formattedCategory);
-onMounted(() => {
-    console.log(props.catego);
-})
+
 
 const showArticle = (slug) => {
-    console.log(slug);
 
     router.get(route("post.show", slug))
 };
@@ -43,7 +39,6 @@ const subscribe = () => {
 
     //Vérifier si un des élément est vide
     if (nom.value.trim() == "" || prenom.value.trim() == "" || email.value.trim() == "" || question.value.trim() == "") {
-        console.log("kljhgl");
         Swal.fire({
             title: 'Attention',
             text: 'Veuillez remplir tous les champs du formulaire.',
@@ -145,50 +140,6 @@ const formatRelativeTime = (inputDate) => {
 
     return formattedDate;
 };
-// const formatDate = (inputDate) => {
-//     if (!inputDate) {
-//         return null; // Ou une autre valeur par défaut appropriée
-//     }
-
-//     const [day, month, year] = inputDate.split('/').map(Number);
-
-//     // Vérifier si la date est valide
-//     if (isNaN(day) || isNaN(month) || isNaN(year)) {
-//         return null; // Ou une autre valeur par défaut appropriée
-//     }
-
-//     const dateInUTC = new Date(Date.UTC(year, month - 1, day)); // Note: Month is zero-based
-
-//     // Convertir la date à partir de l'UTC vers le fuseau horaire français
-//     return new Date(dateInUTC.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
-// };
-
-// const formatRelativeTime = (inputDate) => {
-//     const parsedDate = formatDate(inputDate);
-//     const currentDate = new Date();
-//     console.log(parsedDate);
-//     console.log(currentDate);
-
-//     if (!parsedDate) {
-//         return 'Date invalide';
-//     }
-
-//     const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
-//     const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
-//     const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
-//     const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
-
-//     if (differenceInDaysValue > 1) {
-//         return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
-//     } else if (differenceInHoursValue > 0) {
-//         return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
-//     } else if (differenceInMinutesValue > 0) {
-//         return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
-//     } else {
-//         return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
-//     }
-// };
-
 
 </script>
 

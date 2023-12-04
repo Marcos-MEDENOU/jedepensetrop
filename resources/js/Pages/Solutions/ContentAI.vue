@@ -29,7 +29,6 @@ export default {
                 const data = response.data.content;
 
                 // Faites ce que vous voulez avec les données (affichage, traitement, etc.)
-                console.log(data);
             } catch (error) {
                 // Gérez les erreurs éventuelles ici
                 console.error(error);

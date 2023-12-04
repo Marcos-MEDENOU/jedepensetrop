@@ -28,7 +28,6 @@ const form = useForm({
   bio: '',
   email: '',
 })
-// console.log(form.is_visible);
 </script>
 
 <template>

@@ -43,7 +43,6 @@ onMounted(async () => {
 
 
 const categoryPosts = (slug) => {
-    console.log(slug);
 
     router.get(route("category_posts", slug))
 };
@@ -51,59 +50,12 @@ const categoryPosts = (slug) => {
 
 
 const email = ref('');
-// const question = ref('');
 
-// const subscribe = () => {
-
-//     axios.post('/newsletters/store', {
-//         email: email.value,
-//         question: question.value,
-//     })
-//         .then(response => {
-
-//             if (response.data.successMessage) {
-
-//                 Swal.fire({
-//                     position: "center",
-//                     icon: "success",
-//                     title: response.data.successMessage,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//             }
-//             if (response.data.errorMessage) {
-
-//                 Swal.fire({
-//                     position: "center",
-//                     icon: "error",
-//                     title: response.data.errorMessage,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//             }
-
-//             email.value = '';
-//             question.value = '';
-
-//         })
-//         .catch(error => {
-//             Swal.fire({
-//                 position: "center",
-//                 icon: "error",
-//                 title: error,
-//                 showConfirmButton: false,
-//                 timer: 1500
-//             });
-//             email.value = '';
-//             question.value = '';
-//         });
-// }
 
 const subscribe = () => {
 
     //Vérifier si un des élément est vide
     if (email.value.trim() == "" ) {
-        console.log("kljhgl");
         Swal.fire({
             title: 'Attention',
             text: 'Veuillez remplir le champ, il est vide.',

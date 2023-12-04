@@ -53,7 +53,6 @@ const menuOpenLg = () => {
 
 const logout = () => {
   router.post(route('logout'))
-  console.log("logout");
 }
 
 

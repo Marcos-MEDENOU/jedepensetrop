@@ -53,7 +53,6 @@ const upload = event => {
 
   emit('update:modelValue', file.value)
   let formData = new FormData()
-  console.log(formData);
   formData.append('image_principale', file.value)
   let imagePreview = document.getElementById('file-ip-1-preview');
   const mediaStoreRoute = `/upload`

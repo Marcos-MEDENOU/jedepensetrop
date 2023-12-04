@@ -45,7 +45,6 @@ export const useStyleStore = defineStore('style', {
         },
 
         setDarkMode(payload = null) {
-            console.log("test");
             this.darkMode = payload !== null ? payload : !this.darkMode
 
             if (typeof localStorage !== 'undefined') {

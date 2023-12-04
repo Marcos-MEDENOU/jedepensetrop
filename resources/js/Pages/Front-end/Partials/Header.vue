@@ -19,7 +19,6 @@ const props = defineProps({
 
 })
 
-console.log(props.categories);
 // Fonction me permettant de récupérer les catégorie dans la base de données
 let categories = ref(props.categories)
 
@@ -41,7 +40,6 @@ onMounted(async () => {
 
 
 const categoryPosts = (slug) => {
-    console.log(slug);
 
     router.get(route("category_posts", slug))
 };
@@ -52,14 +50,12 @@ const showClosebtn = ref(false);
 const showMenubtn = ref(true);
 
 const showMenu = () => {
-    console.log('coucou');
     menuVisible.value = !menuVisible.value
     showClosebtn.value = true;
     showMenubtn.value = false;
 }
 
 const closeMenu = () => {
-    console.log('coucou');
     menuVisible.value = !menuVisible.value
     showClosebtn.value = false;
     showMenubtn.value = true;

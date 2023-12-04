@@ -14,7 +14,6 @@ defineProps({
     default: () => { }
   }
 })
-// console.log(menu);
 
 const emit = defineEmits(['menu-click'])
 
@@ -35,7 +34,6 @@ const logoutItemClick = () => {
 
 const menuClick = (event, item) => {
   emit('menu-click', event, item)
-  console.log(item);
 }
 </script>
 

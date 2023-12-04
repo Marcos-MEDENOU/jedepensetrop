@@ -190,11 +190,7 @@ const addComment = () => {
                     // S'il n'y a pas d'URL de redirection, vous pouvez rediriger l'utilisateur vers la page par défaut
                     this.$router.push({ name: 'login' }); // Assurez-vous d'ajuster le nom de la route en conséquence
                 }
-                // if (result.isConfirmed) {
-
-                //     router.get(route("login"))
-
-                // }
+        
             });
         }
         if (response.data.successMessage) {

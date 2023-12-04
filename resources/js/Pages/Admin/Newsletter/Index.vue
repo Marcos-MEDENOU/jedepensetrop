@@ -153,7 +153,6 @@ function showStatus(post_visible, published_at) {
 
 function updateFilteredArticles(searchTerm) {
   searchTerm = searchTerm.trim().toLowerCase();
-  console.log(searchTerm);
 
   searchTerm.trim() !== ""
     ? (props.posts.data = original_post.filter((article, index) => {

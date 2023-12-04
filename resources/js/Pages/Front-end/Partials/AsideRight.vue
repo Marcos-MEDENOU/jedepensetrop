@@ -39,7 +39,6 @@ const subscribe = () => {
 
     //Vérifier si un des élément est vide
     if (email.value.trim() == "") {
-        console.log("kljhgl");
         Swal.fire({
             title: 'Attention',
             text: 'Veuillez remplir le champ, il est vide.',

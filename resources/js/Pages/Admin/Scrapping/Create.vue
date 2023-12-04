@@ -64,9 +64,7 @@ const form = useForm({
 
 const updateSlug = () => {
   form.slug = generateSlug(form.title);
-  console.log("value");
 };
-console.log('ez');
 const generateSlug = (title) => {
   const trimmedTitle = title.trim();
   const slug = slugify(trimmedTitle, {

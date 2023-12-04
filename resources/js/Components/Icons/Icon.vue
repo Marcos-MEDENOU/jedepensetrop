@@ -57,7 +57,7 @@
     </svg>
 
 
-    <svg v-else-if="name === 'clock'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="clock" class="h-5 w-5"
+    <svg v-else-if="name === 'clock'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="clock" class="w-5 h-5"
         fill="#898f9a">
         <g data-name="Layer 2">
             <path d="M16,31A15,15,0,1,1,31,16,15,15,0,0,1,16,31ZM16,3A13,13,0,1,0,29,16,13,13,0,0,0,16,3Z"></path>
@@ -75,14 +75,14 @@
     </svg>
 
 
-    <svg v-else-if="name === 'like'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="like" class="h-8 w-8">
+    <svg v-else-if="name === 'like'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="like" class="w-8 h-8">
         <path
             d="M14 6h-4V3c0-1.103-.897-2-2-2H6.5a.5.5 0 0 0-.5.5v2.367L4.066 7.252A.493.493 0 0 0 4 7.5v7a.5.5 0 0 0 .5.5h8.025a2 2 0 0 0 1.827-1.188l1.604-3.609A.491.491 0 0 0 16 10V8c0-1.103-.897-2-2-2zM0 7.5v7a.5.5 0 0 0 .5.5H3V7H.5a.5.5 0 0 0-.5.5z">
         </path>
     </svg>
 
 
-    <svg v-else-if="name === 'dislike'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="dislike" class="h-8 w-8">
+    <svg v-else-if="name === 'dislike'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="dislike" class="w-8 h-8">
         <path
             d="M14 10h-4v3c0 1.103-.897 2-2 2H6.5a.5.5 0 0 1-.5-.5v-2.367L4.066 8.748A.493.493 0 0 1 4 8.5v-7a.5.5 0 0 1 .5-.5h8.025a2 2 0 0 1 1.827 1.188l1.604 3.609A.491.491 0 0 1 16 6v2c0 1.103-.897 2-2 2zM0 8.5v-7A.5.5 0 0 1 .5 1H3v8H.5a.5.5 0 0 1-.5-.5z">
         </path>
@@ -139,7 +139,6 @@ function closeWindows() {
     ;
     getBtnClose.addEventListener('click', function (event) {
         window.open('', '_self').close();
-        console.log('fenêtre fermée');
     })
 
 }

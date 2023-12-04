@@ -110,7 +110,6 @@ const form = useForm({
 
 
 function handleFilePondLoad(response) {
-  console.log(response);
   form.folder = response
   return response
 }
@@ -129,7 +128,6 @@ function handleFilePondRemove(source, load, error) {
 
 const handleFilePondInit = () => {
   if (form.image) {
-    console.log("baba");
     files.value = [{
 
       source: '/storage/images/' + props.posts.folder + '/' + props.posts.image,
@@ -175,7 +173,6 @@ function formatDateTimeISO(dateISO) {
 
 const updateSlug = () => {
   form.slug = generateSlug(form.title);
-  console.log(form.slug);
 };
 
 const generateSlug = (title) => {

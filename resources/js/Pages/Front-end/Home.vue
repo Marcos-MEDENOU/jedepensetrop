@@ -777,7 +777,6 @@ export default {
 
         //   let aTag = doc.querySelector('a');
         //   // return aTag;
-        //   // console.log(aTag);
         //   if (aTag) {
         //     let aContent = aTag.textContent;
         //     return aContent;}
@@ -789,7 +788,6 @@ export default {
             const anchorTags = Array.from(tempElement.getElementsByTagName("a")).map(
                 (anchor) => anchor.outerHTML
             );
-            // console.log(anchorTags);
             return anchorTags;
         },
 
@@ -798,7 +796,6 @@ export default {
             const matches = [...data.matchAll(regex)];
 
             const paragraphs = matches.map((match) => match[0]);
-            console.log(paragraphs);
             return paragraphs;
         },
 
@@ -847,8 +844,7 @@ export default {
             this.imageSrc = "/images/Fond_carte_vierge.png";
         },
         slider(element, pays) {
-            // console.log(pays);
-            // console.log(element);
+        
             document.querySelector(".carte").src = element;
             // document.querySelector(pays).style="overflow"
             // let TableauPays = [this.showBj, this.showCmr, this.showFr, this.showEthp, this.showRwd];

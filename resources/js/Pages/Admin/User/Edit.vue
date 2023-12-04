@@ -29,7 +29,6 @@ const props = defineProps({
     default: () => ({}),
   }
 })
-console.log(props.userHasRoles);
 const form = useForm({
   _method: 'put',
   name: props.user.name,

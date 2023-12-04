@@ -155,7 +155,6 @@ function showStatus(post_visible, published_at) {
 
 function updateFilteredArticles(searchTerm) {
   searchTerm = searchTerm.trim().toLowerCase();
-  console.log(searchTerm);
 
   searchTerm.trim() !== ""
     ? (props.posts.data = original_post.filter((article, index) => {
@@ -176,7 +175,6 @@ function updateFilteredArticles(searchTerm) {
 //   props.posts.data = props.posts.data.filter(article =>
 //     article.title.toLowerCase().includes(searchTerm)
 //   );
-//   console.log(props.posts.data);
 // }
 
 // watch(form.search, () => {

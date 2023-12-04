@@ -40,7 +40,6 @@ const data = reactive({
     recentPosts: props.PreviousThreePosts,
 });
 
-console.log(data.recentPosts);
 
 const dataByCategory = reactive({
     recentPosts: props.ThreeByCategory,
@@ -48,7 +47,6 @@ const dataByCategory = reactive({
 
 
 const showArticle = (slug) => {
-    console.log(slug);
 
     router.get(route("post.show", slug))
 };
@@ -94,7 +92,6 @@ const subscribe = () => {
 
     //Vérifier si un des élément est vide
     if (nom.value.trim() == "" || prenom.value.trim() == "" || email.value.trim() == "" || question.value.trim() == "") {
-        console.log("kljhgl");
         Swal.fire({
             title: 'Attention',
             text: 'Veuillez remplir tous les champs du formulaire.',

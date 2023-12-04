@@ -10,12 +10,12 @@
 
 
         <!-- Contenu au centre -->
-        <div class="absolute md:top-28 justify-center flex md:flex-row px-10 flex-col md:mb-20 items-center text-white">
+        <div class="absolute flex flex-col items-center justify-center px-10 text-white md:top-28 md:flex-row md:mb-20">
             <!-- Mascotte avec punchlines -->
-            <img src="/images/masso.png" alt="Mascotte" class="floating-image  " />
+            <img src="/images/masso.png" alt="Mascotte" class="floating-image " />
             <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="mb-4 md:w-96 md:mr-20 flex justify-center text-center transition-opacity">
-                    <p class="md:text-4xl text-3xl ">{{ currentPunchline }}</p>
+                <div :key="currentPunchline" class="flex justify-center mb-4 text-center transition-opacity md:w-96 md:mr-20">
+                    <p class="text-3xl md:text-4xl ">{{ currentPunchline }}</p>
                 </div>
             </transition>
         </div>
@@ -70,7 +70,6 @@ const changePunchline = () => {
 
 const submitForm = () => {
     // Logique de soumission du formulaire ici
-    console.log('Recherche soumise:', searchQuery.value);
 };
 
 onMounted(() => {
