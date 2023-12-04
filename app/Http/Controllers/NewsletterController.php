@@ -164,7 +164,7 @@ class NewsletterController extends Controller
 
                
             } else {
-                Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
+                // Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
                 return response()->json([
                     'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter, nous vous reviendrons pour vore nouvelle préoccupation',
                     'errorMessage' => '',
@@ -220,7 +220,7 @@ class NewsletterController extends Controller
                     }
 
                 } else {
-                    Newsletter::create(['email' => $email]);
+                    // Newsletter::create(['email' => $email]);
                     return response()->json([
                         'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter',
                         'errorMessage' => '',
