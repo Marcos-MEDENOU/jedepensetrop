@@ -31,7 +31,7 @@ const userSwitchVal = ref([])
         <h1 class="text-2xl">
           Howdy, <b>{{ userName }}</b>!
         </h1>
-        <p>Last login <b>12 mins ago</b> from <b>127.0.0.1</b></p>
+        <p>Last login <b>12 mins ago</b> from <b>jedepensetrop</b></p>
         <div class="flex justify-center md:block">
           <PillTag
             text="Verified"

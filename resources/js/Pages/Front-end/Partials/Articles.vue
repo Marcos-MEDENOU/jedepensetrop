@@ -5,56 +5,45 @@ import { router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 import AsideRight from '../Partials/AsideRight.vue';
 import Icon from '@/Components/Icons/Icon.vue'
-import { format, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import frLocale from 'date-fns/locale/fr';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 
+const props = defineProps({
+    user:{
+        type: Object,
+        required:true
+    },
+
+    LatestPost:{
+        type: Array,
+        required:true
+    },
+
+    PreviousThreePosts:{
+        type: Array,
+        required:true
+    },
+
+    ThreeByCategory:{
+        type: Object,
+        required:true
+    },
+
+})
 
 
-const latestPost = ref([]);
-const fetchLatestPost = async () => {
-    try {
-        const response = await axios.get('/latestPost');
-        latestPost.value = response.data;
-        console.log(latestPost.value)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
+const latestPost = ref(props.LatestPost);
+
 
 const data = reactive({
-    recentPosts: [],
+    recentPosts: props.PreviousThreePosts,
 });
 
-const fetchPreviousThreePosts = async () => {
-    try {
-        const response = await axios.get('/previousThreePosts');
-        data.recentPosts = response.data;
-        console.log(data.recentPosts)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
+console.log(data.recentPosts);
 
 const dataByCategory = reactive({
-    recentPosts: [],
-});
-
-const fetchThreeByCategory = async () => {
-    try {
-        const response = await axios.get('/showThreeByCategory');
-        dataByCategory.recentPosts = response.data;
-        console.log(dataByCategory.recentPosts)
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des articles récents', error);
-    }
-};
-
-onMounted(async () => {
-    await fetchLatestPost();
-    await fetchPreviousThreePosts();
-    await fetchThreeByCategory()
+    recentPosts: props.ThreeByCategory,
 });
 
 
@@ -91,30 +80,15 @@ const formatDate = (inputDate) => {
 
 const formatRelativeTime = (inputDate) => {
     const parsedDate = formatDate(inputDate);
-    const currentDate = new Date();
-    console.log(parsedDate);
-    console.log(currentDate);
 
     if (!parsedDate) {
         return 'Date invalide';
     }
 
-    const differenceInSecondsValue = Math.floor((currentDate - parsedDate) / 1000);
-    const differenceInMinutesValue = Math.floor(differenceInSecondsValue / 60);
-    const differenceInHoursValue = Math.floor(differenceInMinutesValue / 60);
-    const differenceInDaysValue = Math.floor(differenceInHoursValue / 24);
+    const formattedDate = format(parsedDate, 'dd MMMM yyyy', { locale: fr });
 
-    if (differenceInDaysValue > 1) {
-        return format(parsedDate, 'dd MMMM yyyy', { locale: frLocale });
-    } else if (differenceInHoursValue > 0) {
-        return `il y a ${differenceInHoursValue} ${differenceInHoursValue > 1 ? 'heures' : 'heure'}`;
-    } else if (differenceInMinutesValue > 0) {
-        return `il y a ${differenceInMinutesValue} ${differenceInMinutesValue > 1 ? 'minutes' : 'minute'}`;
-    } else {
-        return `il y a ${differenceInSecondsValue} ${differenceInSecondsValue > 1 ? 'secondes' : 'seconde'}`;
-    }
+    return formattedDate;
 };
-
 
 const subscribe = () => {
 
@@ -127,7 +101,7 @@ const subscribe = () => {
             icon: 'warning',
         });
     } else {
-        //verifier si email entrer est valide 
+        //verifier si email entrer est valide
         // Expression régulière pour vérifier une adresse e-mail simple
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -180,6 +154,8 @@ const subscribe = () => {
                     });
                     email.value = '';
                     question.value = '';
+                    nom.value = '';
+                    prenom.value = '';
                 });
 
         } else {
@@ -208,10 +184,10 @@ const subscribe = () => {
             <h1 class="mb-5 text-3xl font-bold">Articles les plus récents</h1>
 
             <div class="mb-10 transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
-                <div @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
+                <div v-if="latestPost"  @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
 
 
-                    <div @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
+                    <div  @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                             <div
                                 class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
@@ -235,7 +211,7 @@ const subscribe = () => {
                                     {{ formatRelativeTime(latestPost.published_at) }}
                                 </p>
                                 <p class="flex items-center gap-1 italic">
-                                    <Icon name="clock" /> {{ latestPost.duree ? '0' + latestPost.duree : latestPost.duree }}
+                                    <Icon name="clock" /> {{ latestPost.duree < 10 ? '0' + latestPost.duree : latestPost.duree }}
                                     minutes
                                 </p>
                             </div>
@@ -259,7 +235,7 @@ const subscribe = () => {
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                                        {{ (article.category).name }}
+                                        <!-- {{ (article.category).name }} -->
                                     </span>
                                 </div>
 
@@ -273,7 +249,7 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
                                     </div>
@@ -357,7 +333,7 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree ? '0' + article.duree : article.duree }}
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
                                             minutes
                                         </p>
                                     </div>
@@ -373,7 +349,7 @@ const subscribe = () => {
             </div>
         </div>
 
-        <div class="px-10 2xl:w-3/12 xl:ml-20 ">
+        <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
             <AsideRight />
         </div>
     </div>

@@ -191,6 +191,10 @@ class PostController extends Controller
                     $temporaryImage->delete();
                 }
 
+                Storage::copy('public/images/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file, '/public/images/\/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+                Storage::deleteDirectory('images/tmp/' . $temporaryImage->folder);
+                $temporaryImage->delete();
             }
 
             $post->update([
@@ -207,7 +211,7 @@ class PostController extends Controller
                 'post_visible' => $request->is_visible,
             ]);
             return redirect()->route('posts.index')
-            ->with('message', 'post mis a jour avec succes.');
+                ->with('message', 'post mis a jour avec succes.');
         } else {
             $post->update([
                 'blog_category_id' => $request->category,
@@ -223,10 +227,9 @@ class PostController extends Controller
                 'post_visible' => $request->is_visible,
             ]);
             return redirect()->route('posts.index')
-            ->with('message', 'Aucune modification apporté');
+                ->with('message', 'Aucune modification apporté');
         }
 
-        
     }
 
     // Fonction permettant d'afficher les posts par leur slug
@@ -280,30 +283,37 @@ class PostController extends Controller
 
             ->orderBy('published_at', 'DESC')
             ->first();
+        if ($latestPost) {
+            $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
+            $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
+            $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+
+            $response = [
+                'id' => $latestPost->id,
+                'title' => $latestPost->title,
+                'slug' => $latestPost->slug,
+                'seo_description' => $latestPost->seo_description,
+                'content' => $latestPost->content,
+                'author' => User::find($latestPost->blog_author_id),
+                'category' => Category::find($latestPost->blog_category_id),
+                'image' => $latestPost->image,
+                'folder' => $latestPost->folder,
+                'duree' => $estimatedReadingTime,
+                'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
+            ];
+    
+            return $response;
+        }
         // Calculer la durée de lecture estimée
-        $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
-        $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
+        // $wordCount = str_word_count(strip_tags($latestPost->content)); // Compter les mots dans le contenu
+        // $wordsPerMinute = 200; // Estimation moyenne du nombre de mots lus par minute
 
-        $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
+        // $estimatedReadingTime = ceil($wordCount / $wordsPerMinute); // Durée de lecture estimée en minutes
 
-        $response = [
-            'id' => $latestPost->id,
-            'title' => $latestPost->title,
-            'slug' => $latestPost->slug,
-            'seo_description' => $latestPost->seo_description,
-            'content' => $latestPost->content,
-            'author' => User::find($latestPost->blog_author_id),
-            'category' => Category::find($latestPost->blog_category_id),
-            'image' => $latestPost->image,
-            'folder' => $latestPost->folder,
-            'duree' => $estimatedReadingTime,
-            'published_at' => Carbon::parse($latestPost->published_at)->format('d/m/Y'),
-            'created_at' => Carbon::parse($latestPost->created_at)->format('d/m/Y'),
-            'updated_at' => Carbon::parse($latestPost->updated_at)->format('d/m/Y'),
-        ];
-
-        return response()->json($response);
+       
     }
 
     /// Fonction permettant de récupérer les 3 articles les plus récents, sauf le dernier
@@ -347,7 +357,7 @@ class PostController extends Controller
             ];
         });
 
-        return response()->json($response);
+        return $response;
     }
 
     // Fonction permettant de recupérer trois articles par catégorie.
@@ -397,7 +407,7 @@ class PostController extends Controller
                 }
             }
 
-            return response()->json($postsByCategory);
+            return $postsByCategory;
         } catch (\Exception $th) {
             // Gérez les erreurs
             return response()->json($th);
@@ -440,7 +450,12 @@ class PostController extends Controller
                     }),
                 ];
 
+                $categories = new CategoryController();
+                $catego = $categories->getCategories();
+                // dd($categories);
+
                 return Inertia::render('CategoryPosts', [
+                    'catego ' => $catego,
                     'formattedCategory' => $formattedCategory,
                 ]);
             } else {

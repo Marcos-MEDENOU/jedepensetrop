@@ -129,7 +129,7 @@ const setimgSrc = (htmlContent) => {
     //ajoute le code htmml a l'intérieur de la div
     tempElement.innerHTML = htmlContent;
     //Expression réguliere qui détecte les attributs src a modifier
-    let regex = /^http:\/\/127.0.0.1:8000\/post/;
+    let regex = /^https:\/\/jedepensetrop.fr\/post/;
     //Vérification et execution d'un bloc de code pour chacune des attributs src des images
     tempElement.querySelectorAll("img").forEach(function (imgTag) {
         //Cas ou une image verifiant la regex a été détectée
@@ -142,7 +142,7 @@ const setimgSrc = (htmlContent) => {
             x.splice(0, 1);
             //Supresion det remplacement du 1er element du nouveau tableau par l'adresse localhost du serveur
             // x.splice(0, 1, "http://interstis.com/backend/public");
-            x.splice(0, 2, "http://127.0.0.1:8000");
+            x.splice(0, 2, "");
             //Association des elements tableau avec pour indice '/'
             let y = x.join("/");
             //Remplacement du src du code html actuelle par le nouveau
@@ -392,12 +392,10 @@ const deleteComment = (commentId) => {
 
         <Head :title="props.post.slug" />
 
-
-
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'http://127.0.0.1:8000/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
+                <img :src="'/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>
@@ -629,7 +627,7 @@ const deleteComment = (commentId) => {
             </div>
 
             <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
-            <div class="px-10 2xl:w-3/12 xl:ml-20">
+            <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20">
                 <AsideRight />
                 <!-- <Publicite /> -->
             </div>

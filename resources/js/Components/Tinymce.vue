@@ -41,11 +41,11 @@ const emit = defineEmits(['update:modelValue']);
 
 const init = reactive({
   language: 'fr_FR',
-  document_base_url: 'http://127.0.0.1:8000/public/',
+  document_base_url: '/public/',
   height: 800,
   width: '50% !important',
   resize: 'both',
-  // content_css: 'http://127.0.0.1:8000/css/tailwind.css',
+  // content_css: '/css/tailwind.css',
   // menubar:false,
   menubar: 'file format tools ',
   images_upload_url: '/editorUpload',

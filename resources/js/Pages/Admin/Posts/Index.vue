@@ -256,8 +256,11 @@ function updateFilteredArticles(searchTerm) {
                 <Sort label="Titre" attribute="title" />
               </th>
               <th>
-                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur</span>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Auteur original</span>
               </th>
+              <!-- <th>
+                <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Modifier par</span>
+              </th> -->
               <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Image principale</span>
               </th>
@@ -270,10 +273,10 @@ function updateFilteredArticles(searchTerm) {
               <th class="flex items-center justify-center">
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Statut</span>
               </th>
-              <th>
+              <!-- <th>
                 <span class="no-underline hover:underline text-cyan-600 dark:text-cyan-400">Prévisualiser</span>
-              </th>
-              <th v-if="can.edit || can.delete">Actions</th>
+              </th> -->
+              <th v-if="can.edit || can.delete" class="text-center">Actions</th>
             </tr>
           </thead>
 
@@ -281,24 +284,29 @@ function updateFilteredArticles(searchTerm) {
 
             <tr v-for="post in posts.data" :key="post.id">
 
-              <td data-label="title">
+              <td data-label="Titre">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
                   {{ postSlicing(post.title) }}
                 </span>
               </td>
 
-              <td data-label="Name">
+              <!-- <td data-label="Name">
                 <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
-                  {{ (post.author_name) }}
+                  {{ (post.author_name).split(' ').slice(0,2).join(' ') }}
+                </span>
+              </td> -->
+
+              <td data-label="Auteur">
+                <span class="pb-4 no-underline text-cyan-600 dark:text-cyan-400">
+                  {{ (post.author_name).split(' ').slice(0, 2).join(' ') }}
                 </span>
               </td>
 
               <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/images/${post.folder}/${post.image}`"
-                  class="w-16 rounded-sm lg:mx-auto">
+                <img v-bind:src="`/storage/images/${post.folder}/${post.image}`" class="w-16 rounded-sm lg:mx-auto">
               </td>
 
-              <td data-label="Published_at">
+              <td data-label="Date de publication">
                 {{ new Date(post.published_at).toLocaleDateString() }}
 
               </td>
@@ -307,7 +315,7 @@ function updateFilteredArticles(searchTerm) {
                 {{ post.category_name }}
               </td>
 
-              <td data-label="categorie" class="text-center">
+              <td data-label="Statut" class="text-center">
 
                 <span v-if="showStatus(post.post_visible, post.published_at) == 'publié'"
                   class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-green-600 rounded-full bg-green-50">
@@ -334,20 +342,17 @@ function updateFilteredArticles(searchTerm) {
                     showStatus(post.post_visible, post.published_at) }} {{ differenceInDays(post.published_at) }} jour(s)
                 </span>
               </td>
-              <td data-label="prévisualiser">
-                <Link :href="route('posts.show', post.id)"
-                  class="items-center justify-center pb-4 no-underline hover:underline text-cyan-600 dark:text-cyan-400">
-                <BaseButtons type="justify-start lg:justify-start lg:ml-6" no-wrap>
-                  <BaseButton color="" class="items-center justify-center" :icon="mdiEyeCheck" small />
-                </BaseButtons>
-                </Link>
-              </td>
-              <td v-if="can.edit || can.delete" class="before:hidden lg:w-1 whitespace-nowrap">
+
+              <td v-if="can.edit || can.delete" data-label="Actions" class="flex items-center lg:justify-center">
                 <BaseButtons type="justify-start lg:justify-end" no-wrap>
+                  <BaseButton :route-name="route('posts.show', post.id)" color="success" :icon="mdiEyeCheck" small />
                   <BaseButton v-if="can.edit" :route-name="route('posts.edit', post.id)" color="info"
                     :icon="mdiSquareEditOutline" small />
-                  <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small @click="destroy(post.id, post.title)" />
+                  <BaseButton v-if="can.delete" color="danger" :icon="mdiTrashCan" small
+                    @click="destroy(post.id, post.title)" />
+
                 </BaseButtons>
+
               </td>
             </tr>
           </tbody>

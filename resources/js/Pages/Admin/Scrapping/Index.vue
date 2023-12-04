@@ -266,7 +266,7 @@ function updateFilteredArticles(searchTerm) {
               </td>
 
               <td data-label="Image" class="">
-                <img v-bind:src="`http://127.0.0.1:8000/storage/uploads/${post.image}`"
+                <img v-bind:src="`/storage/uploads/${post.image}`"
                   class="w-16 rounded-sm lg:mx-auto">
               </td>
 
