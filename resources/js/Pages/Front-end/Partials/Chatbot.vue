@@ -15,7 +15,7 @@ const toggleChat = () => {
 <template>
     <div class="">
         <transition name="fade-scale" mode="out-in">
-        <div v-show="isChatVisible" class="bg-white shadow-xl rounded-t-xl rounded-bl-xl p-5  md:w-96 w-80 md:h-[600px] h-[600px] relative mr-4">
+        <div v-show="isChatVisible" class="bg-white shadow-xl rounded-t-xl rounded-bl-xl p-5  md:w-96 w-72 md:h-[600px] h-[32em] relative mr-4">
             <div class="bg-indigo-600 text-center mb-5 text-white p-3 rounded-lg">
                 <h2 class="font-bold text-xl">ChatBot</h2>
             </div>

@@ -57,7 +57,6 @@ const email = ref('');
 const question = ref('');
 
 
-
 const formatDate = (inputDate) => {
     if (!inputDate) {
         return null; // Ou une autre valeur par défaut appropriée
@@ -232,7 +231,7 @@ const subscribe = () => {
                                     </div>
                                     <span
                                         class="absolute top-0 left-0 z-10 inline-flex px-3 py-2 mt-3 ml-3 text-sm font-medium text-white bg-[#e39a00] rounded-lg select-none">
-                                        <!-- {{ (article.category).name }} -->
+                                        {{ (article.category).name }}
                                     </span>
                                 </div>
 
