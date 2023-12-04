@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewsletterMailNotify;
 use App\Models\Newsletter;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Inertia\Inertia;
 
 class NewsletterController extends Controller
 {
@@ -41,8 +43,6 @@ class NewsletterController extends Controller
             $newsletters->latest();
         }
 
-
-
         $newsletters = $newsletters->paginate(10)->onEachSide(2)->appends(request()->query());
 
         return Inertia::render('Admin/Newsletter/Index', [
@@ -56,8 +56,6 @@ class NewsletterController extends Controller
         ]);
     }
 
-  
-
     /**
      * Show the form for creating a new resource.
      */
@@ -70,12 +68,10 @@ class NewsletterController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-
-    
     {
-        
+
         try {
-        
+
             $firstname = $request->firstname;
             $lastname = $request->lastname;
             $email = $request->email;
@@ -85,26 +81,42 @@ class NewsletterController extends Controller
             if (!Newsletter::where('email', $email)->exists()) {
                 // Enregistrez l'e-mail et la question dans la table
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
-                return response()->json([
+                $data = [
+                    'subject' => 'Jedepensetrop.fr mail delivery',
+                    'name' => $firstname . ' ' . $lastname,
+                ];
 
-                    'errorMessage' => '',
-                    'successMessage' => 'Newsletter enrégistrer avec succès'
-                ]);
-            }else{
+                try {
+
+                    Mail::to($email)->send(new NewsletterMailNotify($data));
+
+                    return response()->json([
+
+                        'errorMessage' => '',
+                        'successMessage' => 'Nous avons pris en compte votre soumission. Un message vous a été envoyé votre boîte gmail',
+                    ]);
+                } catch (Exception $th) {
+                    return response()->json([
+
+                        'errorMessage' => '',
+                        'successMessage' => 'Vérifier la validité de votre adresse email',
+                    ]);
+    
+                }
+
+            } else {
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
                 return response()->json([
                     'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter, nous vous reviendrons pour vore nouvelle préoccupation.',
-                    'errorMessage' => ''
+                    'errorMessage' => '',
                 ]);
             }
-
-            
 
         } catch (\Exception $th) {
             return response()->json([
 
                 'successMessage' => '',
-                'errorMessage' => 'Error' . $th->getMessage()
+                'errorMessage' => 'Error' . $th->getMessage(),
             ]);
         }
     }
@@ -113,12 +125,10 @@ class NewsletterController extends Controller
      * Store a newly created resource in storage.
      */
     public function storeViaHome(Request $request)
-
-    
     {
-        
+
         try {
-        
+
             $firstname = $request->firstname;
             $lastname = $request->lastname;
             $email = $request->email;
@@ -128,37 +138,56 @@ class NewsletterController extends Controller
             if (!Newsletter::where('email', $email)->exists()) {
                 // Enregistrez l'e-mail et la question dans la table
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
-                return response()->json([
 
-                    'errorMessage' => '',
-                    'successMessage' => 'Newsletter enrégistrer avec succès'
-                ]);
-            }else{
+                $data = [
+                    'subject' => 'Jedepensetrop.fr mail delivery',
+                    'name' => $firstname . ' ' . $lastname,
+                ];
+
+                try {
+
+                    Mail::to($email)->send(new NewsletterMailNotify($data));
+
+                    return response()->json([
+
+                        'errorMessage' => '',
+                        'successMessage' => 'Nous avons pris en compte votre soumission. Un message vous a été envoyé votre boîte gmail',
+                    ]);
+                } catch (Exception $th) {
+                    return response()->json([
+
+                        'errorMessage' => '',
+                        'successMessage' => 'Vérifier la validité de votre adresse email',
+                    ]);
+    
+                }
+
+               
+            } else {
                 Newsletter::create(['firstname' => $firstname, 'lastname' => $lastname, 'email' => $email, 'question' => $question]);
                 return response()->json([
                     'successMessage' => 'Vous etes déja inscrit une fois a notre newsletter, nous vous reviendrons pour vore nouvelle préoccupation',
-                    'errorMessage' => ''
+                    'errorMessage' => '',
                 ]);
             }
-
-            
 
         } catch (\Exception $th) {
             return response()->json([
 
                 'successMessage' => '',
-                'errorMessage' => 'Error' . $th->getMessage()
+                'errorMessage' => 'Error' . $th->getMessage(),
             ]);
         }
     }
 
-     /**
+    /**
      * Store a newly created resource in storage.
      */
     public function storeViaHomeEmail(Request $request)
     {
 
         try {
+
             $email = $request->email;
 
             if (!empty($email)) {
@@ -166,11 +195,30 @@ class NewsletterController extends Controller
                 if (!Newsletter::where('email', $email)->exists()) {
                     // Enregistrez l'e-mail et la question dans la table
                     Newsletter::create(['email' => $email]);
-                    return response()->json([
 
-                        'errorMessage' => '',
-                        'successMessage' => 'Newsletter enrégistrer avec succès',
-                    ]);
+                    $data = [
+                        'subject' => 'Jedepensetrop.fr mail delivery',
+                        'name' =>  $email,
+                    ];
+    
+                    try {
+    
+                        Mail::to($email)->send(new NewsletterMailNotify($data));
+    
+                        return response()->json([
+    
+                            'errorMessage' => '',
+                            'successMessage' => 'Nous avons pris en compte votre soumission. Un message vous a été envoyé votre boîte gmail',
+                        ]);
+                    } catch (Exception $th) {
+                        return response()->json([
+    
+                            'errorMessage' => '',
+                            'successMessage' => 'Vérifier la validité de votre adresse email',
+                        ]);
+        
+                    }
+
                 } else {
                     Newsletter::create(['email' => $email]);
                     return response()->json([
@@ -179,7 +227,7 @@ class NewsletterController extends Controller
                     ]);
                 }
 
-            }else{
+            } else {
                 return response()->json([
                     'successMessage' => 'Vous n\'avez renseigner aucune addresse électronique',
                     'errorMessage' => '',
@@ -194,7 +242,6 @@ class NewsletterController extends Controller
             ]);
         }
     }
-
 
     /**
      * Display the specified resource.

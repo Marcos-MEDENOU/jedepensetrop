@@ -13,16 +13,24 @@ class NewsletterMailNotify extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $data = [];
+    public $data;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct( $data)
     {
         //
-        return $this->view('view.name');
+        $this->data = $data;
     }
+    /**
+     * Create a new message instance.
+     */
+    // public function build()
+    // {
+    //     return $this->from('marcosmedenou@gmail.com', 'Marcos MEDENOU')
+    //     ->subject($this->data['subject'])->view('emails.index')->with('data', $this->data);
+    // }
 
     /**
      * Get the message envelope.
@@ -30,7 +38,8 @@ class NewsletterMailNotify extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Newsletter Mail Notify',
+            subject: 'Souscription a la Newsletter Jedepensetrop.com',
+            // from : new Address('mailtrap@gmail.com', 'John')
         );
     }
 
@@ -40,7 +49,8 @@ class NewsletterMailNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.index',
+            with:['name'=>$this->data]
         );
     }
 

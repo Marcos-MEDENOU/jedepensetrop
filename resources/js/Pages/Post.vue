@@ -175,11 +175,26 @@ const addComment = () => {
                 cancelButtonText: "Annuler",
                 confirmButtonText: "Se connecter"
             }).then((result) => {
-                if (result.isConfirmed) {
 
-                    router.get(route("login"))
+                // Récupérer l'URL stockée dans localStorage
+                const redirectUrl = localStorage.getItem('redirectUrl');
 
+                // Vérifier si une URL de redirection existe
+                if (redirectUrl) {
+                    // Rediriger l'utilisateur vers l'URL stockée
+                    this.$router.push(redirectUrl);
+
+                    // Nettoyer l'élément redirectUrl dans localStorage
+                    localStorage.removeItem('redirectUrl');
+                } else {
+                    // S'il n'y a pas d'URL de redirection, vous pouvez rediriger l'utilisateur vers la page par défaut
+                    this.$router.push({ name: 'login' }); // Assurez-vous d'ajuster le nom de la route en conséquence
                 }
+                // if (result.isConfirmed) {
+
+                //     router.get(route("login"))
+
+                // }
             });
         }
         if (response.data.successMessage) {
@@ -395,7 +410,7 @@ const deleteComment = (commentId) => {
         <div class="relative h-[500px] flex items-center justify-center transition-all ">
             <!-- Fond d'écran en arrière-plan -->
             <transition name="fade" mode="in-out">
-                <img :src="'/storage/images/' + post.folder + '/'+ post.image" :alt="post.title"
+                <img :src="'/storage/images/' + post.folder + '/' + post.image" :alt="post.title"
                     class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
                     style="filter: brightness(0.5);" />
             </transition>

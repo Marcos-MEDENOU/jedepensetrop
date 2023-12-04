@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+// use App\Models\User;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use Illuminate\Support\Facades\DB;
 class RegisteredUserController extends Controller
 {
     /**
@@ -41,6 +43,13 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        //attribution d'un role a l'utilisateur
+        DB::table('model_has_roles')->insert([
+            'role_id' => Role::where('name', 'user')->firstOrFail()['id'], 
+            'model_id' =>  User::where('email', $request->email)->firstOrFail()['id'], // Remplacez par l'ID de l'entité à laquelle vous attribuez le rôle
+            'model_type' => 'App\\Model\\User', // Remplacez par le modèle (classe) associé à l'entité
         ]);
 
         event(new Registered($user));

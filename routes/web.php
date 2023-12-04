@@ -16,6 +16,8 @@ use App\Http\Controllers\SocialiteController;
 use Inertia\Inertia;
 use Spatie\Permission\Middlewares\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\NewsletterMailNotify;
+use App\Http\Controllers\NewsletterMailNotifyController;
 
 //image
 use App\Http\Controllers\UploadTemporaryImageController;
@@ -47,7 +49,7 @@ Route::middleware(['auth', 'verified','super-admin'])->group(function () {
     Route::post('/editorUpload', [PostController::class, 'editorUpload']);
 });
 
-Route::middleware([ 'auth', 'role:admin|super-admin|ecrivain'])->group(function () {
+Route::middleware([ 'auth', 'role:admin|super-admin|writer'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 });
 
@@ -91,3 +93,10 @@ Route::get('callback/{provider}/', [SocialiteController::class, 'callback'])->na
 
 Route::post('/upload', UploadTemporaryImageController::class);
 Route::delete('/revert/{folder}', DeleteTemporaryImageController::class);
+
+
+Route::get('/send', [NewsletterMailNotifyController::class, 'index']);
+// Route::get('/send', function(){
+//    $name = "welcome";
+//    Mail::to('marcosmedenou@gmail.com')->send(new NewsletterMailNotify($name));
+// });

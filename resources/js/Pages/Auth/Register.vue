@@ -26,7 +26,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Nom d'utilisateur" />
 
                 <TextInput
                     id="name"
@@ -57,7 +57,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Mot de passe" />
 
                 <TextInput
                     id="password"
@@ -72,7 +72,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirmation Password" />
 
                 <TextInput
                     id="password_confirmation"
@@ -91,11 +91,16 @@ const submit = () => {
                     :href="route('login')"
                     class="text-sm text-gray-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 >
-                    Already registered?
+                    Déja inscrit ?
                 </Link>
 
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+               
+            </div>
+            <div class="flex items-center justify-center mt-4">
+            
+
+                <PrimaryButton class="bg-gradient-to-tr from-blue-600 to-blue-400" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    S'INSCRIRE
                 </PrimaryButton>
             </div>
         </form>

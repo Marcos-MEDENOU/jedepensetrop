@@ -34,49 +34,81 @@ const newArticles = [
 const email = ref('');
 const question = ref('');
 
+
 const subscribe = () => {
 
-    axios.post('/newsletters/store', {
-        email: email.value,
-        question: question.value,
-    })
-        .then(response => {
-
-            if (response.data.successMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: response.data.successMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            if (response.data.errorMessage) {
-
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: response.data.errorMessage,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-
-            email.value = '';
-            question.value = '';
-        })
-        .catch(error => {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: error,
-                showConfirmButton: false,
-                timer: 1500
-            });
-            email.value = '';
-            question.value = '';
+    //Vérifier si un des élément est vide
+    if (email.value.trim() == "") {
+        console.log("kljhgl");
+        Swal.fire({
+            title: 'Attention',
+            text: 'Veuillez remplir le champ, il est vide.',
+            icon: 'warning',
         });
+    } else {
+        //verifier si email entrer est valide
+        // Expression régulière pour vérifier une adresse e-mail simple
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        // Teste la chaîne de caractères avec l'expression régulière
+        if (regexEmail.test(email.value)) {
+            //
+            axios.post('/newslettersHome/store', {
+
+                email: email.value,
+
+            })
+                .then(response => {
+
+                    if (response.data.successMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: response.data.successMessage,
+                            showConfirmButton: true,
+
+                        });
+                    }
+                    if (response.data.errorMessage) {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: response.data.errorMessage,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+
+
+                    email.value = '';
+
+
+                })
+                .catch(error => {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: error,
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                    email.value = '';
+
+                });
+
+        } else {
+            Swal.fire({
+                title: 'Erreur',
+                text: 'Email incorrecte',
+                icon: 'error',
+            });
+        };
+
+    }
+
 }
 
 </script>
@@ -192,7 +224,7 @@ const subscribe = () => {
             </form>
         </div>
     </section>
-    <Chatbot class="fixed  bottom-5 right-5 md:bottom-10 md:right-20" />
+    <Chatbot class="fixed bottom-5 right-5 md:bottom-10 md:right-20" />
 </template>
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
