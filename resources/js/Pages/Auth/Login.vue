@@ -141,7 +141,7 @@ const test = () => {
 
             <div class="text-center">
                 <span class="text-xs font-semibold text-gray-400">Vous n'avez pas de compte ? </span>
-                <a href="#" class="text-xs font-semibold text-blue-600">Inscrivez-vous</a>
+                <a href="/register" class="text-xs font-semibold text-blue-600">Inscrivez-vous</a>
             </div>
         </form>
     </GuestLayout>
