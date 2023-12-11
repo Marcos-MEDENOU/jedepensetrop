@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cookie;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -232,11 +233,72 @@ class PostController extends Controller
 
     }
 
+    // Fonction permettant de récupérer les posts les plus vue.
+    // Fonction permettant de récupérer les posts les plus vus.
+    public function getTopThreePosts()
+    {
+        $topThreePosts = Post::with('category')
+            ->orderByDesc('views_count')
+            ->take(3)
+            ->get();
+
+        $topViewedPost = $topThreePosts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'content' => $post->content,
+                'author' => $post->author,
+                'category' => Category::find($post->blog_category_id),
+                'image' => $post->image,
+                'folder' => $post->folder,
+                'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
+            ];
+        });
+
+        return $topViewedPost;
+    }
     // Fonction permettant d'afficher les posts par leur slug
     public function showArticle($slug)
     {
+
+
         $selectedPost = Post::where('slug', $slug)->firstOrFail();
         $user = auth()->user(); // Récupérez l'utilisateur connecté
+
+
+        // Récupérer les 4 derniers articles liés à la même catégorie
+        $relatedPosts = Post::where('blog_category_id', $selectedPost->blog_category_id)
+            ->where('id', '!=', $selectedPost->id)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // Utiliser la méthode map pour itérer sur chaque article lié
+        $relatedPostsData = $relatedPosts->map(function ($post) {
+            return [
+                'id' => $post->id,
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'content' => $post->content,
+                'author' => User::find($post->blog_author_id),
+                'category' => Category::find($post->blog_category_id),
+                'image' => $post->image,
+                'folder' => $post->folder,
+                'published_at' => Carbon::parse($post->published_at)->format('d/m/Y'),
+                'created_at' => Carbon::parse($post->created_at)->format('d/m/Y'),
+                'updated_at' => Carbon::parse($post->updated_at)->format('d/m/Y'),
+
+            ];
+        });
+
+        // dd($relatedPostsData->toArray());
+
+        // Incrémenter le nombre de vues si l'article n'a pas encore été vu depuis cette adresse IP et ce localStorage
+        $selectedPost->increment('views_count');
+
 
         // Calculer la durée de lecture estimée
         $wordCount = str_word_count(strip_tags($selectedPost->content)); // Compter les mots dans le contenu
@@ -249,6 +311,8 @@ class PostController extends Controller
 
         // Vérifier si l'utilisateur connecté a déjà aimé le post
         $userLiked = $user ? $selectedPost->userLiked($user->id) : false;
+
+        // dd($this->getTopThreePosts()->toArray());
 
         return Inertia::render('Post', [
             'post' => [
@@ -268,6 +332,8 @@ class PostController extends Controller
                 'dislikes_count' => $dislikesCount,
                 'user_liked' => $userLiked,
             ],
+            'relatedPosts' => $relatedPostsData->toArray(),
+            'TopThreePosts' => $this->getTopThreePosts()->toArray(),
         ]);
     }
 
@@ -419,6 +485,8 @@ class PostController extends Controller
     public function getCategoryWithPosts($slug)
     {
         try {
+            $categories = Category::whereHas('posts')
+                ->get()->toArray();
             // Récupérez la catégorie avec les articles associés
             $category = Category::where('slug', $slug)->first();
             $today = now();
@@ -452,13 +520,12 @@ class PostController extends Controller
                     }),
                 ];
 
-                $categories = new CategoryController();
-                $catego = $categories->getCategories();
-                // dd($categories);
+
 
                 return Inertia::render('CategoryPosts', [
-                    'catego ' => $catego,
                     'formattedCategory' => $formattedCategory,
+                    'TopThreePosts' => $this->getTopThreePosts()->toArray(),
+                    'categories' => $categories,
                 ]);
             } else {
                 return Inertia::render('CategoryPosts', ['error' => 'Catégorie non trouvée']);

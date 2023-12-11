@@ -10,24 +10,29 @@ import { fr } from 'date-fns/locale';
 
 
 const props = defineProps({
-    user:{
+    user: {
         type: Object,
-        required:true
+        required: true
     },
 
-    LatestPost:{
+    LatestPost: {
         type: Array,
-        required:true
+        required: true
     },
 
-    PreviousThreePosts:{
+    PreviousThreePosts: {
         type: Array,
-        required:true
+        required: true
     },
 
-    ThreeByCategory:{
+    ThreeByCategory: {
         type: Object,
-        required:true
+        required: true
+    },
+
+    TopThreePosts: {
+        type: Object,
+        required: true
     },
 
 })
@@ -183,10 +188,10 @@ const subscribe = () => {
             <h1 class="mb-5 text-3xl font-bold">Articles les plus récents</h1>
 
             <div class="mb-10 transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
-                <div v-if="latestPost"  @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
+                <div v-if="latestPost" @click="showArticle(article.slug)" class="p-4 mb-10 bg-white rounded-lg shadow">
 
 
-                    <div  @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
+                    <div @click="showArticle(latestPost.slug)" class="relative w-full rounded-lg cursor-pointer">
                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                             <div
                                 class="w-full transition-transform duration-500 ease-in-out transform h-96 hover:scale-105">
@@ -210,9 +215,8 @@ const subscribe = () => {
                                     {{ formatRelativeTime(latestPost.published_at) }}
                                 </p>
                                 <p class="flex items-center gap-1 italic">
-                                    <Icon name="clock" /> {{ latestPost.duree < 10 ? '0' + latestPost.duree : latestPost.duree }}
-                                    minutes
-                                </p>
+                                    <Icon name="clock" /> {{ latestPost.duree < 10 ? '0' + latestPost.duree :
+                                        latestPost.duree }} minutes </p>
                             </div>
                         </div>
                     </div>
@@ -248,9 +252,8 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
-                                            minutes
-                                        </p>
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree :
+                                                article.duree }} minutes </p>
                                     </div>
                                 </div>
                             </div>
@@ -260,9 +263,11 @@ const subscribe = () => {
 
 
                 <div class="bg-[#ffcd00] p-5 my-10 rounded-lg">
+                    <h3 class="mb-2 text-2xl font-bold">Newsletter</h3>
+                    <p class="mb-2 text-gray-700">Abonnez-vous à notre newsletter pour les dernières mises à jour.</p>
                     <!-- Formulaire -->
                     <form action="#" method="POST" class="flex flex-col items-center gap-5 ">
-                        <div class="flex flex-col w-full gap-5 md:flex-row">
+                        <div class="flex flex-col w-full gap-2  md:flex-row">
                             <!-- Champ de la question -->
                             <div class="flex flex-col w-full gap-2">
                                 <input v-model="nom" type="text" id="nom" name="nom" placeholder="Votre nom"
@@ -289,6 +294,9 @@ const subscribe = () => {
                         <span @click="subscribe()"
                             class="px-4 py-2 text-white transition duration-300 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-900">Envoyer</span>
                     </form>
+                    <p class="mt-2">Nous nous soucions de la protection de vos données. Lisez notre <a
+                            class="text-blue-900 underline" href="/">politique de
+                            confidentialité</a>.</p>
                 </div>
 
 
@@ -332,9 +340,8 @@ const subscribe = () => {
                                             {{ formatRelativeTime(article.published_at) }}
                                         </p>
                                         <p class="flex items-center gap-1 italic">
-                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree : article.duree }}
-                                            minutes
-                                        </p>
+                                            <Icon name="clock" /> {{ article.duree < 10 ? '0' + article.duree :
+                                                article.duree }} minutes </p>
                                     </div>
 
 
@@ -349,7 +356,7 @@ const subscribe = () => {
         </div>
 
         <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
-            <AsideRight />
+            <AsideRight :TopThreePosts="props.TopThreePosts" />
         </div>
     </div>
 </template>

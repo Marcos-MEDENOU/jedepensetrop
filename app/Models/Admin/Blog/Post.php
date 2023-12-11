@@ -28,6 +28,7 @@ class Post extends Model
         'title',
         'slug',
         'content',
+        'views_count',
         'published_at',
         'seo_title',
         'seo_description',

@@ -19,25 +19,11 @@ const props = defineProps({
 
 })
 
-console.log(props.categories);
+
 // Fonction me permettant de récupérer les catégorie dans la base de données
 let categories = ref(props.categories)
 
-const getCategories = async () => {
-    axios.get('/getcategories')
-        .then(response => {
-            // Gérer la réponse ici
-            categories.value = response.data;
-        })
-        .catch(error => {
-            // Gérer les erreurs ici
-            console.error('Erreur lors de la récupération des catégories:', error);
-        });
-};
 
-onMounted(async () => {
-    await getCategories();
-});
 
 
 const categoryPosts = (slug) => {

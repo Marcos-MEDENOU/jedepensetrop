@@ -32,6 +32,11 @@ const props = defineProps({
         type: Object,
         required: true
     },
+
+    TopThreePosts: {
+        type: Object,
+        required: true
+    },
 })
 
 
@@ -46,7 +51,7 @@ const props = defineProps({
         <Hero />
 
         <Articles :LatestPost="props.LatestPost" :PreviousThreePosts="props.PreviousThreePosts"
-            :ThreeByCategory="props.ThreeByCategory" />
+            :ThreeByCategory="props.ThreeByCategory" :TopThreePosts="props.TopThreePosts" />
 
 
     </MainLayout>

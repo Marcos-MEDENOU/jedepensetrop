@@ -51,53 +51,6 @@ const categoryPosts = (slug) => {
 
 
 const email = ref('');
-// const question = ref('');
-
-// const subscribe = () => {
-
-//     axios.post('/newsletters/store', {
-//         email: email.value,
-//         question: question.value,
-//     })
-//         .then(response => {
-
-//             if (response.data.successMessage) {
-
-//                 Swal.fire({
-//                     position: "center",
-//                     icon: "success",
-//                     title: response.data.successMessage,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//             }
-//             if (response.data.errorMessage) {
-
-//                 Swal.fire({
-//                     position: "center",
-//                     icon: "error",
-//                     title: response.data.errorMessage,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//             }
-
-//             email.value = '';
-//             question.value = '';
-
-//         })
-//         .catch(error => {
-//             Swal.fire({
-//                 position: "center",
-//                 icon: "error",
-//                 title: error,
-//                 showConfirmButton: false,
-//                 timer: 1500
-//             });
-//             email.value = '';
-//             question.value = '';
-//         });
-// }
 
 const subscribe = () => {
 
@@ -146,9 +99,9 @@ const subscribe = () => {
                         });
                     }
 
-                
+
                     email.value = '';
-                   
+
 
                 })
                 .catch(error => {
@@ -160,7 +113,7 @@ const subscribe = () => {
                         timer: 3500
                     });
                     email.value = '';
-                  
+
                 });
 
         } else {
@@ -196,7 +149,7 @@ const subscribe = () => {
 
             <ul class="flex flex-col ">
                 <li class="mb-5 text-2xl font-bold">Entreprise</li>
-                <li><a href="" class="font-semibold cursor-pointer hover:underline">A propos</a></li>
+                <li><a href="" class="font-semibold cursor-pointer hover:underline">Qui sommes-nous?</a></li>
                 <li><a href="" class="font-semibold cursor-pointer hover:underline">Politique de Confidentialité</a></li>
                 <li><a href="" class="font-semibold cursor-pointer hover:underline">Termes et Services</a></li>
             </ul>

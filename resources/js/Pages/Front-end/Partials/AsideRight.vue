@@ -5,31 +5,21 @@ import Swal from 'sweetalert2';
 import Chatbot from '../Partials/Chatbot.vue';
 import { router } from '@inertiajs/vue3'
 
+
+const props = defineProps({
+
+    TopThreePosts:{
+        type: Object,
+        required:true
+    },
+
+})
+
 const data = reactive({
     recentPosts: [],
 });
 
 
-const newArticles = [
-    {
-        category: 'High-Tech',
-        title: 'Lorem Ipsum Dolor',
-        content: 'Lorem ipsum dolor lodicum opazalin dhiloh...',
-        image: 'https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1535759872/kuldar-kalvik-799168-unsplash.webp',
-    },
-    {
-        category: 'Immobilier',
-        title: 'Lorem Ipsum Dolor2',
-        content: 'Lorem ipsum dolor lodicum opazalin dhiloh...',
-        image: 'https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1535759871/jason-leung-798979-unsplash.webp',
-    },
-    {
-        category: 'Société',
-        title: 'Lorem Ipsum Dolor',
-        content: 'Lorem ipsum dolor lodicum opazalin dhiloh...',
-        image: 'https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1535759871/alessandro-capuzzi-799180-unsplash.webp',
-    },
-];
 
 const email = ref('');
 const question = ref('');
@@ -79,6 +69,10 @@ const subscribe = () => {
         });
 }
 
+const showArticle = (slug) => {
+    router.get(route("post.show", slug))
+};
+
 </script>
 
 
@@ -88,18 +82,18 @@ const subscribe = () => {
         <h1 class="mb-2 text-2xl font-bold">Articles les plus consultés</h1>
         <div class="grid grid-cols-1 gap-5 my-4 mb-20 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-1">
 
-            <div v-for="(item, index) in newArticles" :key="index"
+            <div v-for="(item, index) in props.TopThreePosts" :key="index"
                 class="relative flex flex-col gap-2 p-5 mb-3 bg-white rounded-md shadow-xl 2xl:h-32 ">
                 <div class="shadow-xl 2xl:absolute 2xl:-left-6 2xl:top-4 ">
-                    <img :src="item.image" alt="" class="w-full rounded-lg 2xl:h-24 2xl:w-24 h-36">
+                    <img :src="'/storage/images/' + item.folder + '/' + item.image" alt="" class="w-full rounded-lg 2xl:h-24 2xl:w-24 h-36">
                 </div>
                 <div class="2xl:ml-16 h-28">
-                    <span class="italic">-{{ item.category }}-</span>
+                    <span class="italic">-{{ item.category.name }}-</span>
                     <div class="font-semibold">{{ item.title }}</div>
-                    <div class="font-">{{ item.content }}</div>
+                    <!-- <div class="truncate">{{ item.seo_description }}</div> -->
 
-                    <div class="absolute bottom-1 right-4 px-3 py-1  font-medium text-white bg-[#e39a00]  rounded-lg">
-                        <a href="#" class="">Lire plus</a>
+                    <div class="absolute mb-2 md:mb-0 bottom-1 right-4 px-3 py-1  font-medium text-white cursor-pointer bg-[#e39a00]  rounded-lg">
+                        <a @click="showArticle(item.slug)" class="">Lire l'article</a>
                     </div>
                 </div>
             </div>
