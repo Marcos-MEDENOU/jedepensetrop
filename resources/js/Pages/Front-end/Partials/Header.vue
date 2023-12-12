@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import Icon from '@/Components/Icons/Icon.vue'
+import Search from '@/Components/Search.vue'
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { router } from '@inertiajs/vue3'
@@ -124,18 +125,7 @@ const closeMenu = () => {
 
         <!-- Formulaire de recherche -->
 
-        <form @submit.prevent="submitForm" class="ml-5">
-
-            <div class="relative">
-                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                    <Icon name="search" />
-                </div>
-                <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required>
-
-            </div>
-        </form>
+        <Search/>
 
     </ul>
 
@@ -178,17 +168,7 @@ const closeMenu = () => {
 
         <!-- Formulaire de recherche -->
 
-        <form @submit.prevent="submitForm" class="ml-5">
+        <Search/>
 
-            <div class="relative">
-                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                    <Icon name="search" />
-                </div>
-                <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required>
-
-            </div>
-        </form>
 
     </ul></template>

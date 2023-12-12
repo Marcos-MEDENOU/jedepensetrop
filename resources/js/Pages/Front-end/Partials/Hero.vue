@@ -13,7 +13,7 @@
 
         <img src="/images/masso.png" alt="Mascotte" class="absolute  w-80 md:w-96 bottom-5" />
 
-    <p class="cross absolute w- md:w-96 px-5 py-5  md:mx-10 mb-16 md:mb-80 bg-white bg-opacity-86 rounded-3xl tracking-wider h-auto md:h-40 flex items-center italic top-12 mx-5 shadow-xl">
+    <p class="cross absolute w- md:w-96 px-5 py-5  md:mx-10 mb-16 md:mb-80 bg-white bg-opacity-90 rounded-3xl tracking-wider h-auto md:h-40 flex items-center italic top-12 mx-5 shadow-xl">
         <transition name="fade" mode="out-in">
             <div :key="currentPunchline">
                 <p class="text-base md:text-xl">{{ currentPunchline }}</p>
