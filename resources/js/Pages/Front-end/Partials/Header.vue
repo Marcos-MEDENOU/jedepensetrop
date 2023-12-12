@@ -166,7 +166,7 @@ const closeMenu = () => {
 
 
     <ul v-if="menuVisible"
-        class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#ffcd00] h-96 ">
+        class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#000] h-96 text-white ">
         <li>
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
