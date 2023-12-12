@@ -87,12 +87,12 @@ const showArticle = (slug) => {
                 <div class="shadow-xl 2xl:absolute 2xl:-left-6 2xl:top-4 ">
                     <img :src="'/storage/images/' + item.folder + '/' + item.image" alt="" class="w-full rounded-lg 2xl:h-24 2xl:w-24 h-36">
                 </div>
-                <div class="2xl:ml-16 h-28">
+                <div class="2xl:ml-16 h-28 ">
                     <span class="italic">-{{ item.category.name }}-</span>
                     <div class="font-semibold">{{ item.title }}</div>
                     <!-- <div class="truncate">{{ item.seo_description }}</div> -->
 
-                    <div class="absolute mb-2 md:mb-0 bottom-1 right-4 px-3 py-1  font-medium text-white cursor-pointer bg-[#e39a00]  rounded-lg">
+                    <div class="absolute mb-2 md:mb-0 bottom-2 right-4 px-3 py-0.5  font-medium text-white cursor-pointer bg-[#e39a00]  rounded-lg">
                         <a @click="showArticle(item.slug)" class="">Lire l'article</a>
                     </div>
                 </div>
