@@ -263,6 +263,8 @@ class PostController extends Controller
     // Fonction permettant d'afficher les posts par leur slug
     public function showArticle($slug)
     {
+        $categories = Category::whereHas('posts')
+            ->get();
 
 
         $selectedPost = Post::where('slug', $slug)->firstOrFail();
@@ -312,7 +314,7 @@ class PostController extends Controller
         // Vérifier si l'utilisateur connecté a déjà aimé le post
         $userLiked = $user ? $selectedPost->userLiked($user->id) : false;
 
-        // dd($this->getTopThreePosts()->toArray());
+      
 
         return Inertia::render('Post', [
             'post' => [
@@ -334,6 +336,7 @@ class PostController extends Controller
             ],
             'relatedPosts' => $relatedPostsData->toArray(),
             'TopThreePosts' => $this->getTopThreePosts()->toArray(),
+            'categories' => $categories,
         ]);
     }
 

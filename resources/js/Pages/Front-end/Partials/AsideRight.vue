@@ -251,11 +251,11 @@ const showArticle = (slug) => {
 /* Ajouter des media queries pour ajuster la taille sur différents écrans */
 @media screen and (max-width: 768px) {
     .slider {
-        width: 250px;
+        width: 320px;
     }
 
     .slider .slide-track {
-        width: calc(25% * 10);
+        width: calc(110% * 10);
     }
 }
 </style>

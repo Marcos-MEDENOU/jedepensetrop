@@ -30,9 +30,15 @@ const props = defineProps({
         required: true,
     },
 
+    categories: {
+        type: Object,
+        required: true,
+    },
+
 
 })
 
+console.log(props.categories);
 let post = ref(props.post)
 
 // Fonction qui permet d'afficher l'article précédent
@@ -402,7 +408,7 @@ const showArticle = (slug) => {
 
 </script>
 <template>
-    <MainLayout>
+    <MainLayout :categories="props.categories">
 
         <Head :title="props.post.slug" />
 
@@ -642,7 +648,7 @@ const showArticle = (slug) => {
 
             <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
             <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20">
-                <AsideRight :TopThreePosts = "props.TopThreePosts"/>
+                <AsideRight :TopThreePosts="props.TopThreePosts" />
                 <!-- <Publicite /> -->
             </div>
 
@@ -656,15 +662,15 @@ const showArticle = (slug) => {
 
                 <article v-for="article, index in relatedPosts" :key="index" class="p-4 bg-white rounded-lg shadow-lg ">
 
-                    <a @click= "showArticle(article.slug)" >
+                    <a @click="showArticle(article.slug)">
                         <img :src="'/storage/images/' + article.folder + '/' + article.image" alt=""
-                                            class="object-cover w-full h-40 mb-3 cursor-pointer">
+                            class="object-cover w-full h-40 mb-3 cursor-pointer">
                     </a>
                     <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white cursor-pointer">
-                        <a @click= "showArticle(article.slug)" >{{ article.title }}</a>
+                        <a @click="showArticle(article.slug)">{{ article.title }}</a>
                     </h2>
                     <!-- <p v-html="article.content " class="mb-4 text-gray-500 dark:text-gray-400 truncate"></p> -->
-                    <a @click= "showArticle(article.slug)"
+                    <a @click="showArticle(article.slug)"
                         class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline cursor-pointer">
                         Lire l'article
                     </a>
