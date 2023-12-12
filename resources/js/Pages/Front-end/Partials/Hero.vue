@@ -9,35 +9,23 @@
 
 
         <!-- Desktop -->
-        <div class="w-[800px]">
-
-            <img src="/images/masso.png" alt="Mascotte" class=""/>
-            <p class="cross h-48 flex items-center italic ">
-                <transition class=" " name="fade" mode="out-in">
-
-                    <div :key="currentPunchline" class="">
-                        <p class="md:text-2xl">{{ currentPunchline }}</p>
-                        <div class="triangle"></div>
-                    </div>
-                </transition>
-            </p>
-        </div>
 
 
-        <!-- Mobile -->
-        <img src="/images/masso.png" alt="Mascotte" class=" absolute bottom-10 w-64 -left-5 md:hidden" />
-        <p class="thought md:hidden">
-            <transition class=" " name="fade" mode="out-in">
+        <img src="/images/masso.png" alt="Mascotte" class="absolute  w-80 md:w-96 bottom-5" />
 
-                <div :key="currentPunchline" class="">
-                    <p class="md:text-4xl   text-base font-semibold">{{ currentPunchline }}</p>
-                    <div class="triangle"></div>
-                </div>
-            </transition>
-        </p>
+    <p class="cross absolute w- md:w-96 px-5 py-5  md:mx-10 mb-16 md:mb-80 bg-white bg-opacity-86 rounded-3xl tracking-wider h-auto md:h-40 flex items-center italic top-12 mx-5 shadow-xl">
+        <transition name="fade" mode="out-in">
+            <div :key="currentPunchline">
+                <p class="text-base md:text-xl">{{ currentPunchline }}</p>
+                <div class="triangle"></div>
+            </div>
+        </transition>
+    </p>
 
-    </div>
-</template>
+
+
+
+    </div></template>
 
 <script setup>
 
@@ -65,7 +53,7 @@ const punchlines = [
     "Je dépense tellement que même les distributeurs automatiques me donnent des conseils financiers.",
     "Mon compte en banque fait un régime, mais mes dépenses sont en mode festin!",
     "Je suis le Picasso des achats impulsifs, mes dettes sont mes chefs-d'œuvre!",
-    "Ma devise, c'est 'Je dépense donc je suis... à découvert.",
+    "Ma devise, c'est Je dépense donc je suis... à découvert.",
     "Je suis la preuve vivante que l'argent brûle des calories, car je dépense comme si j'étais en plein marathon financier.",
     "Quand il s'agit de dépenser, je suis comme une fusée : je décolle rapidement et je retombe en cendres en un rien de temps.",
     "Je suis tellement bon pour dépenser de l'argent, même ma carte de crédit me fait un high-five à chaque achat.",
@@ -123,7 +111,7 @@ onMounted(() => {
 }
 
 
-p.cross {
+/* p.cross {
     position: absolute;
     top: 50px;
     right: 500px;
@@ -135,7 +123,7 @@ p.cross {
     border-bottom-left-radius: 10px;
     box-shadow: -3px 4px 8px #989898;
     letter-spacing: .06em;
-}
+} */
 
 /******NOW CREATE THE cross CIRCLES*****/
 /****FIRST THE LARGE CIRCLE***/
@@ -143,7 +131,7 @@ p.cross:before {
     content: "";
     position: absolute;
     bottom: -40px;
-    left: 60px;
+    left: 50%;
     background: #ffffff;
     width: 30px;
     height: 30px;
@@ -157,7 +145,7 @@ p.cross:after {
     content: "";
     position: absolute;
     bottom: -55px;
-    left: 50px;
+    left: 50%;
     width: 15px;
     height: 15px;
     background: #ffffff;

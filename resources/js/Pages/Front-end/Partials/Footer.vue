@@ -132,7 +132,7 @@ const subscribe = () => {
 </script>
 
 <template>
-    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 md:px-20 px-5">
+    <footer class="bg-[#000] dark:bg-gray-900 rounded-t-3xl text-white py-5 md:px-20 px-5">
 
         <div class="container grid justify-between grid-cols-1 gap-10 mx-auto mt-5 md:grid-cols-2 lg:grid-cols-4">
             <a href="/">
@@ -196,7 +196,7 @@ const subscribe = () => {
                 </div>
             </div>
         </div>
-        <hr class="container mx-auto mt-5 border-t-2 border-black">
+        <hr class="container mx-auto mt-5 border-t-2 border-yellow">
         <div class="container pt-5 mx-auto text-xl text-center">
             &copy; 2023 jedepensetrop.fr
         </div>

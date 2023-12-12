@@ -1,13 +1,13 @@
 <template>
-    <svg v-if="name === 'instagram'" fill="none" stroke="#82672c" stroke-linecap="round" stroke-linejoin="round"
-        stroke-width="2" class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+    <svg v-if="name === 'instagram'" fill="none" stroke="#f2d288" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="2" class="w-10 h-10 rounded-full border border-2 border-[#f2d288] px-2" viewBox="0 0 24 24">
         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
         <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
     </svg>
 
 
-    <svg v-else-if="name === 'facebook'" fill="#82672c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        class="w-10 h-10 rounded-full border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+    <svg v-else-if="name === 'facebook'" fill="#f2d288" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-10 h-10 rounded-full border-2 border-[#f2d288] px-2" viewBox="0 0 24 24">
         <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
     </svg>
 
@@ -17,8 +17,8 @@
             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
     </svg>
 
-    <svg v-else-if="name === 'linkedin'" fill="#82672c" stroke="#82672c" stroke-linecap="round" stroke-linejoin="round"
-        stroke-width="0" class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2" viewBox="0 0 24 24">
+    <svg v-else-if="name === 'linkedin'" fill="#f2d288" stroke="#f2d288" stroke-linecap="round" stroke-linejoin="round"
+        stroke-width="0" class="w-10 h-10 rounded-full border border-2 border-[#f2d288] px-2" viewBox="0 0 24 24">
         <path stroke="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
         </path>
         <circle cx="4" cy="4" r="2" stroke="2"></circle>
@@ -67,8 +67,8 @@
 
 
 
-    <svg v-else-if="name === 'twitter'" fill="#82672c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        class="w-10 h-10 rounded-full border border-2 border-[#82672c] px-2 " viewBox="0 0 24 24">
+    <svg v-else-if="name === 'twitter'" fill="#f2d288" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-10 h-10 rounded-full border border-2 border-[#f2d288] px-2 " viewBox="0 0 24 24">
         <path
             d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
         </path>
@@ -88,7 +88,7 @@
         </path>
     </svg>
 
-    <svg v-if="name === 'menubtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30"
+    <svg v-if="name === 'menubtn'" xmlns="http://www.w3.org/2000/svg" fill="#f2d288" width="50" height="30"
         viewBox="0 0 92 92" id="menu">
         <path
             d="M78 23.5H14c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5h64c3.6 0 6.5 2.9 6.5 6.5s-2.9 6.5-6.5 6.5zM84.5 46c0-3.6-2.9-6.5-6.5-6.5H14c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5h64c3.6 0 6.5-2.9 6.5-6.5zm0 29c0-3.6-2.9-6.5-6.5-6.5H14c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5h64c3.6 0 6.5-2.9 6.5-6.5z">
@@ -98,7 +98,7 @@
 
 
 
-    <svg v-else-if="name === 'closebtn'" xmlns="http://www.w3.org/2000/svg" fill="#82672c" width="50" height="30"
+    <svg v-else-if="name === 'closebtn'" xmlns="http://www.w3.org/2000/svg" fill="#f2d288" width="50" height="30"
         viewBox="0 0 512 512" id="close">
         <path
             d="M437.5 386.6L306.9 256l130.6-130.6c14.1-14.1 14.1-36.8 0-50.9-14.1-14.1-36.8-14.1-50.9 0L256 205.1 125.4 74.5c-14.1-14.1-36.8-14.1-50.9 0-14.1 14.1-14.1 36.8 0 50.9L205.1 256 74.5 386.6c-14.1 14.1-14.1 36.8 0 50.9 14.1 14.1 36.8 14.1 50.9 0L256 306.9l130.6 130.6c14.1 14.1 36.8 14.1 50.9 0 14-14.1 14-36.9 0-50.9z">

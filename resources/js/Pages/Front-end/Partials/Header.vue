@@ -54,9 +54,9 @@ const closeMenu = () => {
 </script>
 
 <template>
-    <div style="background-color: whitesmoke" class="z-50 w-full px-20 md:px-0">
+    <div style="background-color: rgb(0, 0, 0)" class="z-50 w-full px-20 md:px-0">
         <nav
-            class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
+            class="container flex-row bg-transparent items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10 ">
 
 
             <!-- Logo Container -->
@@ -141,7 +141,7 @@ const closeMenu = () => {
 
 
     <nav
-        class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-gray-50">
+        class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-black">
         <!-- Logo Container -->
         <div class="flex items-center">
             <!-- Logo -->
