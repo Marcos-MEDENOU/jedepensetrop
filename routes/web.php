@@ -10,6 +10,7 @@ use App\Http\Controllers\LikeDislikeController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
@@ -68,6 +69,8 @@ Route::get('/posts/has-previous/{postId}', [PostController::class, 'hasPreviousP
 Route::get('/posts/has-next/{postId}', [PostController::class, 'hasNextPost'])->name('has-next.post');
 Route::post('/posts/{postId}/like', [LikeDislikeController::class, 'like']);
 Route::post('/posts/{postId}/dislike', [LikeDislikeController::class, 'dislike']);
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
 
 
 Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comments.show');

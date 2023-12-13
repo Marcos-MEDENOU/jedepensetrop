@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import Icon from '@/Components/Icons/Icon.vue'
+import Search from '@/Components/Search.vue'
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { router } from '@inertiajs/vue3'
@@ -22,21 +23,7 @@ const props = defineProps({
 // Fonction me permettant de récupérer les catégorie dans la base de données
 let categories = ref(props.categories)
 
-const getCategories = async () => {
-    axios.get('/getcategories')
-        .then(response => {
-            // Gérer la réponse ici
-            categories.value = response.data;
-        })
-        .catch(error => {
-            // Gérer les erreurs ici
-            console.error('Erreur lors de la récupération des catégories:', error);
-        });
-};
 
-onMounted(async () => {
-    await getCategories();
-});
 
 
 const categoryPosts = (slug) => {
@@ -64,9 +51,9 @@ const closeMenu = () => {
 </script>
 
 <template>
-    <div style="background-color: whitesmoke" class="z-50 w-full px-20 md:px-0">
+    <div style="background-color: rgb(0, 0, 0)" class="z-50 w-full px-20 md:px-0">
         <nav
-            class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto lg:top-0 lg:z-50 lg:flex 2xl:px-10">
+            class="container flex-row items-center justify-between hidden gap-5 py-2 mx-auto bg-transparent lg:top-0 lg:z-50 lg:flex 2xl:px-10 ">
 
 
             <!-- Logo Container -->
@@ -134,24 +121,13 @@ const closeMenu = () => {
 
         <!-- Formulaire de recherche -->
 
-        <form @submit.prevent="submitForm" class="ml-5">
-
-            <div class="relative">
-                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                    <Icon name="search" />
-                </div>
-                <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required>
-
-            </div>
-        </form>
+        <Search/>
 
     </ul>
 
 
     <nav
-        class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 shadow-lg lg:hidden h-18 bg-gray-50">
+        class="sticky top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3 bg-black shadow-lg lg:hidden h-18">
         <!-- Logo Container -->
         <div class="flex items-center">
             <!-- Logo -->
@@ -176,7 +152,7 @@ const closeMenu = () => {
 
 
     <ul v-if="menuVisible"
-        class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#ffcd00] h-96 ">
+        class="lg:hidden fixed top-[4.5rem]  shadow-md rounded-lg left-3 right-3 z-50 justify-center flex flex-col items-center gap-5 bg-[#000] h-96 text-white ">
         <li>
             <a href="/" class="px-3 py-2 text-lg font-semibold hover:underline">Accueil</a>
         </li>
@@ -188,17 +164,7 @@ const closeMenu = () => {
 
         <!-- Formulaire de recherche -->
 
-        <form @submit.prevent="submitForm" class="ml-5">
+        <Search/>
 
-            <div class="relative">
-                <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
-                    <Icon name="search" />
-                </div>
-                <input v-model="searchQuery" placeholder="Rechercher..." type="search" id="default-search"
-                    class="block w-56 h-10 text-gray-900 border border-gray-300 rounded-lg ps-10 text- bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required>
-
-            </div>
-        </form>
 
     </ul></template>

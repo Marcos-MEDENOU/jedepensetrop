@@ -28,6 +28,7 @@ class Post extends Model
         'title',
         'slug',
         'content',
+        'views_count',
         'published_at',
         'seo_title',
         'seo_description',
@@ -50,7 +51,7 @@ class Post extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'blog_category_id');
     }
 
     public function likesDislikes()

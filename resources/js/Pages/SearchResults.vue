@@ -16,20 +16,20 @@ const props = defineProps({
         required: true,
     },
 
-    formattedCategory: {
-        type: Object,
-        required: true,
-    },
-
-    TopThreePosts: {
+    searchTerm: {
         type: Array,
         required: true,
     },
+
+
 })
+
+console.log(props.searchTerm);
 
 
 
 const showArticle = (slug) => {
+    console.log(slug);
 
     router.get(route("post.show", slug))
 };
@@ -44,6 +44,7 @@ const subscribe = () => {
 
     //Vérifier si un des élément est vide
     if (nom.value.trim() == "" || prenom.value.trim() == "" || email.value.trim() == "" || question.value.trim() == "") {
+        console.log("kljhgl");
         Swal.fire({
             title: 'Attention',
             text: 'Veuillez remplir tous les champs du formulaire.',
@@ -154,19 +155,19 @@ const formatRelativeTime = (inputDate) => {
 <template>
     <MainLayout :categories="props.categories">
 
-        <Head :title="props.formattedCategory.category" />
+        <Head title="Search Result" />
         <div class="justify-center px-5 mt-8 2xl:flex xl:mx-0 md:px-20 xl:px-10">
 
             <div class="2xl:w-6/12 lg:12/12 ">
 
 
 
-                <div class="mb-10">
-                    <h1 class="mb-5 text-3xl font-bold">{{ props.formattedCategory.category }}</h1>
+                <div v-if="props.searchTerm.length > 0" class="mb-10">
+                    <h1 class="mb-5 text-3xl font-bold">Résultat(s)</h1>
 
                     <div class="grid grid-cols-1 gap-6 cursor-pointer lg:grid-cols-3 md:grid-cols-2 ">
 
-                        <div v-for="(article, index) in props.formattedCategory.posts" :key="index"
+                        <div v-for="(article, index) in props.searchTerm" :key="index"
                             class="transition-transform duration-300 ease-in-out transform hover:-translate-y-2">
                             <div @click="showArticle(article.slug)" class="p-4 bg-white rounded-lg shadow">
                                 <div class="relative flex justify-center overflow-hidden rounded-lg ">
@@ -207,6 +208,10 @@ const formatRelativeTime = (inputDate) => {
 
 
                     </div>
+                </div>
+
+                <div v-else>
+                    <h1 class="mb-5 text-3xl font-bold">Aucun résultat(s)</h1>
                 </div>
 
 
@@ -250,9 +255,10 @@ const formatRelativeTime = (inputDate) => {
 
             </div>
 
-            <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
+            <!-- <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20 ">
                 <AsideRight :TopThreePosts="props.TopThreePosts" />
-            </div>
+            </div> -->
         </div>
     </MainLayout>
 </template>
+

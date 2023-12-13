@@ -1,56 +1,66 @@
 <template>
-    <div class="relative h-[700px] flex items-center justify-center transition-all ">
+    <div class="relative md:h-[700px] h-[550px] flex items-center justify-center transition-all ">
 
         <!-- Fond d'écran en arrière-plan -->
         <transition name="fade" mode="in-out">
             <img :src="currentBackground" :key="currentBackground"
-                class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter"
-                style="filter: brightness(0.5);" />
+                class="absolute inset-0 object-cover w-full h-full transition-opacity transition-filter" />
         </transition>
 
 
-        <!-- Contenu au centre -->
-        <div class="absolute flex flex-col items-center justify-center px-10 text-white md:top-28 top-24 md:flex-row md:mb-20">
-            <!-- Mascotte avec punchlines -->
-            <img src="/images/masso.png" alt="Mascotte" class="floating-image " />
-            <transition name="fade" mode="out-in">
-                <div :key="currentPunchline" class="flex justify-center mb-4 text-center transition-opacity md:w-96 md:mr-20">
-                    <p class="text-3xl md:text-4xl ">{{ currentPunchline }}</p>
-                </div>
-            </transition>
-        </div>
+        <!-- Desktop -->
+
+
+        <img src="/images/masso.png" alt="Mascotte" class="absolute w-80 md:w-96 bottom-5" />
+
+    <p class="absolute flex items-center h-auto px-5 py-5 mx-5 mb-16 italic tracking-wider bg-white shadow-xl cross w- md:w-96 md:mx-10 md:mb-80 bg-opacity-90 rounded-3xl md:h-40 top-12">
+        <transition name="fade" mode="out-in">
+            <div :key="currentPunchline">
+                <p class="text-base md:text-xl">{{ currentPunchline }}</p>
+                <div class="triangle"></div>
+            </div>
+        </transition>
+    </p>
 
 
 
-    </div>
-</template>
+
+    </div></template>
 
 <script setup>
+
 import { ref, watch, onMounted } from 'vue';
 const props = defineProps({
-    user:{
+    user: {
         type: Object,
-        required:true
+        required: true
     }
 })
+
 const backgrounds = [
 
-    "/images/blogs.jpg",
+    "/images/blog.jpg",
 ];
 
 const punchlines = [
-    " JE DEPENSE ? NON...! \n JE DEPENSE TROP.",
-    "La finance au service de tous.",
-    "Investir pour un avenir meilleur.",
-    "Construisons ensemble votre succès financier.",
-    "Épargner aujourd'hui, c'est investir dans votre demain.",
-    "Découvrez des opportunités financières illimitées.",
-    "La clé du succès financier est entre vos mains.",
-    "La richesse commence par une vision financière claire.",
-    "Chaque dépense est une opportunité d'économiser.",
-    "Soyez le maître de votre destin financier.",
-    "Transformez vos rêves en réalité avec une planification financière solide.",
-    "Les petites économies aujourd'hui mènent aux grandes richesses demain.",
+    " Je dépense ? Non...! \n Je dépense trop.",
+    "Je dépense tellement que mon banquier pense que je suis son meilleur client.",
+    "Je suis comme une machine à dépenser, j'ai un bouton 'acheter' à la place du cerveau.",
+    "Je suis tellement doué pour dépenser de l'argent que je pourrais gagner une médaille d'or aux Jeux Olympiques du shopping.",
+    "Ma carte de crédit me regarde avec un sourire diabolique chaque fois que je l'utilise.",
+    "Mon compte en banque a une phobie des chiffres à zéro. Il préfère être négatif.",
+    "Je suis comme un aimant à boutiques. Je ne peux pas résister à l'appel des soldes.",
+    "Je dépense tellement que même les distributeurs automatiques me donnent des conseils financiers.",
+    "Mon compte en banque fait un régime, mais mes dépenses sont en mode festin!",
+    "Je suis le Picasso des achats impulsifs, mes dettes sont mes chefs-d'œuvre!",
+    "Ma devise, c'est Je dépense donc je suis... à découvert.",
+    "Je suis la preuve vivante que l'argent brûle des calories, car je dépense comme si j'étais en plein marathon financier.",
+    "Quand il s'agit de dépenser, je suis comme une fusée : je décolle rapidement et je retombe en cendres en un rien de temps.",
+    "Je suis tellement bon pour dépenser de l'argent, même ma carte de crédit me fait un high-five à chaque achat.",
+    "Mon compte en banque est comme un trampoline, il ne cesse de rebondir entre 'solde critique' et 'découvert interdit'.",
+    "Mon addiction aux achats est tellement grave que je devrais ouvrir un compte d'épargne appelé 'J'arrête-demain'.",
+    "Je suis comme un aimant à dépenses, tout ce qui brille me coûte un bras.",
+    "Mes économies sont parties en vacances permanentes, et mon compte en banque n'a même pas reçu une carte postale."
 ];
 
 const currentBackground = ref(backgrounds[0]);
@@ -83,7 +93,7 @@ onMounted(() => {
 /* Ajout d'une transition en douceur */
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity  ease-in-out;
+    transition: opacity ease-in-out;
 }
 
 .fade-enter,
@@ -99,6 +109,110 @@ onMounted(() => {
     /* Ajustez la durée selon vos besoins */
 }
 
+
+/* p.cross {
+    position: absolute;
+    top: 50px;
+    right: 500px;
+    width: 500px;
+    padding: 20px 20px;
+    margin: 10px 10px 80px 40px;
+    background: #ffffffdc;
+    border-radius: 3px;
+    border-bottom-left-radius: 10px;
+    box-shadow: -3px 4px 8px #989898;
+    letter-spacing: .06em;
+} */
+
+/******NOW CREATE THE cross CIRCLES*****/
+/****FIRST THE LARGE CIRCLE***/
+p.cross:before {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    background: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    box-shadow: -3px 3px 8px #989898;
+}
+
+/*****NOW THE SMALL CIRCLE***/
+/**Created exactly the same way as the large circle, except with smaller width, height and border-radius**/
+p.cross:after {
+    content: "";
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    background: #ffffff;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    -webkit-box-shadow: -3px 3px 4px #989898;
+    -moz-box-shadow: -3px 3px 4px #989898;
+    box-shadow: -3px 3px 8px #989898;
+}
+
+p.thought {
+    position: absolute;
+    top: 10px;
+    right: 2px;
+    width: 250px;
+    padding: 20px 20px;
+    margin: 10px 10px 80px 40px;
+    background: #ffffffdc;
+    border-radius: 3px;
+    border-bottom-left-radius: 10px;
+    box-shadow: -3px 4px 8px #989898;
+    letter-spacing: .06em;
+}
+
+/******NOW CREATE THE THOUGHT CIRCLES*****/
+/****FIRST THE LARGE CIRCLE***/
+p.thought:before {
+    content: "";
+    position: absolute;
+    /*see the support section below for more info*/
+    bottom: -40px;
+    /*distance from the bottom of the bubble*/
+    left: 60px;
+    /*distance from the left edge of the bubble*/
+    background: #ecb00a;
+    width: 30px;
+    /*same as the height*/
+    height: 30px;
+    /*same as the width*/
+    /*add a curve to the corners the same size as the height and width*/
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    /*add a drop shadow*/
+    -webkit-box-shadow: -3px 3px 4px #989898;
+    -moz-box-shadow: -3px 3px 4px #989898;
+    box-shadow: -3px 3px 8px #989898;
+}
+
+/*****NOW THE SMALL CIRCLE***/
+/**Created exactly the same way as the large circle, except with smaller width, height and border-radius**/
+p.thought:after {
+    content: "";
+    position: absolute;
+    bottom: -55px;
+    left: 50px;
+    width: 15px;
+    height: 15px;
+    background: #ecb00a;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    -webkit-box-shadow: -3px 3px 4px #989898;
+    -moz-box-shadow: -3px 3px 4px #989898;
+    box-shadow: -3px 3px 8px #989898;
+}
+
 @keyframes floatUpDown {
 
     0%,
@@ -110,4 +224,5 @@ onMounted(() => {
         transform: translateY(5px);
         /* Ajustez la distance de déplacement selon vos besoins */
     }
-}</style>
+}
+</style>

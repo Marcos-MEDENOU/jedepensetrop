@@ -51,7 +51,6 @@ const categoryPosts = (slug) => {
 
 const email = ref('');
 
-
 const subscribe = () => {
 
     //Vérifier si un des élément est vide
@@ -98,9 +97,9 @@ const subscribe = () => {
                         });
                     }
 
-                
+
                     email.value = '';
-                   
+
 
                 })
                 .catch(error => {
@@ -112,7 +111,7 @@ const subscribe = () => {
                         timer: 3500
                     });
                     email.value = '';
-                  
+
                 });
 
         } else {
@@ -131,7 +130,7 @@ const subscribe = () => {
 </script>
 
 <template>
-    <footer class="bg-[#ffcd00] dark:bg-gray-900 rounded-t-3xl  py-5 md:px-20 px-5">
+    <footer class="bg-[#000] dark:bg-gray-900 rounded-t-3xl text-white py-5 md:px-20 px-5">
 
         <div class="container grid justify-between grid-cols-1 gap-10 mx-auto mt-5 md:grid-cols-2 lg:grid-cols-4">
             <a href="/">
@@ -148,7 +147,7 @@ const subscribe = () => {
 
             <ul class="flex flex-col ">
                 <li class="mb-5 text-2xl font-bold">Entreprise</li>
-                <li><a href="" class="font-semibold cursor-pointer hover:underline">A propos</a></li>
+                <li><a href="" class="font-semibold cursor-pointer hover:underline">Qui sommes-nous?</a></li>
                 <li><a href="" class="font-semibold cursor-pointer hover:underline">Politique de Confidentialité</a></li>
                 <li><a href="" class="font-semibold cursor-pointer hover:underline">Termes et Services</a></li>
             </ul>
@@ -195,7 +194,7 @@ const subscribe = () => {
                 </div>
             </div>
         </div>
-        <hr class="container mx-auto mt-5 border-t-2 border-black">
+        <hr class="container mx-auto mt-5 border-t-2 border-yellow">
         <div class="container pt-5 mx-auto text-xl text-center">
             &copy; 2023 jedepensetrop.fr
         </div>

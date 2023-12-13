@@ -20,9 +20,25 @@ const props = defineProps({
         required: true,
     },
 
+    relatedPosts: {
+        type: Array,
+        required: true,
+    },
+
+    TopThreePosts: {
+        type: Array,
+        required: true,
+    },
+
+    categories: {
+        type: Object,
+        required: true,
+    },
+
 
 })
 
+console.log(props.categories);
 let post = ref(props.post)
 
 // Fonction qui permet d'afficher l'article précédent
@@ -397,9 +413,13 @@ const deleteComment = (commentId) => {
     })
 }
 
+const showArticle = (slug) => {
+    router.get(route("post.show", slug))
+};
+
 </script>
 <template>
-    <MainLayout>
+    <MainLayout :categories="props.categories">
 
         <Head :title="props.post.slug" />
 
@@ -639,7 +659,7 @@ const deleteComment = (commentId) => {
 
             <!-- <div class="w-3/12 ml-24 lg:w-3/12 xl:w-3/12 "> -->
             <div class="2xl:px-10 2xl:w-3/12 2xl:ml-20">
-                <AsideRight />
+                <AsideRight :TopThreePosts="props.TopThreePosts" />
                 <!-- <Publicite /> -->
             </div>
 
@@ -651,69 +671,23 @@ const deleteComment = (commentId) => {
 
             <div class="grid justify-center grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 xl:px-0">
 
-                <article class="p-4 bg-white rounded-lg shadow-lg ">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-1.png"
-                            class="w-full h-56 mb-5 rounded-lg" alt="Image 1">
+                <article v-for="article, index in relatedPosts" :key="index" class="p-4 bg-white rounded-lg shadow-lg ">
+
+                    <a @click="showArticle(article.slug)">
+                        <img :src="'/storage/images/' + article.folder + '/' + article.image" alt=""
+                            class="object-cover w-full h-40 mb-3 cursor-pointer">
                     </a>
-                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                        <a href="#">Our first office</a>
+                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white cursor-pointer">
+                        <a @click="showArticle(article.slug)">{{ article.title }}</a>
                     </h2>
-                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                        changes! After months of preparation.</p>
-                    <a href="#"
-                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                        Lire en 2 minutes
+                    <!-- <p v-html="article.content " class="mb-4 text-gray-500 dark:text-gray-400 truncate"></p> -->
+                    <a @click="showArticle(article.slug)"
+                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline cursor-pointer">
+                        Lire l'article
                     </a>
                 </article>
 
-                <article class="p-4 bg-white rounded-lg shadow-lg ">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-2.png"
-                            class="w-full h-56 mb-5 rounded-lg" alt="Image 2">
-                    </a>
-                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                        <a href="#">Enterprise design tips</a>
-                    </h2>
-                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                        changes! After months of preparation.</p>
-                    <a href="#"
-                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                        Lire en 12 minutes
-                    </a>
-                </article>
 
-                <article class="p-4 bg-white rounded-lg shadow-lg ">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-3.png"
-                            class="w-full h-56 mb-5 rounded-lg" alt="Image 3">
-                    </a>
-                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                        <a href="#">We partnered with Google</a>
-                    </h2>
-                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                        changes! After months of preparation.</p>
-                    <a href="#"
-                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                        Lire en 8 minutes
-                    </a>
-                </article>
-
-                <article class="p-2 bg-white rounded-lg shadow-lg ">
-                    <a href="#">
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/article/blog-4.png"
-                            class="w-full h-56 mb-5 rounded-lg" alt="Image 4">
-                    </a>
-                    <h2 class="mb-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                        <a href="#">Our first project with React</a>
-                    </h2>
-                    <p class="mb-4 text-gray-500 dark:text-gray-400">Over the past year, Volosoft has undergone many
-                        changes! After months of preparation.</p>
-                    <a href="#"
-                        class="inline-flex items-center font-medium underline underline-offset-4 text-primary-600 dark:text-primary-500 hover:no-underline">
-                        Lire en 4 minutes
-                    </a>
-                </article>
 
             </div>
 
@@ -747,7 +721,7 @@ const deleteComment = (commentId) => {
 #editor ul,
 #editor table {
     font-size: 12pt;
-font-weight: lighter;
+    font-weight: lighter;
     padding-block: 5pt;
 }
 
@@ -770,6 +744,13 @@ font-weight: lighter;
     margin-left: 2.5rem;
 }
 
+
+#editor>div>iframe {
+    width: 100% !important;
+    height: 500px !important;
+}
+
+
 /* Styles pour les écrans de petite taille (mobiles) */
 @media only screen and (max-width: 600px) {
     #editor h1 {
@@ -788,6 +769,7 @@ font-weight: lighter;
 
     #editor p span {
         font-size: 12pt !important;
+        font-weight: lighter;
     }
 
     #editor ul {
@@ -802,7 +784,7 @@ font-weight: lighter;
         font-size: 12pt !important;
     }
 
-    #editor > div >  iframe {
+    #editor>div>iframe {
         width: 100% !important;
         height: 300px !important;
     }

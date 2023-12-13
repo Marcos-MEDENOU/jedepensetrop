@@ -18,6 +18,8 @@ class HomeController extends Controller
         $LatestPost = $postController->getLatestPost();
         $PreviousThreePosts = $postController->getPreviousThreePosts();
         $ThreeByCategory = $postController->showThreeByCategory();
+        $TopThreePosts = $postController->getTopThreePosts();
+
 
 
         return Inertia::render('Home', [
@@ -27,7 +29,8 @@ class HomeController extends Controller
             'categories' => $categories,
             'LatestPost' => $LatestPost,
             'PreviousThreePosts' => $PreviousThreePosts,
-            'ThreeByCategory' => $ThreeByCategory
+            'ThreeByCategory' => $ThreeByCategory,
+            'TopThreePosts' => $TopThreePosts,
         ]);
     }
 }
