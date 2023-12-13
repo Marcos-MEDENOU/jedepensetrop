@@ -39,7 +39,7 @@ const props = defineProps({
 
 const backgrounds = [
 
-    "/images/blog.jpg",
+    "/images/gold.jpg",
 ];
 
 const punchlines = [
